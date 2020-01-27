@@ -1,0 +1,22 @@
+
+$color1 : #22598f;
+$color2 : rgba(34, 105, 143, 0.96);
+$colorAlt1 : #398f6d;
+$colorAlt2 : #0d5ced;
+
+
+html, body {
+    min-height:100%;
+    height:100%;
+}
+
+
+@import 'grid';
+@import 'kit';
+@import 'login';
+@import 'home';
+@import 'users';
+@import 'topmenu';
+@import 'roles';
+@import 'timeline';
+

@@ -1,0 +1,114 @@
+.timeline {
+  width: 100%;
+  overflow: auto;
+  position:relative;
+  .no_entries {
+    text-align:center;
+    padding:2em;
+  }
+  .zoom {
+    z-index:11;
+    position:absolute;
+    top:.5em;
+    right:.5em;
+    text-transform:uppercase;
+    color:grey;
+    font-size:.7em;
+    select {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      border-radius:0;
+      padding:.3em;
+      outline:none;
+    }
+  }
+  .inner {
+    padding-bottom: 2em;
+    padding-top: 2.5em;
+    position: relative;
+    overflow-y:hidden;
+    .measure {
+      white-space: nowrap;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      .measureItem {
+        height: 100%;
+        border-right: 1px dotted #dcdcdc;
+        display: inline-block;
+        position: relative;
+        &.timeDelimiter {
+          border-right-color: #9a9a9a;
+        }
+        .label {
+          position: absolute;
+          font-size: .5em;
+          bottom: .5em;
+          left: .5em;
+          color: grey;
+          background:white;
+          display:inline-block;
+          padding:.2em;
+          &.top {
+            bottom: auto;
+            top: .5em;
+          }
+        }
+
+      }
+      .now {
+        position:absolute;
+        top:0;
+        bottom:0;
+        border-right: 1px dashed red;
+        z-index:10;
+        .label {
+          color:red;
+          font-size:.5em;
+          position:absolute;
+          top:25px;
+          text-transform:uppercase;
+          transform:rotate(-90deg);
+        }
+      }
+    }
+    .entries {
+      position: relative;
+      .entry {
+        position: relative;
+        background-color: #b6b6b6;
+        border-radius: .3em;
+        color: white;
+        margin-top: 1em;
+        padding: .5em;
+        font-size: .8em;
+        overflow: hidden;
+        white-space: nowrap;
+        &:hover {
+          opacity:.8;
+          cursor:pointer;
+        }
+
+        .date {
+          position:absolute;
+          top:.3em;
+          left:.3em;
+          &.end {
+            left:auto;
+            right: .3em;
+          }
+        }
+        .delete {
+          position:absolute;
+          right:.5em;
+          bottom:.5em;
+          cursor:pointer;
+        }
+      }
+    }
+
+  }
+}

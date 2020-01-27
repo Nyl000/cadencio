@@ -1,0 +1,2 @@
+UPDATE planning_entry SET date_start = NULL WHERE date_start = '' OR date_start = '0000-00-00 00:00:00';
+UPDATE planning_entry SET date_end = NULL WHERE date_end = '' OR date_end = '0000-00-00 00:00:00';

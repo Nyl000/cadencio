@@ -1,0 +1,49 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config build/webpack.config.dev.js",
+    "run": "webpack-dev-server --config build/webpack.config.dev.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "base-64": "^0.1.0",
+    "fetch": "^1.1.0",
+    "luxon": "^1.17.2",
+    "moment": "^2.24.0",
+    "moment-timezone": "^0.5.26",
+    "vue": "^2.5.21",
+    "vue-datetime": "^1.0.0-beta.10",
+    "vue-dragscroll": "^1.10.0",
+    "vue-material-design-icons": "^4.4.0",
+    "vue-moment": "^4.0.0",
+    "vue-router": "^3.0.2",
+    "vue-simple-markdown": "^1.1.0",
+    "vue-swatches": "^1.0.4",
+    "weekstart": "^1.0.0",
+    "whatwg-fetch": "^3.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.0-beta.42",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.42",
+    "@babel/preset-env": "^7.0.0-beta.42",
+    "babel-loader": "^8.0.0-beta.2",
+    "copy-webpack-plugin": "^4.6.0",
+    "css-loader": "^2.1.0",
+    "html-webpack-plugin": "^3.2.0",
+    "node-sass": "^4.11.0",
+    "path": "^0.12.7",
+    "sass-loader": "^7.1.0",
+    "uglifyjs-webpack-plugin": "1.0.0-rc.0",
+    "vue-loader": "^15.4.2",
+    "vue-style-loader": "^4.1.2",
+    "vue-template-compiler": "^2.5.21",
+    "webpack": "^4.28.2",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.14"
+  }
+}

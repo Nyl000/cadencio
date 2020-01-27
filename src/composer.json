@@ -1,0 +1,14 @@
+{
+    "name": "loicboucha/planner",
+    "type": "project",
+    "require": {
+        "sendgrid/sendgrid": "^7.3",
+        "phpmailer/phpmailer": "^6.1"
+    },
+    "authors": [
+        {
+            "name": "Loic Boucha",
+            "email": "loic.boucha@gmail.com"
+        }
+    ]
+}

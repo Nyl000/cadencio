@@ -1,0 +1,1 @@
+ALTER TABLE planning_status ADD color VARCHAR(30) NOT NULL DEFAULT '#999999';

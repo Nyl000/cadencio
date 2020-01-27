@@ -1,0 +1,48 @@
+
+.login {
+
+  display:flex;
+  height:100%;
+  justify-content:center;
+  align-items:center;
+
+  @include gradient($color1,$color2);
+
+  .loginbox {
+    background:white;
+    padding:50px;
+    box-shadow:0 0 15px rgba(0, 0, 0, 0.3);
+    width:400px;
+    max-width:90%;
+    border-radius:.3em;
+    .logowrap {
+      text-align:center;
+      padding:1em;
+      padding-bottom:3em;
+      .logo {
+        width: 200px;
+        max-width: 90%;
+        height: auto;
+      }
+    }
+    input,button {
+      display:block;
+      border:1px solid #eeeeee;
+      margin-bottom:20px;
+      font-size:1.5em;
+      font-weight:200;
+      width:100%;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+    button {
+      background:#009ece;
+      color:white;
+      &:hover {
+        opacity:.8;
+        cursor:pointer;
+      }
+    }
+  }
+}

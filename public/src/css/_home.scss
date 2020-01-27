@@ -1,0 +1,50 @@
+
+.home {
+
+
+
+  .tasklist {
+    background:white;
+    box-shadow:0 0 15px rgba(0, 0, 0, 0.3);
+    width:100%;
+    margin:15px;
+    padding:50px;
+    ul {
+      padding:0;
+      list-style:none;
+      li {
+        display:flex;
+        border:1px solid #dfdfdf;
+        border-left:5px solid #dfdfdf;
+        padding:10px;
+        margin-bottom:5px;
+        .title {
+          flex:1;
+        }
+        .done {
+            font-size:1.5em;
+          color: $color2;
+          cursor:pointer;
+        }
+      }
+    }
+    .topbar {
+      text-align:right;
+    }
+
+    .button {
+      display:inline-block;
+      background:$color2;
+      color:white;
+      width:auto;
+      font-weight:bold;
+      font-size:1em;
+      transition: .4s;
+      cursor:pointer;
+      &:hover {
+        background:$color1;
+      }
+
+    }
+  }
+}

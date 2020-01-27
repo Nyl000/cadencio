@@ -1,0 +1,74 @@
+.topBar {
+  padding: .5em;
+  background:white;
+  border-bottom: solid 1px #e2e2e2;
+  display:flex;
+  align-items:center;
+  z-index:200;
+  position:relative;
+
+  a {
+    color: #444444;
+  }
+  .right {
+    flex:1;
+    text-align:right;
+    padding-right:1em;
+    font-size:1em;
+  }
+  .left {
+    flex:1;
+  }
+  .logowrap {
+    display:flex;
+    align-items:center;
+    font-size:1.5em;
+  }
+  .logo {
+    height:1.3em;
+    padding-left:1em;
+    margin-right:.5em;
+    width:auto;
+  }
+
+  .logout {
+    display: inline-block;
+    color: #b71220;
+    margin-left:.5em;
+    cursor:pointer;
+    &:hover {
+      opacity:.7;
+    }
+  }
+}
+
+
+.appcontainer {
+  display:flex;
+  flex:1;
+  .mainmenu {
+    z-index:100;
+    position:relative;
+    width:180px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    background:white;
+    a {
+      display:block;
+      padding:.6em;
+      border-bottom:1px solid #cdcdcd;
+      border-top:1px solid #f9f9f9;
+      color: #686868;
+
+      background: #f1f1f1;
+      .icon {
+        width:30px;
+        overflow:hidden;
+      }
+    }
+  }
+  .appview {
+    flex:1;
+    overflow:hidden;
+  }
+}
+
