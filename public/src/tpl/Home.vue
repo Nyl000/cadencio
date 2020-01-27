@@ -5,7 +5,7 @@
                 <h1>All planning entries</h1>
             </div>
             <div class="actionbar">
-                <button class="button" v-on:click="refreshPlanning()"><i class="fas fa-sync"></i></button>
+                <button class="button" v-on:click="refreshPlanning()"><sync-icon /></button>
                 <button class="button" v-on:click="openFilterStatusModale()" v-html="filter_statuses.length == 0 ? 'All Status' : getFilterStatusLabel()">
 
                 </button>
@@ -38,7 +38,8 @@
     import {hasPermission} from 'js/Models/User';
     import {selectList as listStatuses, selectWithColor as listStatusesWithColor}  from 'js/Models/PlanningStatus';
     import Modale from 'tpl/Ui/Modale.vue';
-    import PlanningGrid from 'tpl/Ui/PlanningGrid.vue';
+    import PlanningGrid from 'tpl/PlanningGrid.vue';
+    import SyncIcon from 'vue-material-design-icons/Sync.vue';
 
     export default {
         data: function()  {
@@ -104,7 +105,8 @@
         },
         components: {
             Modale,
-            PlanningGrid
+            PlanningGrid,
+            SyncIcon
         },
         watch:  {
             '$route': function (newParam, oldParam) {

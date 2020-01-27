@@ -62,8 +62,8 @@
     import {selectList as listStatuses, selectWithColor as listStatusesWithColor}  from 'js/Models/PlanningStatus';
     import Modale from 'tpl/Ui/Modale.vue';
     import PlanningEntryAdd from 'tpl/PlanningEntryAdd.vue';
-    import Timeline from 'tpl/Ui/Timeline.vue';
-    import PlanningGrid from 'tpl/Ui/PlanningGrid.vue';
+    import Timeline from 'tpl/Timeline.vue';
+    import PlanningGrid from 'tpl/PlanningGrid.vue';
 
     import PlusIcon from 'vue-material-design-icons/Plus.vue';
     import SyncIcon from 'vue-material-design-icons/Sync.vue';

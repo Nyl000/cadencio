@@ -14,7 +14,7 @@
                     <account-icon />
                 </router-link>
                 <div class="logout" v-on:click="logout">
-                    <i class="fas fa-power-off"></i>
+                    <power-icon />
                 </div>
             </div>
             <div style="clear:both"></div>
@@ -37,6 +37,7 @@
     import NotificationBox from 'tpl/Ui/NotificationBox.vue';
     import {getEvents} from 'js/Services/EventHandler';
     import AccountIcon from 'vue-material-design-icons/Account.vue';
+    import PowerIcon from 'vue-material-design-icons/Power.vue';
 
     export default {
 
@@ -68,6 +69,6 @@
             },
 
         },
-        components: {NotificationBox,AccountIcon}
+        components: {NotificationBox,AccountIcon,PowerIcon}
     }
 </script>
