@@ -5,33 +5,9 @@
                 <button class="button button-add" v-on:click="addPlanningModal"><plus-icon /> Add</button>
                 <button class="button" v-on:click="refreshGrid()"><sync-icon /></button>
             </div>
-
-            <table class="list">
-                <tr class="items title">
-                    <th class=" information" v-on:click="setOrder('title')">
-                        Title
-                        <menu-down-icon v-if="order == 'title' && orderDirection == 'ASC'" />
-                        <menu-up-icon v-if="order == 'title' && orderDirection == 'DESC'" />
-                    </th>
-                    <th>
-                        Actions
-                    </th>
-                </tr>
-                <tr class="items" v-for="planning in plannings" :key="planning.id">
-                    <td class="titleBlock information">
-                        <EditableText v-bind:link="'/planning/view/'+planning.id"
-                                      v-bind:canupdate="hasPermission('plannings','update')"
-                                      v-bind:value="planning.title"
-                                      v-bind:saveurl="'/planning/'+planning.id" field="title" placeholder="Title"/>
-                    </td>
-                    <td>
-                        <delete-icon v-if="hasPermission('planning','delete')" title="Delete planning"
-                           v-on:click="deleteItem(planning.id)" />
-                    </td>
-                </tr>
-            </table>
-            <paginator :paginator="paginator"/>
+            <entity-table ref="table" :model="planningModel" :definition="tableDefinition" :page="this.$route.params.page || 1" />
         </div>
+
         <Modale ref="addPlanningModal">
             <PlanningAdd v-bind:onAdded="onPlanningAdded"/>
         </Modale>
@@ -41,27 +17,35 @@
 <script>
 
     import {hasPermission} from 'js/Models/User';
-    import {list, deleteItem}  from 'js/Models/Planning';
-
-    import EditableText from 'tpl/Ui/EditableText.vue';
-    import Paginator from 'tpl/Ui/Paginator.vue';
-
     import Modale from 'tpl/Ui/Modale.vue';
     import PlanningAdd from 'tpl/PlanningAdd.vue';
     import PlusIcon from 'vue-material-design-icons/Plus.vue';
     import SyncIcon from 'vue-material-design-icons/Sync.vue';
-    import MenuDownIcon from 'vue-material-design-icons/MenuDown.vue';
-    import MenuUpIcon from 'vue-material-design-icons/MenuUp.vue';
-    import DeleteIcon from 'vue-material-design-icons/Delete.vue';
+    import EntityTable from 'tpl/Ui/EntityTable';
+    import {deleteIcon} from 'js/Services/SvgIcons.js';
+
+    const planningModel = require('js/Models/Planning');
 
     export default {
-        data: () => {
+        data: function () {
             return {
-                plannings: [],
-                paginator: {},
-                order: 'title',
-                orderDirection: 'ASC',
-                page: 1
+                page:  1,
+                planningModel:planningModel,
+                tableDefinition : {
+                    idField: 'id',
+                    saveurl:'/planning/{id}',
+                    columns : [
+                        {property: 'title', label : 'Title', sortable : true, renderer : {
+                            type : 'text',
+                            placeholder: 'Title',
+                            canUpdate : hasPermission('planning','update'),
+                            link : '/planning/view/{id}',
+                        }},
+                    ],
+                    actions : [
+                        { callback : this.deleteItem, html : deleteIcon, canDisplay : hasPermission('planning','delete')  }
+                    ]
+                },
             }
         },
         mounted: function () {
@@ -81,27 +65,7 @@
                 }
             },
             refreshGrid: function () {
-
-                let page = this.$route.params.page || 1;
-                list({
-                    order: this.order,
-                    orderDirection: this.orderDirection,
-                    page: page
-                }).then((response) => {
-                    this.plannings = response.plannings;
-                    this.paginator = response.paginator;
-                });
-
-            },
-            setOrder: function (field) {
-                var orderDir = 'ASC';
-                if (field === this.order) {
-                    orderDir = this.orderDirection == 'ASC' ? 'DESC' : 'ASC';
-                }
-                this.order = field;
-                this.orderDirection = orderDir;
-
-                this.refreshGrid();
+               this.$refs.table.refresh();
             },
             addPlanningModal: function () {
                 this.$refs.addPlanningModal.show();
@@ -121,7 +85,7 @@
             }
         },
 
-        components: {EditableText, Modale, PlanningAdd, Paginator,PlusIcon,SyncIcon,MenuDownIcon,MenuUpIcon,DeleteIcon}
+        components: {Modale, PlanningAdd,PlusIcon,SyncIcon,EntityTable}
     }
 
 </script>

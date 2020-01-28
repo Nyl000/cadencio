@@ -2,130 +2,116 @@
     <div class="users_index">
         <div class="tablecontainer">
             <div class="actionbar">
-                <button class="button button-add" v-on:click="addUserModal"><plus-icon /> Add</button>
-                <button class="button" v-on:click="refreshGrid()"><sync-icon/></button>
+                <button class="button button-add" v-on:click="addUserModal">
+                    <plus-icon/>
+                    Add
+                </button>
+                <button class="button" v-on:click="refreshGrid()">
+                    <sync-icon/>
+                </button>
 
             </div>
             <div class="tablewrapper">
-                <table class="list">
-                    <tr class="items title">
-                        <th class=" information" v-on:click="setOrder('email')">
-                            Email
-                            <menu-down-icon v-if="order == 'email' && orderDirection == 'ASC'" />
-                            <menu-up-icon v-if="order == 'email' && orderDirection == 'DESC'" />
-                        </th>
-                        <th class=" information" v-on:click="setOrder('id_role')">
-                            Role
-                            <menu-down-icon v-if="order == 'id_role' && orderDirection == 'ASC'" />
-                            <menu-up-icon v-if="order == 'id_role' && orderDirection == 'DESC'" />
-                        </th>
-                        <th class=" information">
-                            Password
-                        </th>
-                        <th class=" information" v-on:click="setOrder('name')">
-                            Name
-                            <menu-down-icon v-if="order == 'name' && orderDirection == 'ASC'" />
-                            <menu-up-icon v-if="order == 'name' && orderDirection == 'DESC'" />
-                        </th>
-                        <th class=" information" v-on:click="setOrder('firstname')">
-                            Firstname
-                            <menu-down-icon v-if="order == 'firstname' && orderDirection == 'ASC'" />
-                            <menu-up-icon v-if="order == 'firstname' && orderDirection == 'DESC'" />
-                        </th>
-                        <th class=" information" v-on:click="setOrder('nickname')">
-                            Display Name
-                            <menu-down-icon v-if="order == 'nickname' && orderDirection == 'ASC'" />
-                            <menu-up-icon v-if="order == 'nickname' && orderDirection == 'DESC'" />
-                        </th>
-                        <th>
-                            Actions
-                        </th>
-                    </tr>
-                    <tr class="items" v-for="user in users" :key="user.id">
-                        <td class="titleBlock information">
-                            <EditableText v-bind:canupdate="hasPermission('users','update')" v-bind:value="user.email"
-                                          v-bind:saveurl="'/user/'+user.id" field="email" placeholder="Email"/>
-                        </td>
-                        <td class="information">
-                            <EditableList v-bind:canupdate="hasPermission('users','update')" v-bind:list="roles"
-                                          v-bind:value="user.id_role" v-bind:saveurl="'/user/'+user.id" field="id_role"
-                                          placeholder="Choisissez un rôle"/>
-                        </td>
-                        <td>
-                            <EditablePassword v-bind:canupdate="hasPermission('users','update')"
-                                              v-bind:value="user.password"
-                                              v-bind:saveurl="'/user/'+user.id" field="password" placeholder=""/>
-                        </td>
-                        <td>
-                            <EditableText v-bind:canupdate="hasPermission('users','update')" v-bind:value="user.name"
-                                          v-bind:saveurl="'/user/'+user.id" field="name" placeholder="Name"/>
-                        </td>
-                        <td>
-                            <EditableText v-bind:canupdate="hasPermission('users','update')"
-                                          v-bind:value="user.firstname"
-                                          v-bind:saveurl="'/user/'+user.id" field="firstname" placeholder="First Name"/>
-                        </td>
-                        <td>
-                            <EditableText v-bind:canupdate="hasPermission('users','update')"
-                                          v-bind:value="user.nickname"
-                                          v-bind:saveurl="'/user/'+user.id" field="nickname"
-                                          placeholder="Display Name"/>
-                        </td>
-                        <td>
-                            <delete-icon v-if="hasPermission('users','delete')" class=" delete" title="Delete user"
-                               v-on:click="deleteItem(user.id)" />
-                        </td>
-                    </tr>
-                </table>
+                <entity-table ref="table" :model="userModel" :definition="tableDefinition"
+                              :page="this.$route.params.page || 1"/>
+
             </div>
-            <paginator :paginator="paginator"/>
+            <Modale ref="addUserModale">
+                <UserAdd v-bind:onAdded="onUserAdded"/>
+            </Modale>
         </div>
-        <Modale ref="addUserModale">
-            <UserAdd v-bind:onAdded="onUserAdded"/>
-        </Modale>
     </div>
 </template>
 
 <script>
 
-    import {hasPermission, list, deleteItem} from 'js/Models/User';
+    import {hasPermission} from 'js/Models/User';
     import {selectList as selectListRole}  from 'js/Models/Role';
-
-    import EditableText from 'tpl/Ui/EditableText.vue';
-    import EditableList from 'tpl/Ui/EditableList.vue';
-    import EditableCheckbox from 'tpl/Ui/EditableCheckbox.vue';
-    import EditablePassword from 'tpl/Ui/EditablePassword.vue';
-    import Paginator from 'tpl/Ui/Paginator.vue';
 
     import Modale from 'tpl/Ui/Modale.vue';
     import UserAdd from 'tpl/UserAdd.vue';
 
     import SyncIcon from 'vue-material-design-icons/Sync.vue';
-    import MenuDownIcon from 'vue-material-design-icons/MenuDown.vue';
-    import MenuUpIcon from 'vue-material-design-icons/MenuUp.vue';
-    import DeleteIcon from 'vue-material-design-icons/Delete.vue';
     import PlusIcon from 'vue-material-design-icons/Plus.vue';
 
+    import EntityTable from 'tpl/Ui/EntityTable';
+    import {deleteIcon} from 'js/Services/SvgIcons.js';
+
+    const userModel = require('js/Models/User');
+
+
     export default {
-        data: () => {
+        data: function () {
             return {
-                users: [],
                 roles: {},
-                paginator: {},
-                order: 'email',
-                orderDirection: 'ASC',
+                userModel: userModel,
+                tableDefinition: {},
                 page: 1
             }
         },
         mounted: function () {
-
+            this.refreshTableDatas();
             this.refreshGrid();
-
         },
         methods: {
-            hasPermission: (resource, action) => {
-                return hasPermission(resource, action);
+
+            //We need a refresh function to keep choices list up to date in case of rest refresh.
+            refreshTableDatas: function () {
+                let self = this;
+                this.tableDefinition = {
+                    idField: 'id',
+                    saveurl: '/users/{id}',
+                    columns: [
+                        {
+                            property: 'email', label: 'Email', sortable: true, renderer: {
+                            type: 'text',
+                            placeholder: 'Email',
+                            canUpdate: hasPermission('users', 'update'),
+                        }
+                        },
+                        {
+                            property: 'id_role', label: 'Role', sortable: true, renderer: {
+                            type: 'list',
+                            list: self.roles,
+                            placeholder: 'Role',
+                            canUpdate: hasPermission('users', 'update'),
+                        }
+                        },
+                        {
+                            property: 'password', label: 'Password', sortable: false, renderer: {
+                            type: 'password',
+                            placeholder: 'Password',
+                            canUpdate: hasPermission('users', 'update'),
+                        }
+                        },
+                        {
+                            property: 'name', label: 'Name', sortable: true, renderer: {
+                            type: 'text',
+                            placeholder: 'Name',
+                            canUpdate: hasPermission('users', 'update'),
+                        }
+                        },
+                        {
+                            property: 'firstname', label: 'First Name', sortable: true, renderer: {
+                            type: 'text',
+                            placeholder: 'First Name',
+                            canUpdate: hasPermission('users', 'update'),
+                        }
+                        },
+                        {
+                            property: 'nickname', label: 'Display Name', sortable: true, renderer: {
+                            type: 'text',
+                            placeholder: 'Display Name',
+                            canUpdate: hasPermission('users', 'update'),
+                        }
+                        },
+                    ],
+                    actions: [
+                        {callback: this.deleteItem, html: deleteIcon, canDisplay: hasPermission('roles', 'delete')},
+                    ]
+                };
             },
+            hasPermission: hasPermission,
             deleteItem: function (userId) {
                 if (confirm('Confirmez que vous voulez supprimer l\'utilisateur')) {
                     deleteItem(userId).then(() => {
@@ -134,29 +120,13 @@
                 }
             },
             refreshGrid: function () {
+                this.$refs.table.refresh();
 
-                let page = this.$route.params.page || 1;
-                list({
-                    order: this.order,
-                    orderDirection: this.orderDirection,
-                    page: page
-                }).then((users) => {
-                    this.users = users.users;
-                    this.paginator = users.paginator;
-                });
                 selectListRole().then((roles) => {
                     this.roles = roles;
+                    this.refreshTableDatas();
+                    this.$forceUpdate();
                 });
-            },
-            setOrder: function (field) {
-                var orderDir = 'ASC';
-                if (field === this.order) {
-                    orderDir = this.orderDirection == 'ASC' ? 'DESC' : 'ASC';
-                }
-                this.order = field;
-                this.orderDirection = orderDir;
-
-                this.refreshGrid();
             },
             addUserModal: function () {
                 this.$refs.addUserModale.show();
@@ -177,18 +147,11 @@
         },
 
         components: {
-            EditableText,
-            EditableList,
-            EditableCheckbox,
             Modale,
             UserAdd,
-            EditablePassword,
-            Paginator,
             SyncIcon,
             PlusIcon,
-            MenuDownIcon,
-            MenuUpIcon,
-            DeleteIcon
+            EntityTable
         }
     }
 

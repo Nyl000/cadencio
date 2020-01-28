@@ -148,6 +148,8 @@
             </tbody>
         </table>
         <paginator :paginator="planning_entries_paginator" :path="paginator_path"/>
+
+
         <div class="quickaction">
             <select class="quickActionSelect" v-model="quickActionSelector">
                 <option value>Quick action</option>
@@ -348,7 +350,7 @@
             DeleteIcon,
             BellIcon,
             BellOffIcon,
-            DotsHorizontalIcon
+            DotsHorizontalIcon,
         },
         watch: {
             page: function (newVal, oldVal) { // watch it

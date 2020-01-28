@@ -6,43 +6,8 @@
                 <button class="button" v-on:click="refreshGrid()"><sync-icon/></button>
             </div>
 
-            <table class="list">
-                <tr class="items title">
-                    <th class=" information" v-on:click="setOrder('title')">
-                        Title
-                        <menu-down-icon v-if="order == 'title' && orderDirection == 'ASC'" />
-                        <menu-up-icon v-if="order == 'title' && orderDirection == 'DESC'" />
-                    </th>
-                    <th class="information">
-                        Color
-                    </th>
-                    <th class="information">
-                        Closed
-                    </th>
-                    <th>
-                        Actions
-                    </th>
-                </tr>
-                <tr class="items" v-for="status in planning_status" :key="status.id">
-                    <td class="titleBlock information">
-                        <EditableText v-bind:canupdate="hasPermission('planning_status','update')" v-bind:value="status.title"
-                                      v-bind:saveurl="'/planning_status/'+status.id" field="title" placeholder="Title"/>
-                    </td>
-                    <td>
-                        <EditableColor v-bind:canupdate="hasPermission('planning_status','update')" v-bind:value="status.color"
-                                      v-bind:saveurl="'/planning_status/'+status.id" field="color" placeholder="Color"/>
-                    </td>
-                    <td>
-                        <EditableCheckbox v-bind:canupdate="hasPermission('planning_status','update')" v-bind:value="status.closed"
-                                       v-bind:saveurl="'/planning_status/'+status.id" field="closed" placeholder="Closed"/>
-                    </td>
-                    <td>
-                        <delete-icon v-if="hasPermission('planning_status','delete')" class="delete" title="Delete status"
-                           v-on:click="deleteItem(status.id)" />
-                    </td>
-                </tr>
-            </table>
-            <paginator :paginator="paginator" />
+            <entity-table ref="table" :model="planningStatusModel" :definition="tableDefinition" :page="this.$route.params.page || 1" />
+
         </div>
         <Modale ref="addPlanningStatusModal">
             <PlanningStatusAdd v-bind:onAdded="onPlanningStatusAdded" />
@@ -53,32 +18,44 @@
 <script>
 
     import {hasPermission} from 'js/Models/User';
-    import {list,deleteItem}  from 'js/Models/PlanningStatus';
-
-    import EditableText from 'tpl/Ui/EditableText.vue';
-    import EditableColor from 'tpl/Ui/EditableColor.vue';
-    import EditableCheckbox from 'tpl/Ui/EditableCheckbox.vue';
-
-    import Paginator from 'tpl/Ui/Paginator.vue';
-
+    import {deleteItem}  from 'js/Models/PlanningStatus';
     import Modale from 'tpl/Ui/Modale.vue';
     import PlanningStatusAdd from 'tpl/PlanningStatusAdd.vue';
-
     import PlusIcon from 'vue-material-design-icons/Plus.vue';
     import SyncIcon from 'vue-material-design-icons/Sync.vue';
-    import MenuDownIcon from 'vue-material-design-icons/MenuDown.vue';
-    import MenuUpIcon from 'vue-material-design-icons/MenuUp.vue';
-    import DeleteIcon from 'vue-material-design-icons/Delete.vue';
+    import EntityTable from 'tpl/Ui/EntityTable';
+    import {deleteIcon} from 'js/Services/SvgIcons.js';
+    const planningStatusModel = require('js/Models/PlanningStatus');
 
 
     export default {
-        data: () => {
+        data: function() {
             return {
-                planning_status: [],
-                paginator: {},
-                order: 'title',
-                orderDirection: 'ASC',
-                page: 1
+                planningStatusModel:planningStatusModel,
+                tableDefinition : {
+                    idField: 'id',
+                    saveurl:'/planning_status/{id}',
+                    columns : [
+                        {property: 'title', label : 'Title', sortable : true, renderer : {
+                            type : 'text',
+                            placeholder: 'Title',
+                            canUpdate : hasPermission('planning_status','update'),
+                        }},
+                        {property: 'color', label : 'Color', sortable : false, renderer : {
+                            type : 'color',
+                            placeholder: 'Color',
+                            canUpdate : hasPermission('planning_status','update'),
+                        }},
+                        {property: 'closed', label : 'Closed', sortable : true, renderer : {
+                            type : 'yesno',
+                            placeholder: 'Closed',
+                            canUpdate : hasPermission('planning_status','update'),
+                        }},
+                    ],
+                    actions : [
+                        { callback : this.deleteItem, html : deleteIcon, canDisplay : hasPermission('planning','delete')  }
+                    ]
+                },
             }
         },
         mounted: function () {
@@ -98,28 +75,9 @@
                 }
             },
             refreshGrid: function () {
-
-                let page = this.$route.params.page || 1;
-                list({
-                    order: this.order,
-                    orderDirection: this.orderDirection,
-                    page: page
-                }).then((response) => {
-                    this.planning_status = response.planning_status;
-                    this.paginator = response.paginator;
-                });
-
+                this.$refs.table.refresh();
             },
-            setOrder: function (field) {
-                var orderDir = 'ASC';
-                if (field === this.order) {
-                    orderDir = this.orderDirection == 'ASC' ? 'DESC' : 'ASC';
-                }
-                this.order = field;
-                this.orderDirection = orderDir;
 
-                this.refreshGrid();
-            },
             addPlanningStatusModal: function () {
                 this.$refs.addPlanningStatusModal.show();
             },
@@ -139,17 +97,11 @@
     },
 
     components: {
-        EditableText,
-        EditableColor,
-        EditableCheckbox,
         Modale,
         PlanningStatusAdd,
-        Paginator,
         PlusIcon,
         SyncIcon,
-        MenuUpIcon,
-        MenuDownIcon,
-        DeleteIcon,
+        EntityTable
         }
     }
 

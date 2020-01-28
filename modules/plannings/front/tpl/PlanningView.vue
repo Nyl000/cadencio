@@ -80,6 +80,7 @@
                     total_entries : 0,
                     closed_entries : 0
                 },
+
                 statuses: [],
                 statusesWithColor: [],
                 users: [],
@@ -184,6 +185,7 @@
             PlanningGrid,
             PlusIcon,
             SyncIcon,
+
         }
     }
 
