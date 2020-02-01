@@ -20,6 +20,7 @@
     import InfoMessage from 'tpl/Ui/InfoMessage.vue';
     import {instance} from 'js/App';
     import base64 from 'base-64';
+    import {testToken} from 'js/Models/User';
 
     export default {
         data: () => {
@@ -41,7 +42,11 @@
                         if (data.status === 'ok') {
                             let token = base64.encode(this.$data.username + ':' + this.$data.password);
                             localStorage.setItem('token', token);
-                            window.location = '/';
+                            testToken(token).then((datas) => {
+                                localStorage.setItem('user', JSON.stringify(datas.user));
+                                window.location = '/';
+
+                            });
                         }
                         else {
                             this.errorMessage = "Wrong login/password";

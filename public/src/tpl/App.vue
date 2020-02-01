@@ -59,11 +59,11 @@
         },
 
         methods: {
-            hasPermission: (resource, action) => {
-                return hasPermission(resource, action);
-            },
+            hasPermission,
             logout: () => {
                 localStorage.removeItem('token');
+                localStorage.removeItem('user');
+
                 window.location.reload();
 
             },
