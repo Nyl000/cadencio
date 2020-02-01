@@ -109,6 +109,8 @@ module.exports = {
         new CopyWebpackPlugin([
             {from:'src/resources',to:'resources'},
             {from: 'config.sample.js', to: 'config.sample.js'},
+            {from: '.htaccess', to: '.'},
+
         ])
 
 
