@@ -9,7 +9,7 @@ import Home from 'tpl/Home.vue'
 import UsersIndex from 'tpl/UsersIndex.vue';
 import RolesIndex from 'tpl/RolesIndex.vue';
 import ProfileIndex from 'tpl/ProfileIndex.vue';
-import {getEvents} from 'js/Services/EventHandler';
+import {getHooks} from 'js/Services/HookHandler';
 
 var instance = false;
 
@@ -29,9 +29,9 @@ class Main {
 
             ];
 
-            var routeEvents = getEvents('register_route');
+            var routeHooks = getHooks('register_route');
 
-            routeEvents.forEach((route) => {
+            routeHooks.forEach((route) => {
                 routes.push(route());
             });
             this.router = new VueRouter({

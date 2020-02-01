@@ -41,7 +41,7 @@
 <script>
     import {hasPermission} from 'js/Models/User';
     import NotificationBox from 'tpl/Ui/NotificationBox.vue';
-    import {getEvents} from 'js/Services/EventHandler';
+    import {getHooks} from 'js/Services/HookHandler';
     import AccountIcon from 'vue-material-design-icons/Account.vue';
     import PowerIcon from 'vue-material-design-icons/Power.vue';
 
@@ -49,8 +49,8 @@
 
         data: () => {
 
-            let menuEvents = getEvents('register_menu');
-            let menuSectionsEvents = getEvents('register_menu_section');
+            let menuHooks = getHooks('register_menu');
+            let menuSectionsHooks = getHooks('register_menu_section');
 
 
             let menuItems = {
@@ -63,13 +63,13 @@
                 }
 
             };
-            menuSectionsEvents.forEach((section) => {
+            menuSectionsHooks.forEach((section) => {
                 let s = section();
                 s.entries = [];
                 menuItems[s.name] = s;
             });
 
-            menuEvents.forEach((menu) => {
+            menuHooks.forEach((menu) => {
                 let m = menu();
                 menuItems[m.section].entries.push(m);
             });
