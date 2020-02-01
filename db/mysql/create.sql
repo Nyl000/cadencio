@@ -12,6 +12,7 @@ DROP TABLE IF EXISTS users_options;
 DROP TABLE IF EXISTS notifications;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS roles;
+DROP TABLE IF EXISTS modules;
 
 CREATE TABLE roles(
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -128,3 +129,10 @@ CREATE table notifications (
   PRIMARY KEY(id),
   FOREIGN KEY (id_user) REFERENCES users(id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
+
+
+CREATE table modules(
+  name VARCHAR(128) NOT NULL,
+  active TINYINT NOT NULL DEFAULT 0,
+  PRIMARY KEY(name)
+)
