@@ -6,9 +6,10 @@ import PlanningStatusIndex from 'tpl/PlanningStatusIndex.vue';
 import PlanningIndex from 'tpl/PlanningIndex.vue';
 
 addEvent('register_route', () => { return {path: '/planning/view/:id/:page?', component: PlanningView}});
-addEvent('register_route', () => { return {path: '/planning_status/:page?', component: PlanningStatusIndex}});
+addEvent('register_route', () => { return {path: '/task_status/:page?', component: PlanningStatusIndex}});
 addEvent('register_route', () => { return {path: '/planning/:page?', component: PlanningIndex}});
 
+addEvent('register_menu_section', () => {return {name: 'plannings', title : 'Plannings', canDisplay: hasPermission('planning','read')}});
 
-addEvent('register_menu', () => {return {iconClass :  'fad fa-calendar-alt' , title : 'Plannings', to : '/planning', canDisplay: hasPermission('planning','read')}});
-addEvent('register_menu', () => {return {iconClass :  'fad fa-tags' , title : 'Planning Status', to : '/planning_status', canDisplay: hasPermission('planning_status','read')}});
+addEvent('register_menu', () => {return {section:'plannings', title : 'Plannings', to : '/planning', canDisplay: hasPermission('planning','read')}});
+addEvent('register_menu', () => {return {section:'plannings', title : 'Task Status', to : '/task_status', canDisplay: hasPermission('planning_status','read')}});

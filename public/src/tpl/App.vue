@@ -21,9 +21,15 @@
         </div>
         <div class="appcontainer">
             <div v-if="isLogged" class="mainmenu">
-                <router-link v-for="(item,index) in menuItems"  v-if="item.canDisplay" :to="item.to" :key="index">
-                    {{item.title}}
-                </router-link>
+                <div class="section" v-for="(section,name) in menuItems">
+                    <div class="title">
+                        {{section.title}}
+                    </div>
+                    <router-link v-for="(item,index) in section.entries"  v-if="item.canDisplay" :to="item.to" :key="index">
+                        {{item.title}}
+                    </router-link>
+                </div>
+
             </div>
             <div class="appview">
                 <router-view></router-view>
@@ -44,12 +50,28 @@
         data: () => {
 
             let menuEvents = getEvents('register_menu');
-            let menuItems = [
-                {  title : 'Users', to : '/users', canDisplay: hasPermission('users','read')},
-                {  title : 'Roles', to : '/roles', canDisplay: hasPermission('roles','read')}
-            ];
+            let menuSectionsEvents = getEvents('register_menu_section');
+
+
+            let menuItems = {
+                'general' : {
+                    title : 'General',
+                    entries : [
+                        {  title : 'Users', to : '/users', canDisplay: hasPermission('users','read')},
+                        {  title : 'Roles', to : '/roles', canDisplay: hasPermission('roles','read')}
+                    ]
+                }
+
+            };
+            menuSectionsEvents.forEach((section) => {
+                let s = section();
+                s.entries = [];
+                menuItems[s.name] = s;
+            });
+
             menuEvents.forEach((menu) => {
-                menuItems.push(menu());
+                let m = menu();
+                menuItems[m.section].entries.push(m);
             });
 
             return {
