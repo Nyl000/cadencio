@@ -4,6 +4,7 @@ namespace Modules\Plannings\Models;
 
 use Planner\Application;
 use Planner\Models\AbstractModel;
+use Planner\Models\NotificationModel;
 
 class PlanningEntryModel extends AbstractModel
 {
@@ -49,8 +50,8 @@ class PlanningEntryModel extends AbstractModel
 
         }
         $datas['id'] = $return;
-        $notifyModel = new NotificationModel();
-        $notifyModel->notifyEntryWatchers($datas,$old);
+        
+        $this->notifyEntryWatchers($datas,$old);
 
         return $return;
     }
@@ -62,8 +63,7 @@ class PlanningEntryModel extends AbstractModel
         parent::patch($id, $datas, $uniqueFieldname);
         $new =  $this->getOne($id , $uniqueFieldname);
 
-        $notifyModel = new NotificationModel();
-        $notifyModel->notifyEntryWatchers($new,$old);
+        $this->notifyEntryWatchers($new,$old);
 
     }
 
@@ -256,6 +256,46 @@ class PlanningEntryModel extends AbstractModel
 
         return $this->getAdapter()->fetchOne($select, $whereParams);
 
+    }
+
+    private function notifyEntryWatchers($newEntry,$oldEntry = null) {
+
+        $notificationModel = new NotificationModel();
+
+        $followers = $this->getAdapter()->fetchAll('SELECT id_user FROM planning_entry_followers WHERE id_planning_entry = ?', [$newEntry['id']]);
+
+        foreach($followers as $follower) {
+
+            $currentUserId = Application::$instance->getCurrentUserId();
+
+            //Don't notify logged user
+            if ($currentUserId != $follower['id_user']) {
+                if (empty($oldEntry)) {
+                    //New entity
+                    $data = [
+                        'title' => 'New planning entry : ' . $newEntry['title'],
+                        'content' => '<div><h2>New entry</h2> ' . $this->getEntryHtml($newEntry) . '</div>',
+                        'date' => date('Y-m-d H:i:m'),
+                        'id_user' => $follower['id_user'],
+                        'send_email' => true
+                    ];
+
+                } else {
+                    $data = [
+                        'title' => 'Planning entry updated : ' . $newEntry['title'],
+                        'content' => '
+                                <div><h2>Old entry</h2> ' . $this->getEntryHtml($oldEntry) . '</div>
+                                <div><h2>New entry</h2> ' . $this->getEntryHtml($newEntry) . '</div>
+                                ',
+                        'date' => date('Y-m-d H:i:m'),
+                        'id_user' => $follower['id_user'],
+                        'send_email' => true
+                    ];
+                }
+            }
+            $notificationModel->createOrUpdate($data);
+
+        }
     }
 
 

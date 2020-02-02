@@ -59,45 +59,6 @@ class NotificationModel extends AbstractModel
     }
 
 
-    public function notifyEntryWatchers($newEntry,$oldEntry = null) {
-
-        $entryModel = new PlanningEntryModel();
-
-        $followers = $this->getAdapter()->fetchAll('SELECT id_user FROM planning_entry_followers WHERE id_planning_entry = ?', [$newEntry['id']]);
-
-        foreach($followers as $follower) {
-
-            $currentUserId = Application::$instance->getCurrentUserId();
-
-            //Don't notify logged user
-            if ($currentUserId != $follower['id_user']) {
-                if (empty($oldEntry)) {
-                    //New entity
-                    $data = [
-                        'title' => 'New planning entry : ' . $newEntry['title'],
-                        'content' => '<div><h2>New entry</h2> ' . $entryModel->getEntryHtml($newEntry) . '</div>',
-                        'date' => date('Y-m-d H:i:m'),
-                        'id_user' => $follower['id_user'],
-                        'send_email' => true
-                    ];
-
-                } else {
-                    $data = [
-                        'title' => 'Planning entry updated : ' . $newEntry['title'],
-                        'content' => '
-                                <div><h2>Old entry</h2> ' . $entryModel->getEntryHtml($oldEntry) . '</div>
-                                <div><h2>New entry</h2> ' . $entryModel->getEntryHtml($newEntry) . '</div>
-                                ',
-                        'date' => date('Y-m-d H:i:m'),
-                        'id_user' => $follower['id_user'],
-                        'send_email' => true
-                    ];
-                }
-            }
-            $this->createOrUpdate($data);
-
-        }
-    }
 
 
 }
