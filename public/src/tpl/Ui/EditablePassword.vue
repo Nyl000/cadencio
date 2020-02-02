@@ -5,7 +5,7 @@
                 <input type="password" ref="input" v-model="val" v-on:blur="leaveEditmode"/>
             </div>
             <div v-if="!editMode" v-on:click="enterEditmode">
-                <lock-icon /> Définir un nouveau
+                <lock-icon /> Change password
                 <check-bold-icon v-if="success" class="icon success" />
                 <close-icon v-if="error" class="icon error" />
             </div>
