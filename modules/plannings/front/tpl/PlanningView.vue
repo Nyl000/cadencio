@@ -43,7 +43,7 @@
                 <ul class="filter">
                     <li v-for="(status,id) in statusesWithColor" v-on:click="toggleStatusFilter(id)" v-bind:key="id">
                         <span :style="{visibility: filter_statuses.indexOf(id) > -1 ? 'visible':'hidden'}"
-                              class="choiced fas fa-check"></span> <span class="colorindicator"
+                              class="choiced"><check-bold-icon /></span> <span class="colorindicator"
                                                                          :style="{backgroundColor: status.color}"></span>
                         {{status.title}}
                     </li>
@@ -70,6 +70,7 @@
     import MenuDownIcon from 'vue-material-design-icons/MenuDown.vue';
     import MenuUpIcon from 'vue-material-design-icons/MenuUp.vue';
     import DeleteIcon from 'vue-material-design-icons/Delete.vue';
+    import CheckBoldIcon from 'vue-material-design-icons/CheckBold.vue';
 
     export default {
         data: function () {
@@ -185,7 +186,7 @@
             PlanningGrid,
             PlusIcon,
             SyncIcon,
-
+            CheckBoldIcon
         }
     }
 

@@ -48,6 +48,7 @@ button {
 }
 
 .button {
+  border-radius:5px;
   display: block;
   width: 100%;
   border: none;
@@ -65,7 +66,8 @@ button {
     }
   }
   &:hover {
-    opacity: .8;
+    background: #bababa;
+
   }
   &:active {
     opacity: .5;
@@ -75,6 +77,10 @@ button {
     color: white;
     text-transform: uppercase;
     font-weight: bold;
+    &:hover {
+      background: #2d7114;
+
+    }
   }
 }
 
