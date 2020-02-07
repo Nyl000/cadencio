@@ -11,6 +11,9 @@
         <Modale ref="addRoleModal">
             <RoleAdd v-bind:onAdded="onRoleAdded"/>
         </Modale>
+        <Modale ref="managePermissionsModal">
+            <RoleManagePermissions :role="selectedRoleId" />
+        </Modale>
     </div>
 </template>
 
@@ -33,6 +36,7 @@
             return {
                 page: 1,
                 rolesModel : rolesModel,
+                selectedRoleId : null,
                 tableDefinition : {
                     idField: 'id',
                     saveurl:'/roles/{id}',
@@ -82,9 +86,8 @@
                 this.refreshGrid();
             },
             managePermissionsModal: function (idRole) {
-                let ref = 'managePermissionsModal'+idRole;
-                let modale =this.$refs[ref];
-                modale[0].show();
+                this.selectedRoleId = idRole;
+                this.$refs['managePermissionsModal'].show();
             },
 
         },

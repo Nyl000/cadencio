@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div  v-if="roleObject">
      <h3>Permissions for role "{{roleObject.label}}"</h3>
         <ul class="permissionList">
             <li v-for="(resource,key) in allPermissions">
@@ -23,7 +23,7 @@
 
         data: function() {
             return {
-                roleObject: {},
+                roleObject: null,
                 allPermissions : {}
             }
         },
@@ -33,7 +33,7 @@
         },
         methods: {
             refresh : function() {
-                getOne(this.role.id).then((roleDistant) => {
+                getOne(this.role).then((roleDistant) => {
                     this.roleObject = roleDistant;
                 });
                 getAllPermissions().then((permissions) => {
@@ -47,12 +47,12 @@
             },
             togglePermission: function(resource,right) {
                 if (!this.ownPermissions(resource+'.'+right)) {
-                    addPermission(this.roleObject.id, resource,right).then(() => {
+                    addPermission(this.role, resource,right).then(() => {
                         this.refresh();
                     });
                 }
                 else {
-                    deletePermission(this.roleObject.id,resource,right).then(() => {
+                    deletePermission(this.role,resource,right).then(() => {
                         this.refresh();
                     })
                 }

@@ -3,6 +3,7 @@
 namespace Planner\Controllers;
 
 use Config\Permissions;
+use Planner\Exceptions\ApiNotFoundException;
 use Planner\Exceptions\ApiUnprocessableException;
 use Planner\Models\RoleModel;
 

@@ -1,29 +1,31 @@
 .tablecontainer {
-  .permissionList {
-    padding: .5em;
+
+}
+
+.permissionList {
+  padding: .5em;
+  list-style: none;
+  &>li {
+    padding:.5em;
+    margin-bottom:.3em;
+    background: #f7f7f7;
+    border-radius:.5em;
+
+  }
+
+  ul {
     list-style: none;
-    &>li {
-      padding:.5em;
-      margin-bottom:.3em;
-      background: #f7f7f7;
-      border-radius:.5em;
+    background: #ededed;
+    padding: 0;
+    border-radius:.5em;
+    li {
+      padding:.2em;
 
     }
 
-    ul {
-      list-style: none;
-      background: #ededed;
-      padding: 0;
-      border-radius:.5em;
-      li {
-        padding:.2em;
-
-      }
-
-    }
-    input {
-      display: inline-block;
-      width: auto;
-    }
+  }
+  input {
+    display: inline-block;
+    width: auto;
   }
 }
