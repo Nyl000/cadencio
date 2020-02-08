@@ -121,6 +121,8 @@ button {
     z-index: 1000;
     .modalbox {
       overflow: auto;
+      border-radius:5px;
+
       .close {
         position: absolute;
         right: 0px;
@@ -536,6 +538,7 @@ hr {
     .modalbox {
       min-width: 50%;
       min-height: 50%;
+      border-radius:5px;
       padding-bottom: 4em;
       .title {
         text-transform: uppercase;
