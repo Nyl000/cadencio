@@ -1,5 +1,5 @@
 <template>
-    <div class="home">
+    <div class="planning_view">
         <div class="boxcontainer">
             <div class="title">
                 <h1>All planning entries</h1>
