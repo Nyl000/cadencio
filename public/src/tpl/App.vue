@@ -3,6 +3,9 @@
         <div v-if="isLogged" class="topBar">
             <div class="left">
                 <div class="logowrap">
+                    <div class="menuIcon" v-on:click="toggleMenu">
+                        <menu-icon />
+                    </div>
                     <router-link to="/">
                         <img class="logo" src="/resources/images/logo.png" alt="Cadencio"/>
                     </router-link>
@@ -20,7 +23,7 @@
             <div style="clear:both"></div>
         </div>
         <div class="appcontainer">
-            <div v-if="isLogged" class="mainmenu">
+            <div v-if="isLogged" :class="'mainmenu ' + (menuOpen ? ' active' : '')">
                 <div class="section" v-for="(section,name) in menuItems">
                     <div class="title">
                         {{section.title}}
@@ -44,6 +47,7 @@
     import {getHooks} from 'js/Services/HookHandler';
     import AccountIcon from 'vue-material-design-icons/Account.vue';
     import PowerIcon from 'vue-material-design-icons/Power.vue';
+    import MenuIcon from 'vue-material-design-icons/Menu.vue'
 
     export default {
 
@@ -74,9 +78,15 @@
                 menuItems[m.section].entries.push(m);
             });
 
+            let showMenu = true;
+            if ( localStorage.getItem('global_showmenu') &&  localStorage.getItem('global_showmenu') == 0) {
+                showMenu = false;
+            }
+
             return {
                 isLogged: localStorage.getItem('token') ? true : false,
-                menuItems : menuItems
+                menuItems : menuItems,
+                menuOpen : showMenu
             }
         },
 
@@ -89,8 +99,14 @@
                 window.location.reload();
 
             },
+            toggleMenu : function() {
+
+                this.menuOpen = !this.menuOpen;
+                localStorage.setItem('global_showmenu', this.menuOpen ? 1: 0);
+
+            }
 
         },
-        components: {NotificationBox,AccountIcon,PowerIcon}
+        components: {NotificationBox,AccountIcon,PowerIcon,MenuIcon}
     }
 </script>

@@ -25,10 +25,11 @@
     font-size:1.5em;
   }
   .logo {
-    height:1.3em;
+    height:1em;
     padding-left:1em;
     margin-right:.5em;
     width:auto;
+    position:relative;
   }
 
   .logout {
@@ -38,6 +39,12 @@
     cursor:pointer;
     &:hover {
       opacity:.7;
+    }
+  }
+  .menuIcon {
+    &:hover {
+      opacity:.5;
+      cursor:pointer;
     }
   }
 }
@@ -51,6 +58,12 @@
     position:relative;
     width:180px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    margin-left:-180px;
+    -webkit-transition: margin-left .5s;
+    transition: margin-left .5s;
+    &.active {
+      margin-left:0;
+    }
     .section .title {
       text-transform:uppercase;
       padding:.3em;
