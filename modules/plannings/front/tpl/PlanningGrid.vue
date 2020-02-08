@@ -1,152 +1,170 @@
 <template>
     <div>
-        <table class="list">
-            <transition>
-                <div class="loader" v-if="!loaded">
-                    <i class="fas fa-spinner fa-spin"></i>
-                </div>
-            </transition>
-            <thead>
-            <tr class="items title">
-                <th class="information selector">
-                    <input type="checkbox" v-on:click="massEditAll($event)"/>
-                </th>
-                <th class="information nowrap" v-on:click="setOrder('id')">
-                    N°
-                    <menu-down-icon v-if="planning_entries_order == 'id' && planning_entries_orderDirection == 'ASC'" />
-                    <menu-up-icon v-if="planning_entries_order == 'id' && planning_entries_orderDirection == 'DESC'" />
-                </th>
-                <th class="information nowrap" v-on:click="setOrder('id_assigned_to')">
-                    Assigned To
-                    <menu-down-icon v-if="planning_entries_order == 'id_assigned_to' && planning_entries_orderDirection == 'ASC'" />
-                    <menu-up-icon v-if="planning_entries_order == 'id_assigned_to' && planning_entries_orderDirection == 'DESC'" />
-                </th>
-                <th v-if="!id_planning" class="information nowrap" v-on:click="setOrder('planning_title')">
-                    Planning
-                    <menu-down-icon v-if="planning_entries_order == 'planning_title' && planning_entries_orderDirection == 'ASC'" />
-                    <menu-up-icon v-if="planning_entries_order == 'planning_title' && planning_entries_orderDirection == 'DESC'" />
-                </th>
-                <th class="information nowrap" v-on:click="setOrder('id_status')">
-                    Status
-                    <menu-down-icon v-if="planning_entries_order == 'id_status' && planning_entries_orderDirection == 'ASC'" />
-                    <menu-up-icon v-if="planning_entries_order == 'id_status' && planning_entries_orderDirection == 'DESC'" />
-                </th>
-                <th class="information nowrap" v-on:click="setOrder('title')">
-                    Title
-                    <menu-down-icon v-if="planning_entries_order == 'title' && planning_entries_orderDirection == 'ASC'" />
-                    <menu-up-icon v-if="planning_entries_order == 'title' && planning_entries_orderDirection == 'DESC'" />
-                </th>
-                <th class="information nowrap" v-on:click="setOrder('date_start')">
-                    Start Date
-                    <menu-down-icon v-if="planning_entries_order == 'date_start' && planning_entries_orderDirection == 'ASC'" />
-                    <menu-up-icon v-if="planning_entries_order == 'date_start' && planning_entries_orderDirection == 'DESC'" />
-                </th>
-                <th class="information nowrap" v-on:click="setOrder('date_end')">
-                    Due Date
-                    <menu-down-icon v-if="planning_entries_order == 'date_end' && planning_entries_orderDirection == 'ASC'" />
-                    <menu-up-icon v-if="planning_entries_order == 'date_end' && planning_entries_orderDirection == 'DESC'" />
-                </th>
-                <th class="information nowrap" v-on:click="setOrder('date_end')">
-                    Deadline
-                    <menu-down-icon v-if="planning_entries_order == 'date_end' && planning_entries_orderDirection == 'ASC'" />
-                    <menu-up-icon v-if="planning_entries_order == 'date_end' && planning_entries_orderDirection == 'DESC'" />
-                </th>
-                <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr class="items" v-for="entry in planning_entries" :key="entry.id">
-                <td>
-                    <input
-                            type="checkbox"
-                            v-bind:checked="typeof massEditIds[entry.id] !== 'undefined'"
-                            v-on:click.prevent="toogleMassEdit(entry.id)"
-                    />
-                </td>
-                <td>#{{entry.id}}</td>
-                <td class="titleBlock information">
-                    <EditableList
-                            v-bind:canupdate="hasPermission('planning_entry','update')"
-                            v-bind:list="users"
-                            v-bind:value="entry.id_assigned_to"
-                            v-bind:saveurl="'/planning_entry/'+entry.id"
-                            field="id_assigned_to"
-                            placeholder="Select a user"
-                    />
-                </td>
-                <td v-if="!id_planning" class="nowrap">
-                    <router-link :to="'/planning/view/'+entry.id_planning">{{entry.planning_title}}</router-link>
-                </td>
-                <td class="titleBlock information nowrap">
-                    <div class="status_color_wrap" :style="{backgroundColor: entry.color}">
+        <div class="list_wrapper">
+            <table class="list">
+                <transition>
+                    <div class="loader" v-if="!loaded">
+                        <i class="fas fa-spinner fa-spin"></i>
+                    </div>
+                </transition>
+                <thead>
+                <tr class="items title">
+                    <th class="information selector">
+                        <input type="checkbox" v-on:click="massEditAll($event)"/>
+                    </th>
+                    <th class="information nowrap" v-on:click="setOrder('id')">
+                        N°
+                        <menu-down-icon
+                                v-if="planning_entries_order == 'id' && planning_entries_orderDirection == 'ASC'"/>
+                        <menu-up-icon
+                                v-if="planning_entries_order == 'id' && planning_entries_orderDirection == 'DESC'"/>
+                    </th>
+                    <th class="information nowrap" v-on:click="setOrder('id_assigned_to')">
+                        Assigned To
+                        <menu-down-icon
+                                v-if="planning_entries_order == 'id_assigned_to' && planning_entries_orderDirection == 'ASC'"/>
+                        <menu-up-icon
+                                v-if="planning_entries_order == 'id_assigned_to' && planning_entries_orderDirection == 'DESC'"/>
+                    </th>
+                    <th v-if="!id_planning" class="information nowrap" v-on:click="setOrder('planning_title')">
+                        Planning
+                        <menu-down-icon
+                                v-if="planning_entries_order == 'planning_title' && planning_entries_orderDirection == 'ASC'"/>
+                        <menu-up-icon
+                                v-if="planning_entries_order == 'planning_title' && planning_entries_orderDirection == 'DESC'"/>
+                    </th>
+                    <th class="information nowrap" v-on:click="setOrder('id_status')">
+                        Status
+                        <menu-down-icon
+                                v-if="planning_entries_order == 'id_status' && planning_entries_orderDirection == 'ASC'"/>
+                        <menu-up-icon
+                                v-if="planning_entries_order == 'id_status' && planning_entries_orderDirection == 'DESC'"/>
+                    </th>
+                    <th class="information nowrap" v-on:click="setOrder('title')">
+                        Title
+                        <menu-down-icon
+                                v-if="planning_entries_order == 'title' && planning_entries_orderDirection == 'ASC'"/>
+                        <menu-up-icon
+                                v-if="planning_entries_order == 'title' && planning_entries_orderDirection == 'DESC'"/>
+                    </th>
+                    <th class="information nowrap" v-on:click="setOrder('date_start')">
+                        Start Date
+                        <menu-down-icon
+                                v-if="planning_entries_order == 'date_start' && planning_entries_orderDirection == 'ASC'"/>
+                        <menu-up-icon
+                                v-if="planning_entries_order == 'date_start' && planning_entries_orderDirection == 'DESC'"/>
+                    </th>
+                    <th class="information nowrap" v-on:click="setOrder('date_end')">
+                        Due Date
+                        <menu-down-icon
+                                v-if="planning_entries_order == 'date_end' && planning_entries_orderDirection == 'ASC'"/>
+                        <menu-up-icon
+                                v-if="planning_entries_order == 'date_end' && planning_entries_orderDirection == 'DESC'"/>
+                    </th>
+                    <th class="information nowrap" v-on:click="setOrder('date_end')">
+                        Deadline
+                        <menu-down-icon
+                                v-if="planning_entries_order == 'date_end' && planning_entries_orderDirection == 'ASC'"/>
+                        <menu-up-icon
+                                v-if="planning_entries_order == 'date_end' && planning_entries_orderDirection == 'DESC'"/>
+                    </th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="items" v-for="entry in planning_entries" :key="entry.id">
+                    <td>
+                        <input
+                                type="checkbox"
+                                v-bind:checked="typeof massEditIds[entry.id] !== 'undefined'"
+                                v-on:click.prevent="toogleMassEdit(entry.id)"
+                        />
+                    </td>
+                    <td>#{{entry.id}}</td>
+                    <td class="titleBlock information">
                         <EditableList
                                 v-bind:canupdate="hasPermission('planning_entry','update')"
-                                v-bind:list="statuses"
-                                v-bind:value="entry.id_status"
+                                v-bind:list="users"
+                                v-bind:value="entry.id_assigned_to"
                                 v-bind:saveurl="'/planning_entry/'+entry.id"
-                                field="id_status"
-                                :callback-success="refresh"
-                                placeholder="Choisissez un status"
+                                field="id_assigned_to"
+                                placeholder="Select a user"
                         />
-                    </div>
-                </td>
-                <td class="titleBlock information">
-                    <EditableText
-                            v-bind:canupdate="hasPermission('planning_entry','update')"
-                            v-bind:value="entry.title"
-                            v-bind:saveurl="'/planning_entry/'+entry.id"
-                            field="title"
-                            placeholder="Title"
-                    />
-                </td>
-                <td class="titleBlock information nowrap">
-                    <EditableDateTime
-                            v-bind:canupdate="hasPermission('planning_entry','update')"
-                            v-bind:value="entry.date_start"
-                            v-bind:saveurl="'/planning_entry/'+entry.id"
-                            field="date_start"
-                            placeholder="Start Date"
-                    />
-                </td>
-                <td class="titleBlock information nowrap">
-                    <EditableDateTime
-                            v-bind:canupdate="hasPermission('planning_entry','update')"
-                            v-bind:value="entry.date_end"
-                            v-bind:saveurl="'/planning_entry/'+entry.id"
-                            field="date_end"
-                            placeholder="Due Date"
-                    />
-                </td>
-                <td class="titleBlock information nowrap">
-                    <TimeRemain v-bind:value="entry.date_end"/>
-                </td>
-                <td class="titleBlock information nowrap">
-                    <dots-horizontal-icon
-                            v-if="hasPermission('planning_entry','update')"
-                            class="icongrid"
-                            title="Detail"
-                            v-on:click="descriptionPlanningEntryModal(entry)"
-                    />
-                    <bell-off-icon
-                            v-if="canFollow(entry) && entry.followed == 0"
-                            class="icongrid"
-                            title="Follow"
-                            v-on:click="toggleFollow(entry.id)"
-                    />
-                    <bell-icon
-                            v-if="canFollow(entry) && entry.followed == 1"
-                            class="icongrid blue"
-                            title="Unfollow"
-                            v-on:click="toggleFollow(entry.id)"
-                    />
-                    <delete-icon v-if="hasPermission('planning_entry','delete')"
-                                 class="icongrid delete"
-                                 title="Delete entry"
-                                 v-on:click="deleteEntryItem(entry.id)" />
-                </td>
-            </tr>
-            </tbody>
-        </table>
+                    </td>
+                    <td v-if="!id_planning" class="nowrap">
+                        <router-link :to="'/planning/view/'+entry.id_planning">{{entry.planning_title}}</router-link>
+                    </td>
+                    <td class="titleBlock information nowrap">
+                        <div class="status_color_wrap" :style="{backgroundColor: entry.color}">
+                            <EditableList
+                                    v-bind:canupdate="hasPermission('planning_entry','update')"
+                                    v-bind:list="statuses"
+                                    v-bind:value="entry.id_status"
+                                    v-bind:saveurl="'/planning_entry/'+entry.id"
+                                    field="id_status"
+                                    :callback-success="refresh"
+                                    placeholder="Choisissez un status"
+                            />
+                        </div>
+                    </td>
+                    <td class="titleBlock information">
+                        <EditableText
+                                v-bind:canupdate="hasPermission('planning_entry','update')"
+                                v-bind:value="entry.title"
+                                v-bind:saveurl="'/planning_entry/'+entry.id"
+                                field="title"
+                                placeholder="Title"
+                        />
+                    </td>
+                    <td class="titleBlock information nowrap">
+                        <EditableDateTime
+                                v-bind:canupdate="hasPermission('planning_entry','update')"
+                                v-bind:value="entry.date_start"
+                                v-bind:saveurl="'/planning_entry/'+entry.id"
+                                field="date_start"
+                                placeholder="Start Date"
+                        />
+                    </td>
+                    <td class="titleBlock information nowrap">
+                        <EditableDateTime
+                                v-bind:canupdate="hasPermission('planning_entry','update')"
+                                v-bind:value="entry.date_end"
+                                v-bind:saveurl="'/planning_entry/'+entry.id"
+                                field="date_end"
+                                placeholder="Due Date"
+                        />
+                    </td>
+                    <td class="titleBlock information nowrap">
+                        <TimeRemain v-bind:value="entry.date_end"/>
+                    </td>
+                    <td class="titleBlock information nowrap">
+                        <dots-horizontal-icon
+                                v-if="hasPermission('planning_entry','update')"
+                                class="icongrid"
+                                title="Detail"
+                                v-on:click="descriptionPlanningEntryModal(entry)"
+                        />
+                        <bell-off-icon
+                                v-if="canFollow(entry) && entry.followed == 0"
+                                class="icongrid"
+                                title="Follow"
+                                v-on:click="toggleFollow(entry.id)"
+                        />
+                        <bell-icon
+                                v-if="canFollow(entry) && entry.followed == 1"
+                                class="icongrid blue"
+                                title="Unfollow"
+                                v-on:click="toggleFollow(entry.id)"
+                        />
+                        <delete-icon v-if="hasPermission('planning_entry','delete')"
+                                     class="icongrid delete"
+                                     title="Delete entry"
+                                     v-on:click="deleteEntryItem(entry.id)"/>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
         <paginator :paginator="planning_entries_paginator" :path="paginator_path"/>
 
 
@@ -198,7 +216,7 @@
     import DotsHorizontalIcon from 'vue-material-design-icons/DotsHorizontal.vue';
 
     export default {
-        props: ['id_planning', 'paginator_path', 'page','on_mounted','on_refresh'],
+        props: ['id_planning', 'paginator_path', 'page', 'on_mounted', 'on_refresh'],
 
         data: function () {
             return {
@@ -217,12 +235,12 @@
 
             }
         },
-        mounted : function() {
-            if ( typeof this.$props.on_mounted === 'function') {
+        mounted: function () {
+            if (typeof this.$props.on_mounted === 'function') {
                 this.$props.on_mounted();
             }
         },
-      
+
         methods: {
             hasPermission,
             refresh: function () {
@@ -267,7 +285,7 @@
                 listUsers().then((response) => {
                     this.users = response;
                 });
-                if ( typeof this.$props.on_refresh === 'function') {
+                if (typeof this.$props.on_refresh === 'function') {
                     this.$props.on_refresh();
                 }
 

@@ -6,10 +6,13 @@
                 <h2>{{planning.closed_entries}} / {{planning.total_entries}} closed</h2>
             </div>
             <div class="actionbar">
-                <button class="button button-add" v-on:click="addPlanningEntryModal"><plus-icon />
+                <button class="button button-add" v-on:click="addPlanningEntryModal">
+                    <plus-icon/>
                     Add a new entry
                 </button>
-                <button class="button" v-on:click="refresh()"><sync-icon /></button>
+                <button class="button" v-on:click="refresh()">
+                    <sync-icon/>
+                </button>
                 <button class="button" v-on:click="openFilterStatusModale()"
                         v-html="filter_statuses.length == 0 ? 'All Status' : getFilterStatusLabel()">
                 </button>
@@ -23,7 +26,8 @@
                 </div>
                 <div class="tab-box-content">
                     <div class="tabcontent-list" v-if="tabSelected === 'list' && planning.id !== false">
-                        <PlanningGrid ref="gridMod" :page="page" :id_planning="planning.id" :on_mounted="refreshGrid" :on_refresh="refreshPlanning"/>
+                            <PlanningGrid ref="gridMod" :page="page" :id_planning="planning.id"
+                                          :on_mounted="refreshGrid" :on_refresh="refreshPlanning"/>
                     </div>
                     <div class="tabcontent-timeline"
                          v-if="tabSelected === 'timeline' && typeof planning.id !== 'undefined'">
@@ -43,8 +47,8 @@
                 <ul class="filter">
                     <li v-for="(status,id) in statusesWithColor" v-on:click="toggleStatusFilter(id)" v-bind:key="id">
                         <span :style="{visibility: filter_statuses.indexOf(id) > -1 ? 'visible':'hidden'}"
-                              class="choiced"><check-bold-icon /></span> <span class="colorindicator"
-                                                                         :style="{backgroundColor: status.color}"></span>
+                              class="choiced"><check-bold-icon/></span> <span class="colorindicator"
+                                                                              :style="{backgroundColor: status.color}"></span>
                         {{status.title}}
                     </li>
                 </ul>
@@ -76,10 +80,10 @@
         data: function () {
             return {
                 planning: {
-                    id : false,
-                    title : '',
-                    total_entries : 0,
-                    closed_entries : 0
+                    id: false,
+                    title: '',
+                    total_entries: 0,
+                    closed_entries: 0
                 },
 
                 statuses: [],
@@ -106,10 +110,10 @@
             refreshPlanning: function () {
                 let id = this.$route.params.id;
                 view(id).then((response) => {
-                    this.$set(this.planning,'id',response.id);
-                    this.$set(this.planning,'title',response.title);
-                    this.$set(this.planning,'total_entries',response.total_entries);
-                    this.$set(this.planning,'closed_entries',response.closed_entries);
+                    this.$set(this.planning, 'id', response.id);
+                    this.$set(this.planning, 'title', response.title);
+                    this.$set(this.planning, 'total_entries', response.total_entries);
+                    this.$set(this.planning, 'closed_entries', response.closed_entries);
 
                 });
             },

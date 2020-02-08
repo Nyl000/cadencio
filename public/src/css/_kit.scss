@@ -56,8 +56,11 @@ button {
   line-height: 2em;
   outline: none;
   background: #e3e3e3;
+  border:1px solid #d0d0d0;
   text-align: center;
   cursor: pointer;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+
   &:disabled {
     opacity: .3;
     cursor: auto;
@@ -214,12 +217,12 @@ button {
   border: 1px solid #d7d7d7;
 
   .actionbar {
-    padding: .5em;
     .button {
       display: inline-block;
       width: auto;
       text-transform: uppercase;
       margin-bottom: .3em;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     }
   }
   &>.title {
@@ -252,13 +255,15 @@ button {
   padding:.5em;
   .tablewrapper {
     overflow:scroll;
+
   }
   .actionbar {
-    padding: .5em;
+    padding-bottom:.5em;
     .button {
       display: inline-block;
       width: auto;
       text-transform: uppercase;
+
     }
   }
 }
@@ -299,15 +304,22 @@ button {
   }
 }
 
+.list_wrapper {
+  overflow-x:scroll;
+  width:100%;
+}
 .list {
   list-style: none;
   border-spacing: 0;
+  box-shadow: 0 0 10px rgba(30, 30, 30, 0.1);
   text-align: left;
   background: white;
   width: 100%;
   position: relative;
   max-width: 100%;
   overflow: scroll;
+  border-radius:5px;
+
   tbody {
     position: relative;
   }
@@ -380,13 +392,14 @@ button {
     border: 1px solid #cdcdcd;
     background: white;
     padding: .3em;
-    overflow-x: scroll;
+    border-radius:0px 5px 5px 5px;
 
   }
   .tabs {
     position: relative;
     top: 1px;
     button {
+      border-radius: 5px 5px 0px 0px;
       border: 1px solid #cdcdcd;
       border-bottom: 0px;
       margin-right: .5em;
@@ -400,13 +413,14 @@ button {
 
 .paginator {
   list-style: none;
-  margin: .5em;
   padding: 0px;
   li {
     display: inline-block;
     background: #e3e3e3;
+    border:1px solid #d8d8d8;
     padding: .4em;
     margin-right: .5em;
+    border-radius:5px;
     a {
       color: black;
       text-decoration: none;
