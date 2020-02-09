@@ -107,7 +107,7 @@
                             />
                         </div>
                     </td>
-                    <td class="titleBlock information">
+                    <td class="titleBlock information titlerow">
                         <EditableText
                                 v-bind:canupdate="hasPermission('planning_entry','update')"
                                 v-bind:value="entry.title"
