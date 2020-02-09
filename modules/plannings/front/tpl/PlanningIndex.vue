@@ -36,7 +36,7 @@
                     saveurl:'/planning/{id}',
                     columns : [
                         {property: 'title', label : 'Title', sortable : true, renderer : {
-                            type : 'text',
+                            type : 'EditableText',
                             placeholder: 'Title',
                             canUpdate : hasPermission('planning','update'),
                             link : '/planning/view/{id}',

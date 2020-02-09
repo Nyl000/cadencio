@@ -64,14 +64,14 @@
                     columns: [
                         {
                             property: 'email', label: 'Email', sortable: true, renderer: {
-                            type: 'text',
+                            type: 'EditableText',
                             placeholder: 'Email',
                             canUpdate: hasPermission('users', 'update'),
                         }
                         },
                         {
                             property: 'id_role', label: 'Role', sortable: true, renderer: {
-                            type: 'list',
+                            type: 'EditableList',
                             list: self.roles,
                             placeholder: 'Role',
                             canUpdate: hasPermission('users', 'update'),
@@ -79,28 +79,28 @@
                         },
                         {
                             property: 'password', label: 'Password', sortable: false, renderer: {
-                            type: 'password',
+                            type: 'EditablePassword',
                             placeholder: 'Password',
                             canUpdate: hasPermission('users', 'update'),
                         }
                         },
                         {
                             property: 'name', label: 'Name', sortable: true, renderer: {
-                            type: 'text',
+                            type: 'EditableText',
                             placeholder: 'Name',
                             canUpdate: hasPermission('users', 'update'),
                         }
                         },
                         {
                             property: 'firstname', label: 'First Name', sortable: true, renderer: {
-                            type: 'text',
+                            type: 'EditableText',
                             placeholder: 'First Name',
                             canUpdate: hasPermission('users', 'update'),
                         }
                         },
                         {
                             property: 'nickname', label: 'Display Name', sortable: true, renderer: {
-                            type: 'text',
+                            type: 'EditableText',
                             placeholder: 'Display Name',
                             canUpdate: hasPermission('users', 'update'),
                         }

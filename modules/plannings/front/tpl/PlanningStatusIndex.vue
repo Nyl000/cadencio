@@ -37,17 +37,17 @@
                     saveurl:'/planning_status/{id}',
                     columns : [
                         {property: 'title', label : 'Title', sortable : true, renderer : {
-                            type : 'text',
+                            type : 'EditableText',
                             placeholder: 'Title',
                             canUpdate : hasPermission('planning_status','update'),
                         }},
                         {property: 'color', label : 'Color', sortable : false, renderer : {
-                            type : 'color',
+                            type : 'EditableColor',
                             placeholder: 'Color',
                             canUpdate : hasPermission('planning_status','update'),
                         }},
                         {property: 'closed', label : 'Closed', sortable : true, renderer : {
-                            type : 'yesno',
+                            type : 'EditableCheckbox',
                             placeholder: 'Closed',
                             canUpdate : hasPermission('planning_status','update'),
                         }},

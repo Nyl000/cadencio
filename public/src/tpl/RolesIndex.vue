@@ -42,12 +42,12 @@
                     saveurl:'/roles/{id}',
                     columns : [
                         {property: 'name', label : 'Name', sortable : true, renderer : {
-                            type : 'text',
+                            type : 'EditableText',
                             placeholder: 'Name',
                             canUpdate : hasPermission('roles','update'),
                         }},
                         {property: 'label', label : 'Label', sortable : true, renderer : {
-                            type : 'text',
+                            type : 'EditableText',
                             placeholder: 'Label',
                             canUpdate : hasPermission('roles','update'),
                         }},

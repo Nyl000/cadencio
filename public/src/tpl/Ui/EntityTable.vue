@@ -13,55 +13,15 @@
             </tr>
             <tr class="items" v-for="item in list" :key="item.id">
                 <td v-for="column in definition.columns" class="titleBlock information">
-                    <div v-if="column.renderer.type === 'text'">
-                        <EditableText
-                                :link="column.renderer.link ? column.renderer.link.replace('{id}',item.id) : false"
-                                :canupdate="column.renderer.canUpdate || false"
-                                :value="item[column.property]"
-                                :saveurl="definition.saveurl.replace('{id}',item.id)"
-                                :placeholder="column.renderer.placeholder || ''"
-                                :field="column.property"
+                        <component :is="column.renderer.type"
+                                   :link="column.renderer.link ? column.renderer.link.replace('{id}',item.id) : false"
+                                   :canupdate="column.renderer.canUpdate || false"
+                                   :value="item[column.property]"
+                                   :saveurl="definition.saveurl.replace('{id}',item.id)"
+                                   :placeholder="column.renderer.placeholder || ''"
+                                   :field="column.property"
+                                   :list="column.renderer.list || {}"
                         />
-                    </div>
-                    <div v-if="column.renderer.type === 'color'">
-                        <EditableColor
-                                :canupdate="column.renderer.canUpdate || false"
-                                :value="item[column.property]"
-                                :saveurl="definition.saveurl.replace('{id}',item.id)"
-                                :placeholder="column.renderer.placeholder || ''"
-                                :field="column.property"
-                        />
-                    </div>
-                    <div v-if="column.renderer.type === 'yesno'">
-                        <EditableCheckbox
-                                :canupdate="column.renderer.canUpdate || false"
-                                :value="item[column.property]"
-                                :saveurl="definition.saveurl.replace('{id}',item.id)"
-                                :placeholder="column.renderer.placeholder || ''"
-                                :field="column.property"
-                        />
-                    </div>
-                    <div v-if="column.renderer.type === 'list'">
-                        <EditableList
-                                :canupdate="column.renderer.canUpdate || false"
-                                :list="column.renderer.list || {}"
-                                :value="item[column.property]"
-                                :saveurl="definition.saveurl.replace('{id}',item.id)"
-                                :placeholder="column.renderer.placeholder || ''"
-                                :field="column.property"
-                        />
-
-                    </div>
-                    <div v-if="column.renderer.type === 'password'">
-                        <EditablePassword
-                                :canupdate="column.renderer.canUpdate || false"
-                                :value="item[column.property]"
-                                :saveurl="definition.saveurl.replace('{id}',item.id)"
-                                :placeholder="column.renderer.placeholder || ''"
-                                :field="column.property"
-                        />
-
-                    </div>
                 </td>
                 <td>
                     <span v-for="action in definition.actions" v-html="action.html" v-if="action.canDisplay"
