@@ -36,7 +36,9 @@
 
     import EntityTable from 'tpl/Ui/EntityTable';
     import {deleteIcon} from 'js/Services/SvgIcons.js';
-
+    import EditableText from 'tpl/Ui/EditableText.vue';
+    import EditableList from 'tpl/Ui/EditableList.vue';
+    import EditablePassword from 'tpl/Ui/EditablePassword.vue';
     const userModel = require('js/Models/User');
 
 
@@ -64,14 +66,14 @@
                     columns: [
                         {
                             property: 'email', label: 'Email', sortable: true, renderer: {
-                            type: 'EditableText',
+                            type: EditableText,
                             placeholder: 'Email',
                             canUpdate: hasPermission('users', 'update'),
                         }
                         },
                         {
                             property: 'id_role', label: 'Role', sortable: true, renderer: {
-                            type: 'EditableList',
+                            type: EditableList,
                             list: self.roles,
                             placeholder: 'Role',
                             canUpdate: hasPermission('users', 'update'),
@@ -79,28 +81,28 @@
                         },
                         {
                             property: 'password', label: 'Password', sortable: false, renderer: {
-                            type: 'EditablePassword',
+                            type: EditablePassword,
                             placeholder: 'Password',
                             canUpdate: hasPermission('users', 'update'),
                         }
                         },
                         {
                             property: 'name', label: 'Name', sortable: true, renderer: {
-                            type: 'EditableText',
+                            type: EditableText,
                             placeholder: 'Name',
                             canUpdate: hasPermission('users', 'update'),
                         }
                         },
                         {
                             property: 'firstname', label: 'First Name', sortable: true, renderer: {
-                            type: 'EditableText',
+                            type: EditableText,
                             placeholder: 'First Name',
                             canUpdate: hasPermission('users', 'update'),
                         }
                         },
                         {
                             property: 'nickname', label: 'Display Name', sortable: true, renderer: {
-                            type: 'EditableText',
+                            type: EditableText,
                             placeholder: 'Display Name',
                             canUpdate: hasPermission('users', 'update'),
                         }

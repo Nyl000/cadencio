@@ -23,6 +23,7 @@
     import SyncIcon from 'vue-material-design-icons/Sync.vue';
     import EntityTable from 'tpl/Ui/EntityTable';
     import {deleteIcon} from 'js/Services/SvgIcons.js';
+    import EditableText from 'tpl/Ui/EditableText.vue';
 
     const planningModel = require('js/Models/Planning');
 
@@ -36,7 +37,7 @@
                     saveurl:'/planning/{id}',
                     columns : [
                         {property: 'title', label : 'Title', sortable : true, renderer : {
-                            type : 'EditableText',
+                            type : EditableText,
                             placeholder: 'Title',
                             canUpdate : hasPermission('planning','update'),
                             link : '/planning/view/{id}',

@@ -39,12 +39,6 @@
 
     import MenuDownIcon from 'vue-material-design-icons/MenuDown.vue';
     import MenuUpIcon from 'vue-material-design-icons/MenuUp.vue';
-    import EditableText from 'tpl/Ui/EditableText.vue';
-    import EditableColor from 'tpl/Ui/EditableColor.vue';
-    import EditableCheckbox from 'tpl/Ui/EditableCheckbox.vue';
-    import EditableList from 'tpl/Ui/EditableList.vue';
-    import EditablePassword from 'tpl/Ui/EditablePassword.vue';
-
     import Paginator from 'tpl/Ui/Paginator.vue';
 
     export default {
@@ -93,12 +87,7 @@
         components: {
             MenuUpIcon,
             MenuDownIcon,
-            EditableText,
             Paginator,
-            EditableColor,
-            EditableCheckbox,
-            EditableList,
-            EditablePassword
         }
     }
 </script>

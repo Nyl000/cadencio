@@ -28,6 +28,7 @@
     import PlusIcon from 'vue-material-design-icons/Plus.vue';
     import EntityTable from 'tpl/Ui/EntityTable';
     import {deleteIcon, settingIcon} from 'js/Services/SvgIcons.js';
+    import EditableText from 'tpl/Ui/EditableText.vue';
 
     const rolesModel = require('js/Models/Role');
 
@@ -42,12 +43,12 @@
                     saveurl:'/roles/{id}',
                     columns : [
                         {property: 'name', label : 'Name', sortable : true, renderer : {
-                            type : 'EditableText',
+                            type : EditableText,
                             placeholder: 'Name',
                             canUpdate : hasPermission('roles','update'),
                         }},
                         {property: 'label', label : 'Label', sortable : true, renderer : {
-                            type : 'EditableText',
+                            type : EditableText,
                             placeholder: 'Label',
                             canUpdate : hasPermission('roles','update'),
                         }},

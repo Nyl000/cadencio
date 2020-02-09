@@ -26,6 +26,9 @@
     import EntityTable from 'tpl/Ui/EntityTable';
     import {deleteIcon} from 'js/Services/SvgIcons.js';
     const planningStatusModel = require('js/Models/PlanningStatus');
+    import EditableText from 'tpl/Ui/EditableText.vue';
+    import EditableColor from 'tpl/Ui/EditableColor.vue';
+    import EditableCheckbox from 'tpl/Ui/EditableCheckbox.vue';
 
 
     export default {
@@ -37,17 +40,17 @@
                     saveurl:'/planning_status/{id}',
                     columns : [
                         {property: 'title', label : 'Title', sortable : true, renderer : {
-                            type : 'EditableText',
+                            type : EditableText,
                             placeholder: 'Title',
                             canUpdate : hasPermission('planning_status','update'),
                         }},
                         {property: 'color', label : 'Color', sortable : false, renderer : {
-                            type : 'EditableColor',
+                            type : EditableColor,
                             placeholder: 'Color',
                             canUpdate : hasPermission('planning_status','update'),
                         }},
                         {property: 'closed', label : 'Closed', sortable : true, renderer : {
-                            type : 'EditableCheckbox',
+                            type : EditableCheckbox,
                             placeholder: 'Closed',
                             canUpdate : hasPermission('planning_status','update'),
                         }},
