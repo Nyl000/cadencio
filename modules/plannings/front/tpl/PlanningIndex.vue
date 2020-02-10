@@ -22,7 +22,7 @@
     import PlusIcon from 'vue-material-design-icons/Plus.vue';
     import SyncIcon from 'vue-material-design-icons/Sync.vue';
     import EntityTable from 'tpl/Ui/EntityTable';
-    import {deleteIcon} from 'js/Services/SvgIcons.js';
+    import DeleteIcon from 'vue-material-design-icons/Delete.vue';
     import EditableText from 'tpl/Ui/EditableText.vue';
 
     const planningModel = require('js/Models/Planning');
@@ -44,7 +44,7 @@
                         }},
                     ],
                     actions : [
-                        { callback : this.deleteItem, html : deleteIcon, canDisplay : hasPermission('planning','delete')  }
+                        { action : this.deleteItem, component : DeleteIcon, canDisplay : hasPermission('planning','delete')  },
                     ]
                 },
             }

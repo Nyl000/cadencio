@@ -348,6 +348,13 @@ button {
       width: auto;
       background: #f2f2f2;
     }
+    &.actions {
+      white-space: nowrap;
+      &>span {
+        display:inline-block;
+        margin-right:.3em;
+      }
+    }
 
   }
   input {

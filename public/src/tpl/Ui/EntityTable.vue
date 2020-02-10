@@ -21,12 +21,20 @@
                                    :placeholder="column.renderer.placeholder || ''"
                                    :field="column.property"
                                    :list="column.renderer.list || {}"
+                                   :style="column.renderer.style || {}"
+                                   :class="column.renderer.cssClass || {}"
+                                   :item="item"
+                                   :callbackSuccess = "column.renderer.callback"
                         />
                 </td>
-                <td>
-                    <span v-for="action in definition.actions" v-html="action.html" v-if="action.canDisplay"
-                          v-on:click="action.callback(item.id)">
-                    </span>
+                <td class="actions">
+                    <ActionTable v-for="action in definition.actions"
+                               v-if="action.canDisplay"
+                               :item="item"
+                                 :component="action.component"
+                                 :action="action.action"
+                                 :class="action.class"
+                    />
                 </td>
             </tr>
         </table>
@@ -40,9 +48,10 @@
     import MenuDownIcon from 'vue-material-design-icons/MenuDown.vue';
     import MenuUpIcon from 'vue-material-design-icons/MenuUp.vue';
     import Paginator from 'tpl/Ui/Paginator.vue';
+    import ActionTable from 'tpl/Ui/ActionTable.vue';
 
     export default {
-        props: ['model', 'definition', 'page'],
+        props: ['model', 'definition', 'page','listOptions'],
 
         mounted: function () {
             this.modelObj = this.model;
@@ -73,11 +82,15 @@
             },
             refresh: function () {
 
-                this.modelObj.list({
+                let options ={
                     order: this.order,
                     orderDirection: this.orderDirection,
-                    page: this.page
-                }).then((response) => {
+                    page: this.page,
+                };
+                options = Object.assign(options,this.$props.listOptions || {});
+
+
+                this.modelObj.list(options).then((response) => {
                     this.list = response[Object.keys(response)[0]];
                     this.paginator = response.paginator;
                 });
@@ -88,6 +101,15 @@
             MenuUpIcon,
             MenuDownIcon,
             Paginator,
+            ActionTable
+        },
+        watch: {
+            page: function (newVal, oldVal) { // watch it
+                this.refresh();
+            },
+            listOptions: function (newVal, oldVal) { // watch it
+                this.refresh();
+            },
         }
     }
 </script>

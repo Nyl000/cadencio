@@ -20,16 +20,16 @@
 <script>
 
     import {hasPermission} from 'js/Models/User';
-
+    import {deleteItem} from 'js/Models/Role';
     import Modale from 'tpl/Ui/Modale.vue';
     import RoleAdd from 'tpl/RoleAdd.vue';
     import RoleManagePermissions from 'tpl/RoleManagePermissions.vue';
     import SyncIcon from 'vue-material-design-icons/Sync.vue';
     import PlusIcon from 'vue-material-design-icons/Plus.vue';
     import EntityTable from 'tpl/Ui/EntityTable';
-    import {deleteIcon, settingIcon} from 'js/Services/SvgIcons.js';
     import EditableText from 'tpl/Ui/EditableText.vue';
-
+    import DeleteIcon from 'vue-material-design-icons/Delete.vue';
+    import GearIcon from 'vue-material-design-icons/Settings'
     const rolesModel = require('js/Models/Role');
 
     export default {
@@ -54,8 +54,8 @@
                         }},
                     ],
                     actions : [
-                        { callback : this.managePermissionsModal, html : settingIcon, canDisplay : hasPermission('roles','update')  },
-                        { callback : this.deleteItem, html : deleteIcon, canDisplay : hasPermission('roles','delete')  },
+                        { action : this.managePermissionsModal, component : GearIcon, canDisplay : hasPermission('roles','update')  },
+                        { action : this.deleteRole, component : DeleteIcon, canDisplay : hasPermission('roles','delete')  },
                     ]
                 },
             }
@@ -69,9 +69,9 @@
             hasPermission: (resource, action) => {
                 return hasPermission(resource, action);
             },
-            deleteItem: function (userId) {
+            deleteRole: function (role) {
                 if (confirm('Confirmez que vous voulez supprimer le role')) {
-                    deleteItem(userId).then(() => {
+                    deleteItem(role.id).then(() => {
                         this.refreshGrid();
                     })
                 }
@@ -86,8 +86,8 @@
                 this.$refs.addRoleModal.hide();
                 this.refreshGrid();
             },
-            managePermissionsModal: function (idRole) {
-                this.selectedRoleId = idRole;
+            managePermissionsModal: function (role) {
+                this.selectedRoleId = role.id;
                 this.$refs['managePermissionsModal'].show();
             },
 

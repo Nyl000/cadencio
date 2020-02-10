@@ -35,7 +35,7 @@
     import PlusIcon from 'vue-material-design-icons/Plus.vue';
 
     import EntityTable from 'tpl/Ui/EntityTable';
-    import {deleteIcon} from 'js/Services/SvgIcons.js';
+    import DeleteIcon from 'vue-material-design-icons/Delete.vue';
     import EditableText from 'tpl/Ui/EditableText.vue';
     import EditableList from 'tpl/Ui/EditableList.vue';
     import EditablePassword from 'tpl/Ui/EditablePassword.vue';
@@ -109,7 +109,7 @@
                         },
                     ],
                     actions: [
-                        {callback: this.deleteItem, html: deleteIcon, canDisplay: hasPermission('roles', 'delete')},
+                        { action : this.deleteItem, component : DeleteIcon, canDisplay : hasPermission('users','delete')  },
                     ]
                 };
             },
