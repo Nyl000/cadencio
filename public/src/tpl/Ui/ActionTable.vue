@@ -12,12 +12,12 @@
     /*
      This is a helper function to inject buttons into an EntityTable
      */
-    export default {
-        props: ['component', 'action','item'],
-        methods : {
-            click : function() {
-                this.$props.action(this.item);
-            }
-        }
-    }
+	export default {
+		props: ['component', 'action','item'],
+		methods : {
+			click : function() {
+				this.$props.action(this.item);
+			}
+		}
+	}
 </script>

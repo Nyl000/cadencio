@@ -32,7 +32,6 @@
                         {{item.title}}
                     </router-link>
                 </div>
-
             </div>
             <div class="appview">
                 <router-view></router-view>

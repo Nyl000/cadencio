@@ -35,38 +35,43 @@
         data: function() {
             return {
                 planningStatusModel:planningStatusModel,
-                tableDefinition : {
-                    idField: 'id',
-                    saveurl:'/planning_status/{id}',
-                    columns : [
-                        {property: 'title', label : 'Title', sortable : true, renderer : {
-                            type : EditableText,
-                            placeholder: 'Title',
-                            canUpdate : hasPermission('planning_status','update'),
-                        }},
-                        {property: 'color', label : 'Color', sortable : false, renderer : {
-                            type : EditableColor,
-                            placeholder: 'Color',
-                            canUpdate : hasPermission('planning_status','update'),
-                        }},
-                        {property: 'closed', label : 'Closed', sortable : true, renderer : {
-                            type : EditableCheckbox,
-                            placeholder: 'Closed',
-                            canUpdate : hasPermission('planning_status','update'),
-                        }},
-                    ],
-                    actions : [
-                        { action : this.deleteItem, component : DeleteIcon, canDisplay : hasPermission('planning_status','delete')  },
-                    ]
-                },
+                tableDefinition : {},
             }
         },
         mounted: function () {
 
             this.refreshGrid();
+            this.refreshTableDatas();
 
         },
         methods: {
+
+        	refreshTableDatas : function() {
+        		this.tableDefinition = {
+					idField: 'id',
+					saveurl:'/planning_status/{id}',
+					columns : [
+						{property: 'title', label : 'Title', sortable : true, renderer : {
+							type : EditableText,
+							placeholder: 'Title',
+							canUpdate : hasPermission('planning_status','update'),
+						}},
+						{property: 'color', label : 'Color', sortable : false, renderer : {
+							type : EditableColor,
+							placeholder: 'Color',
+							canUpdate : hasPermission('planning_status','update'),
+						}},
+						{property: 'closed', label : 'Closed', sortable : true, renderer : {
+							type : EditableCheckbox,
+							placeholder: 'Closed',
+							canUpdate : hasPermission('planning_status','update'),
+						}},
+					],
+					actions : [
+						{ action : this.deleteItem, component : DeleteIcon, canDisplay : hasPermission('planning_status','delete')  },
+					]
+                };
+            },
             hasPermission: (resource, action) => {
                 return hasPermission(resource, action);
             },
@@ -90,11 +95,7 @@
             }
 
         },
-        watch: {
-            '$route':function(newParam, oldParam) {
-        if (newParam.params.page !== oldParam.params.page) {
-            this.refreshGrid();
-        }
+
 
     }
     },

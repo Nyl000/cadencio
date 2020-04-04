@@ -5,7 +5,7 @@
                 <button class="button button-add" v-on:click="addRoleModal"><plus-icon /> Add</button>
                 <button class="button" v-on:click="refreshGrid()"><sync-icon /></button>
             </div>
-            <entity-table ref="table" :model="rolesModel" :definition="tableDefinition" :page="this.$route.params.page || 1" />
+            <entity-table ref="table" name="tablerole" :model="rolesModel" :definition="tableDefinition" :page="this.$route.params.page || 1" />
 
         </div>
         <Modale ref="addRoleModal">
@@ -39,33 +39,40 @@
                 rolesModel : rolesModel,
                 selectedRoleId : null,
                 tableDefinition : {
-                    idField: 'id',
-                    saveurl:'/roles/{id}',
-                    columns : [
-                        {property: 'name', label : 'Name', sortable : true, renderer : {
-                            type : EditableText,
-                            placeholder: 'Name',
-                            canUpdate : hasPermission('roles','update'),
-                        }},
-                        {property: 'label', label : 'Label', sortable : true, renderer : {
-                            type : EditableText,
-                            placeholder: 'Label',
-                            canUpdate : hasPermission('roles','update'),
-                        }},
-                    ],
-                    actions : [
-                        { action : this.managePermissionsModal, component : GearIcon, canDisplay : hasPermission('roles','update')  },
-                        { action : this.deleteRole, component : DeleteIcon, canDisplay : hasPermission('roles','delete')  },
-                    ]
+
                 },
             }
         },
         mounted: function () {
 
             this.refreshGrid();
+            this.refreshTableDatas();
 
         },
         methods: {
+			refreshTableDatas : function() {
+				this.tableDefinition = {
+					idField: 'id',
+					saveurl:'/roles/{id}',
+					title : 'Roles',
+					columns : [
+						{property: 'name', label : 'Name', sortable : true, renderer : {
+							type : EditableText,
+							placeholder: 'Name',
+							canUpdate : hasPermission('roles','update'),
+						}},
+						{property: 'label', label : 'Label', sortable : true, renderer : {
+							type : EditableText,
+							placeholder: 'Label',
+							canUpdate : hasPermission('roles','update'),
+						}},
+					],
+					actions : [
+						{ action : this.managePermissionsModal, component : GearIcon, canDisplay : hasPermission('roles','update')  },
+						{ action : this.deleteRole, component : DeleteIcon, canDisplay : hasPermission('roles','delete')  },
+					]
+                }
+            },
             hasPermission: (resource, action) => {
                 return hasPermission(resource, action);
             },

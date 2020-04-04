@@ -12,7 +12,7 @@
 
             </div>
             <div class="tablewrapper">
-                <entity-table ref="table" :model="userModel" :definition="tableDefinition"
+                <entity-table name="tableusers" ref="table" :model="userModel" :definition="tableDefinition"
                               :page="this.$route.params.page || 1"/>
 
             </div>
@@ -62,6 +62,7 @@
                 let self = this;
                 this.tableDefinition = {
                     idField: 'id',
+                    title : 'Users',
                     saveurl: '/users/{id}',
                     columns: [
                         {
@@ -110,7 +111,7 @@
                     ],
                     actions: [
                         { action : this.deleteItem, component : DeleteIcon, canDisplay : hasPermission('users','delete')  },
-                    ]
+                ]
                 };
             },
             hasPermission: hasPermission,
@@ -138,14 +139,6 @@
                 this.refreshGrid();
             }
 
-        },
-        watch: {
-            '$route': function (newParam, oldParam) {
-                if (newParam.params.page !== oldParam.params.page) {
-                    this.refreshGrid();
-                }
-
-            }
         },
 
         components: {

@@ -5,7 +5,7 @@
                 <button class="button button-add" v-on:click="addPlanningModal"><plus-icon /> Add</button>
                 <button class="button" v-on:click="refreshGrid()"><sync-icon /></button>
             </div>
-            <entity-table ref="table" :model="planningModel" :definition="tableDefinition" :page="this.$route.params.page || 1" />
+            <entity-table name="planningstable" ref="table" :model="planningModel" :definition="tableDefinition" :page="this.$route.params.page || 1" />
         </div>
 
         <Modale ref="addPlanningModal">
@@ -32,29 +32,34 @@
             return {
                 page:  1,
                 planningModel:planningModel,
-                tableDefinition : {
-                    idField: 'id',
-                    saveurl:'/planning/{id}',
-                    columns : [
-                        {property: 'title', label : 'Title', sortable : true, renderer : {
-                            type : EditableText,
-                            placeholder: 'Title',
-                            canUpdate : hasPermission('planning','update'),
-                            link : '/planning/view/{id}',
-                        }},
-                    ],
-                    actions : [
-                        { action : this.deleteItem, component : DeleteIcon, canDisplay : hasPermission('planning','delete')  },
-                    ]
-                },
+                tableDefinition : {},
             }
         },
         mounted: function () {
 
             this.refreshGrid();
+            this.refreshTableDatas();
 
         },
         methods: {
+        	refreshTableDatas : function() {
+        		this.tableDefinition = {
+					idField: 'id',
+					saveurl:'/planning/{id}',
+					title: 'Plannings',
+					columns : [
+						{property: 'title', label : 'Title', sortable : true, renderer : {
+							type : EditableText,
+							placeholder: 'Title',
+							canUpdate : hasPermission('planning','update'),
+							link : '/planning/view/{id}',
+						}},
+					],
+					actions : [
+						{ action : this.deleteItem, component : DeleteIcon, canDisplay : hasPermission('planning','delete')  },
+					]
+                }
+            },
             hasPermission: (resource, action) => {
                 return hasPermission(resource, action);
             },

@@ -75,8 +75,6 @@
             refreshTableDatas: function () {
                 let self = this;
 
-
-
                 let tableDefinition = {
                     idField: 'id',
                     saveurl: '/planning_entry/{id}',
@@ -200,11 +198,6 @@
             DotsHorizontalIcon,
             EntityTable
         },
-        watch: {
-            page: function (newVal, oldVal) { // watch it
-                this.refresh();
-            }
-        }
 
 
     }
