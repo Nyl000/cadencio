@@ -82,14 +82,6 @@
             }
 
         },
-        watch: {
-            '$route': function (newParam, oldParam) {
-                if (newParam.params.page !== oldParam.params.page) {
-                    this.refreshGrid();
-                }
-
-            }
-        },
 
         components: {Modale, PlanningAdd,PlusIcon,SyncIcon,EntityTable}
     }

@@ -173,15 +173,6 @@
                 return out.join(' ');
             },
         },
-        watch: {
-            '$route': function (newParam, oldParam) {
-                if (newParam.params.page !== oldParam.params.page) {
-                    this.page = newParam.params.page;
-                }
-                this.refresh();
-
-            }
-        },
 
         components: {
             Modale,
