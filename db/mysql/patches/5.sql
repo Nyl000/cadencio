@@ -1,0 +1,5 @@
+CREATE TABLE settings(
+    name VARCHAR(128) NOT NULL,
+    val TEXT DEFAULT NULL,
+    PRIMARY KEY(name)
+) ENGINE=InnoDB;
