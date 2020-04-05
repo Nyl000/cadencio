@@ -79,6 +79,17 @@
                 menuItems[m.section].entries.push(m);
             });
 
+            //put settings at the end of menu
+			menuItems.settings = {
+			    name: 'cadencio_settings',
+                title : 'Settings',
+                canDisplay : hasPermission('settings','*'),
+                entries : [
+					{  title : 'App Settings', to : '/settings', canDisplay: hasPermission('settings','*')}
+
+				]
+            };
+
             let showMenu = true;
             if ( localStorage.getItem('global_showmenu') &&  localStorage.getItem('global_showmenu') == 0) {
                 showMenu = false;
