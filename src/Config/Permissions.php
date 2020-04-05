@@ -30,6 +30,9 @@ class Permissions {
             ],
             'notifications' => [
                 '*',
+            ],
+            'settings' => [
+                '*'
             ]
         ];
 
