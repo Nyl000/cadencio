@@ -1,0 +1,242 @@
+
+
+.tablecontainer {
+  flex: 1;
+  background: #f2f2f2;
+  max-width:100%;
+  box-sizing: border-box;
+  position: relative;
+  padding:.5em;
+  .actionbar {
+    .button {
+      display: inline-block;
+      width: auto;
+      text-transform: uppercase;
+    }
+    .search {
+      display: inline-block;
+      input {
+        display: inline-block;
+
+      }
+    }
+    .filtergroup {
+      position:relative;
+      display:inline-block;
+      vertical-align: bottom;
+      padding: 4px 10px;
+      background: #e3e3e3;
+      line-height:2em;
+      outline:none;
+      z-index:300;
+      cursor:pointer;
+      border-radius:.2em;
+      &:hover {
+        background: #ffffff;
+
+        .selected_items {
+          visibility:visible;
+        }
+      }
+      .selected_items {
+        position:absolute;
+        visibility:hidden;
+        bottom:0;
+        left:0;
+        width:100%;
+        transform: translateY(100%);
+        background:white;
+        z-index:300;
+        padding:.5em;
+        border-radius:0em 0em .2em .2em;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.23);
+        .item {
+          white-space: nowrap;
+          overflow:hidden;
+          max-width:100%;
+          text-overflow: ellipsis;
+
+        }
+      }
+
+    }
+  }
+
+  .tablewrapper {
+    overflow:scroll;
+
+  }
+  .actionbar {
+    padding-bottom:.5em;
+    .button {
+      display: inline-block;
+      width: auto;
+      text-transform: uppercase;
+
+    }
+  }
+}
+
+.list {
+  list-style: none;
+  border-spacing: 0;
+  box-shadow: 0 0 10px rgba(30, 30, 30, 0.1);
+  text-align: left;
+  background: white;
+  width: 100%;
+  position: relative;
+  max-width: 100%;
+  overflow: scroll;
+  border-radius: 0px 0px 5px 5px;
+
+  &.filters {
+    overflow: visible;
+    position: relative;
+    z-index: 100;
+    padding: 5px 25px;
+    border-bottom: 1px solid #e2e2e2;
+    color: #4b4b4b;
+    border-radius: 5px 5px 0px 0px;
+
+    .tabletitle {
+      display: inline-block;
+      text-transform: uppercase;
+      font-weight: bold;
+      vertical-align: middle;
+
+    }
+
+  }
+
+  .colselector {
+    display: inline-block;
+    width: 40px;
+    vertical-align: middle;
+    position: relative;
+    .chooser {
+      position: absolute;
+      bottom: 0;
+      transform: translateY(100%);
+      left: 0em;
+      background: white;
+      border: 1px solid #cbcbcb;
+      padding: 1em;
+      font-size: 1em;
+
+      .item {
+        display: flex;
+        align-items: center;
+        margin-bottom: .5em;
+        white-space: nowrap;
+        &:hover {
+          opacity: .7;
+        }
+        cursor: move;
+        &.sortable-ghost {
+          background: #d6d6d6;
+          border: 2px dashed #b5b5b5;
+          border-radius: 5px;
+          color: #d6d6d6;
+          .icon {
+            visibility: hidden;
+          }
+
+        }
+        .icon {
+          display: inline-block;
+          margin-right: .5em;
+          cursor: pointer;
+          color: black;
+          cursor: pointer;
+          svg {
+            height: 1em;
+            width: 1em;
+          }
+        }
+      }
+
+    }
+  }
+
+
+  tbody {
+    position: relative;
+  }
+
+  tr:nth-child(even) {
+    td {
+      background: #f9f9f9;
+    }
+  }
+
+  th {
+    border-bottom: 1px solid #e2e2e2;
+    padding: 10px 25px;
+    font-weight: normal;
+    font-size: .85em;
+    text-transform: uppercase;
+    color: #4b4b4b;
+    cursor: move;
+    white-space: nowrap;
+    @media all and (max-width: 600px) {
+      display: none;
+    }
+    &.sortable-ghost {
+      background: #d6d6d6;
+      color: #d6d6d6;
+      .sort {
+        visibility: hidden;
+      }
+    }
+    &:hover {
+      background: #d6d6d6;
+    }
+    .sort {
+      display: inline-block;
+      position: relative;
+      svg {
+        height: 1.5em;
+        width: 1.5em;
+        margin-top: -1.5em;
+        position: relative;
+        top: .25em;
+      }
+    }
+  }
+  td {
+    border-bottom: 1px solid #ebebeb;
+    padding: 10px 25px;
+    @media all and (max-width: 600px) {
+      display: block;
+    }
+    .button {
+      display: inline-block;
+      width: auto;
+      background: #f2f2f2;
+    }
+    .titleresponsive {
+      display: none;
+      font-weight: bold;
+      text-transform: uppercase;
+      margin-bottom: .5em;
+      font-size: .8em;
+      @media all and (max-width: 600px) {
+        display: block;
+      }
+    }
+    &.actions {
+      white-space: nowrap;
+      &>span {
+        display:inline-block;
+        margin-right:.3em;
+      }
+    }
+
+  }
+  input {
+    width: 100%;
+  }
+  .delete {
+    cursor: pointer;
+  }
+}

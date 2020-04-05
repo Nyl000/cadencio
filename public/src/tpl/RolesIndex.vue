@@ -6,7 +6,7 @@
                     <plus-icon/>
                     Add
                 </button>
-                <button class="button" v-on:click="refreshGrid()">
+                <button class="button button-secondary" v-on:click="refreshGrid()">
                     <sync-icon/>
                 </button>
             </div>

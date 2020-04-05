@@ -3,7 +3,7 @@
         <div class="tablecontainer">
             <div class="actionbar">
                 <button class="button button-add" v-on:click="addPlanningModal"><plus-icon /> Add</button>
-                <button class="button" v-on:click="refreshGrid()"><sync-icon /></button>
+                <button class="button button-secondary" v-on:click="refreshGrid()"><sync-icon /></button>
             </div>
             <entity-table name="planningstable" ref="table" :model="planningModel" :definition="tableDefinition" :page="this.$route.params.page || 1" />
         </div>

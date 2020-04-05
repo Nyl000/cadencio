@@ -10,7 +10,7 @@
                     <plus-icon/>
                     Add a new entry
                 </button>
-                <button class="button" v-on:click="refresh()">
+                <button class="button button-secondary " v-on:click="refresh()">
                     <sync-icon/>
                 </button>
                 <button class="button" v-on:click="openFilterStatusModale()"
