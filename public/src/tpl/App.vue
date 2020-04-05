@@ -24,7 +24,7 @@
         </div>
         <div class="appcontainer">
             <div v-if="isLogged" :class="'mainmenu ' + (menuOpen ? ' active' : '')">
-                <div class="section" v-for="(section,name) in menuItems">
+                <div class="section" v-for="(section,name) in menuItems" v-if="section.canDisplay" :key="section.name">
                     <div class="title">
                         {{section.title}}
                     </div>
@@ -58,8 +58,10 @@
 
             let menuItems = {
                 'general' : {
+                	name: 'cadencio_general',
                     title : 'General',
-                    entries : [
+					canDisplay : hasPermission('users','read') ||  hasPermission('roles','read'),
+					entries : [
                         {  title : 'Users', to : '/users', canDisplay: hasPermission('users','read')},
                         {  title : 'Roles', to : '/roles', canDisplay: hasPermission('roles','read')}
                     ]

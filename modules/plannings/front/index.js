@@ -11,14 +11,14 @@ addHook('register_route', () => { return {path: '/planning/:page?', component: P
 
 addHook('register_menu_section', () => {
             return {
-                name: 'plannings',
+                name: 'cadencio_plannings',
                 title : 'Plannings',
-                canDisplay: hasPermission('planning','read')}
+                canDisplay: hasPermission('planning','read') || hasPermission('planning_status','read')}
             });
 
 addHook('register_menu', () => {
             return {
-                section:'plannings',
+                section:'cadencio_plannings',
                 title : 'Plannings',
                 to : '/planning',
                 canDisplay: hasPermission('planning','read')}
@@ -26,7 +26,7 @@ addHook('register_menu', () => {
 
 addHook('register_menu', () => {
             return {
-                section:'plannings',
+                section:'cadencio_plannings',
                 title : 'Task Status',
                 to : '/task_status',
                 canDisplay: hasPermission('planning_status','read')}
