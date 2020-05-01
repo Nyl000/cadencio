@@ -56,11 +56,16 @@
   .mainmenu {
     z-index:100;
     position:relative;
+    padding-left:2em;
+    padding-top:1em;
     width:180px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
     margin-left:-180px;
     -webkit-transition: margin-left .5s;
     transition: margin-left .5s;
+    font-size:.8em;
+    background: #f8f8f8;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+
     &.active {
       margin-left:0;
     }
@@ -68,21 +73,22 @@
       text-transform:uppercase;
       padding:.3em;
       font-size:.9em;
-      color:white;
-      background: #4f4f4f;
+      font-weight:bold;
+      padding-left:0;
+      padding-top:2em;
+      color : $color1;
     }
-    background:white;
     a {
       display:block;
-      padding:.6em;
-      border-bottom:1px solid #cdcdcd;
-      border-top:1px solid #f9f9f9;
+      padding:.5em;
+      padding-left:0;
       color: #686868;
-
-      background: #f1f1f1;
       .icon {
         width:30px;
         overflow:hidden;
+      }
+      &.router-link-active {
+        text-decoration: underline;
       }
     }
   }

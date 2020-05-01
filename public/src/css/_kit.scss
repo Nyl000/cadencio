@@ -10,8 +10,8 @@ html {
 
 }
 body {
-  @include gradient(#d9d9d9, #e2e2e2);
   height:100%;
+  background: #f2f2f2;
 }
 
 a {
@@ -55,8 +55,7 @@ button {
   padding: 4px 10px;
   line-height: 2em;
   outline: none;
-  background: #e3e3e3;
-  border:1px solid #d0d0d0;
+  background: white;
   text-align: center;
   cursor: pointer;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
