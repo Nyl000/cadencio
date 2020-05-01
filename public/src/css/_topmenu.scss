@@ -79,16 +79,18 @@
       color : $color1;
     }
     a {
-      display:block;
-      padding:.5em;
-      padding-left:0;
+      display:inline-block;
+      padding:.5em .8em;
       color: #686868;
       .icon {
         width:30px;
         overflow:hidden;
       }
       &.router-link-active {
-        text-decoration: underline;
+        background:white;
+        border-radius:5em;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.13);
+
       }
     }
   }
