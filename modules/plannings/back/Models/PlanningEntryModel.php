@@ -14,7 +14,7 @@ class PlanningEntryModel extends AbstractModel
 
     public function getPublicFields()
     {
-        return ['planning_entry.id','planning_entry.title','description','id_status','id_planning','date_start','date_end','id_creator','id_assigned_to','IF(f.id_user IS NULL, 0, 1) as followed, status.color, plannings.title as planning_title'];
+        return ['planning_entry.id','planning_entry.title','description','id_status','id_planning','date_start','date_end','date_end as date_end_due', 'id_creator','id_assigned_to','IF(f.id_user IS NULL, 0, 1) as followed, status.color, plannings.title as planning_title'];
     }
 
     public function getSearchField() {

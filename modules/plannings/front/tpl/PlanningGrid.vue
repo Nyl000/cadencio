@@ -123,7 +123,7 @@
                         }
                         },
                         {
-                            property: 'date_end', label: 'Deadline', sortable: true, renderer: {
+                            property: 'date_end_due', label: 'Deadline', sortable: true, renderer: {
                             type: TimeRemain,
                             placeholder: 'Deadline',
                             canUpdate: false,
