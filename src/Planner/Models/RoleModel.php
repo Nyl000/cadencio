@@ -27,9 +27,9 @@ class RoleModel extends AbstractModel {
        return $this->getPermissionsFromRole($role['id']);
     }
 
-    public function getOne($id, $field = 'id') {
+    public function getOne($id, $field = 'id',$ignoreCase = true) {
 
-        $role = parent::getOne($id,$field);
+        $role = parent::getOne($id,$field,$ignoreCase);
 
         $role['permissions'] = $this->getPermissionsFromRole($role['id']);
 

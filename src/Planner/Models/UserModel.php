@@ -22,11 +22,11 @@ class UserModel extends AbstractModel
         return $userId;
     }
 
-    public function getOne($id, $field = 'id') {
+    public function getOne($id, $field = 'id',$ignoreCase = true) {
         $roleModel = new RoleModel();
         $optionsModel = new UserOptionModel();
 
-        $user = parent::getOne($id,$field);
+        $user = parent::getOne($id,$field,$ignoreCase);
 
         $user['role'] = $roleModel->getOne($user['id_role']);
         $user['options'] = $optionsModel->getByUser(($user['id']));

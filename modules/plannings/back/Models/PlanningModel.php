@@ -19,8 +19,8 @@ class PlanningModel extends AbstractModel
         return ['id','title'];
     }
 
-    public function getOne($id, $field = 'id') {
-        $planning = parent::getOne($id,$field);
+    public function getOne($id, $field = 'id',$ignoreCase = true) {
+        $planning = parent::getOne($id,$field, $ignoreCase);
 
         $planning['total_entries'] = $this->getAdapter()->fetchOne('
                   SELECT COUNT(planning_entry.id) 
