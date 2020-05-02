@@ -3,6 +3,7 @@
 namespace Planner\Services;
 
 use Planner\Adapters\MysqlAwareTrait;
+use Planner\Models\ModuleModel;
 
 class ModulesManager {
 
@@ -34,7 +35,8 @@ class ModulesManager {
                 $pathFileMain = $pathFile.'/back/main.php';
                 if (file_exists($pathFileMain)) {
                     $modules[] = $file;
-                    $this->getAdapter()->query('INSERT IGNORE INTO modules(name,active) VALUES(?,?)', [$file, 0]);
+                    $moduleModel = new ModuleModel();
+                    $moduleModel->createOrUpdate(['name' => $file]);
                 }
             }
         }
@@ -50,7 +52,6 @@ class ModulesManager {
         $existingModules = [];
         $activeModules = [];
         foreach ($modulesInDb as $module) {
-            error_log(print_r($elligiblesModules,true));
             if(in_array($module['name'], $elligiblesModules)) {
                 $existingModules[] = $module['name'];
                 if ($module['active']) {
