@@ -9,6 +9,7 @@ import Home from 'tpl/Home.vue'
 import UsersIndex from 'tpl/UsersIndex.vue';
 import RolesIndex from 'tpl/RolesIndex.vue';
 import ProfileIndex from 'tpl/ProfileIndex.vue';
+import ModulesIndex from 'tpl/ModulesIndex.vue';
 import {getHooks} from 'js/Services/HookHandler';
 
 var instance = false;
@@ -26,6 +27,7 @@ class Main {
                 {path: '/users/:page?', component: UsersIndex},
                 {path: '/userprofile', component: ProfileIndex},
                 {path: '/roles/:page?', component: RolesIndex},
+				{path: '/modules/:page?', component: ModulesIndex},
 
             ];
 
