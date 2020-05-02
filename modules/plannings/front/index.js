@@ -5,19 +5,23 @@ import PlanningView from 'tpl/PlanningView.vue';
 import PlanningStatusIndex from 'tpl/PlanningStatusIndex.vue';
 import PlanningIndex from 'tpl/PlanningIndex.vue';
 
+import CalendarCheckIcon from 'vue-material-design-icons/CalendarCheck.vue';
+import TagIcon from 'vue-material-design-icons/Tag.vue';
+
 addHook('register_route', () => { return {path: '/planning/view/:id/:page?', component: PlanningView}});
 addHook('register_route', () => { return {path: '/task_status/:page?', component: PlanningStatusIndex}});
 addHook('register_route', () => { return {path: '/planning/:page?', component: PlanningIndex}});
 
 addHook('register_menu_section', () => {
             return {
-                name: 'cadencio_plannings',
+				name: 'cadencio_plannings',
                 title : 'Plannings',
                 canDisplay: hasPermission('planning','read') || hasPermission('planning_status','read')}
             });
 
 addHook('register_menu', () => {
             return {
+                icon: CalendarCheckIcon,
                 section:'cadencio_plannings',
                 title : 'Plannings',
                 to : '/planning',
@@ -26,6 +30,7 @@ addHook('register_menu', () => {
 
 addHook('register_menu', () => {
             return {
+                icon: TagIcon,
                 section:'cadencio_plannings',
                 title : 'Task Status',
                 to : '/task_status',
