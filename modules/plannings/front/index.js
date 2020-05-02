@@ -1,3 +1,5 @@
+import 'css/planning.scss'
+
 import {addHook} from 'js/Services/HookHandler';
 import {hasPermission} from 'js/Models/User';
 
