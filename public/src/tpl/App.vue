@@ -76,6 +76,7 @@
 				}
 
 			};
+
 			menuSectionsHooks.forEach((section) => {
 				let s = section();
 				s.entries = [];

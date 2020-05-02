@@ -20,7 +20,6 @@
 	import EntityTable from 'tpl/Ui/EntityTable';
 	import Cell from 'tpl/Ui/Cell';
 	import EditableCheckbox from 'tpl/Ui/EditableCheckbox';
-
 	const modulesModel = require('js/Models/Module');
 
 	export default {
@@ -55,6 +54,11 @@
 							type: EditableCheckbox,
 							placeholder: 'Active',
 							canUpdate: hasPermission('modules', 'update'),
+                            callback : function() {
+								modulesModel.refreshActivesModules(() => {
+									window.location.reload(true);
+                                })
+                            }
 						}
 						},
 					],
