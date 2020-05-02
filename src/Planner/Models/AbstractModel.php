@@ -16,6 +16,7 @@ abstract class AbstractModel
     private $group;
     private $query_parameters = [];
     private $where = [];
+    protected $identifier = 'id';
 
 
     public function __construct()
@@ -143,7 +144,6 @@ abstract class AbstractModel
 
     public function patch($id, $datas, $uniqueFieldname = 'id')
     {
-
         if (is_object($datas)) {
             $datas = (array) $datas;
         }
@@ -181,7 +181,7 @@ abstract class AbstractModel
         if (!in_array($field, $this->getTableProperties())) {
             throw new \Exception('unknown filter error');
         }
-        $row = $this->getAdapter()->fetchRow('SELECT id FROM ' . $this->modelName . ' WHERE ' . $field . ' = ?', array($id));
+        $row = $this->getAdapter()->fetchRow('SELECT '.$this->identifier.' FROM ' . $this->modelName . ' WHERE ' . $field . ' = ?', array($id));
         return !$row ? false : true;
     }
 
@@ -281,7 +281,7 @@ abstract class AbstractModel
     {
 
         if ($countOnly) {
-            $select = 'SELECT count('.$this->modelName.'.id)';
+            $select = 'SELECT count('.$this->modelName.'.'.$this->identifier.')';
         } else {
             $select = 'SELECT  ' . implode(',',$this->getPublicFields());
         }
