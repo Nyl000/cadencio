@@ -50,10 +50,10 @@
                         <span class="titleresponsive">{{column.label}}</span>
                         <component
                                 :is="column.renderer.type"
-                                :link="column.renderer.link ? column.renderer.link.replace('{id}',item.id) : false"
+                                :link="column.renderer.link ? column.renderer.link.replace('{id}',item[definition.idField]) : false"
                                 :canupdate="column.renderer.canUpdate || false"
                                 :value="item[column.property]"
-                                :saveurl="definition.saveurl.replace('{id}',item.id)"
+                                :saveurl="definition.saveurl.replace('{id}',item[definition.idField])"
                                 :placeholder="column.renderer.placeholder || ''"
                                 :field="column.property"
                                 :list="column.renderer.list || {}"
