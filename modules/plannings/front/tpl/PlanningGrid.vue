@@ -108,7 +108,7 @@
                         }
                         },
                         {
-                            property: 'start_date', label: 'Start Date', sortable: true, renderer: {
+                            property: 'date_start', label: 'Start Date', sortable: true, renderer: {
                             type: EditableDateTime,
                             placeholder: 'Start Date',
                             canUpdate: hasPermission('planning_entry', 'update'),
