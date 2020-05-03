@@ -2,7 +2,7 @@
 
 namespace Modules\Plannings\Models;
 
-use Planner\Models\AbstractModel;
+use Cadencio\Models\AbstractModel;
 
 class PlanningModel extends AbstractModel
 {

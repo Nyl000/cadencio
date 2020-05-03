@@ -2,9 +2,9 @@
 
 
 use Modules\Plannings\Models\PlanningEntryModel;
-use Planner\Application;
-use Planner\Controllers\RestController;
-use Planner\Exceptions\ApiUnprocessableException;
+use Cadencio\Application;
+use Cadencio\Controllers\RestController;
+use Cadencio\Exceptions\ApiUnprocessableException;
 
 class Planning_entry extends RestController {
 

@@ -24,3 +24,12 @@ spl_autoload_register('core_autoloader');
 
 include BASE_DIR .'/../modules/__config.php';
 
+$modules = \Cadencio\Services\ModulesManager::getInstance()->getActivesModules();
+
+foreach ($modules as $module) {
+    $pathFile = BASE_DIR . '/../modules/' . $module;
+    $pathFileMain = $pathFile . '/back/main.php';
+    if (file_exists($pathFileMain)) {
+        require_once $pathFileMain;
+    }
+}

@@ -2,7 +2,7 @@
 
 use Modules\Plannings\Models\PlanningEntryModel;
 use Modules\Plannings\Models\PlanningModel;
-use Planner\Controllers\RestController;
+use Cadencio\Controllers\RestController;
 
 class Planning extends RestController {
 

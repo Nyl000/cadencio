@@ -1,7 +1,7 @@
 <?php namespace Modules\Plannings\Controllers;
 
 use Modules\Plannings\Models\PlanningStatusModel;
-use Planner\Controllers\RestController;
+use Cadencio\Controllers\RestController;
 
 class Planning_status extends RestController {
 

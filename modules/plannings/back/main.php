@@ -12,7 +12,7 @@ namespace {
 
 namespace Modules\Plannings {
 
-    use Planner\Services\HookHandler;
+    use Cadencio\Services\HookHandler;
 
     class main {
         public function __construct() {

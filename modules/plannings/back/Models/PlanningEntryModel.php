@@ -2,9 +2,9 @@
 
 namespace Modules\Plannings\Models;
 
-use Planner\Application;
-use Planner\Models\AbstractModel;
-use Planner\Models\NotificationModel;
+use Cadencio\Application;
+use Cadencio\Models\AbstractModel;
+use Cadencio\Models\NotificationModel;
 
 class PlanningEntryModel extends AbstractModel
 {

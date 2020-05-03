@@ -1,7 +1,7 @@
 <?php
 namespace Config;
 
-use Planner\Services\HookHandler;
+use Cadencio\Services\HookHandler;
 
 class Permissions {
 
