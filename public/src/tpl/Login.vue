@@ -21,6 +21,7 @@
     import {instance} from 'js/App';
     import base64 from 'base-64';
     import {testToken} from 'js/Models/User';
+	const modulesModel = require('js/Models/Module');
 
     export default {
         data: () => {
@@ -44,8 +45,9 @@
                             localStorage.setItem('token', token);
                             testToken(token).then((datas) => {
                                 localStorage.setItem('user', JSON.stringify(datas.user));
-                                window.location = '/';
-
+								modulesModel.refreshActivesModules(() => {
+									window.location = '/';
+								})
                             });
                         }
                         else {
