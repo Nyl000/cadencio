@@ -80,8 +80,8 @@
                     id: this.$data.id,
                     title: this.$data.title,
                     description : this.$data.description,
-                    date_start : this.$data.date_start,
-                    date_end : this.$data.date_end,
+                    date_start : moment(this.$data.date_start).format('YYYY-MM-DD HH:mm:ss'),
+                    date_end : moment(this.$data.date_end).format('YYYY-MM-DD HH:mm:ss'),
                     id_planning: this.$data.id_planning,
                     id_status : this.$data.id_status
                 }).then(() => {

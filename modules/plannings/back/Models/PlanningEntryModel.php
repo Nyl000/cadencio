@@ -46,6 +46,7 @@ class PlanningEntryModel extends AbstractModel
         }
 
         else {
+            $datas['id_creator'] = $old['id_creator'];
             $return = parent::createOrUpdate($datas);
 
         }
