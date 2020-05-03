@@ -50,6 +50,12 @@
 						}
 						},
 						{
+							property: 'version', label: 'Version', sortable: true, renderer: {
+							type: Cell,
+							placeholder: 'Version',
+						}
+						},
+						{
 							property: 'active', label: 'Active', sortable: true, renderer: {
 							type: EditableCheckbox,
 							placeholder: 'Active',

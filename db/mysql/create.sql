@@ -96,7 +96,7 @@ CREATE TABLE plannings (
     PRIMARY KEY(id)
 ) ENGINE=InnoDB;
 
-INSERT INTO plannings VALUES (0,'Global planning');
+INSERT INTO plannings VALUES (0,'My first planning');
 
 
 CREATE TABLE planning_entry (
@@ -142,5 +142,6 @@ CREATE table notifications (
 CREATE table modules(
   name VARCHAR(128) NOT NULL,
   active TINYINT NOT NULL DEFAULT 0,
+  version INT UNSIGNED NOT NULL DEFAULT 1,
   PRIMARY KEY(name)
 )
