@@ -177,9 +177,9 @@
                 this.selectedEntry = entry;
                 this.$refs.viewEntryDescriptionModal.show();
             },
-            deleteEntryItem: function (id) {
-                if (confirm('Confirmez que vous voulez supprimer l\'entrée de planning')) {
-                    deleteItem(id).then(() => {
+            deleteEntryItem: function (entry) {
+                if (confirm('Confirm you want to delete this planning entry')) {
+                    deleteItem(entry.id).then(() => {
                         this.refresh();
                     })
                 }
