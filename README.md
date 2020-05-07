@@ -2,7 +2,7 @@
 
 ## Description
 
-Cadencio can be seen as a modula platform to kickstart larger business softwares. It provide:
+Cadencio can be seen as a modular platform to kickstart larger business softwares. It provide:
 
 - Users management
 - Roles & Permissions
