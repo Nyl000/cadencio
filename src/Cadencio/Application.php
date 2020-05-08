@@ -1,23 +1,28 @@
 <?php
+
 namespace Cadencio;
 
 use Cadencio\Exception\ApiException;
 use Cadencio\Services\HookHandler;
 
-class Application {
+class Application
+{
 
     public static $instance;
     protected $rewriter;
     protected $currUserId;
+    protected $modules = [];
 
-    public function __construct() {
-        if(!isset(self::$instance)) {
+    public function __construct()
+    {
+        if (!isset(self::$instance)) {
             self::$instance = $this;
         }
         $this->rewriter = new Rewriter();
     }
 
-    public function route() {
+    public function route()
+    {
 
 
         $this->rewriter->addRewrite('^/([a-z0-9_]+)/([a-z0-9]+)/([a-z0-9]+)/([a-z0-9\._\*]+)/?.*', 'index.php?resource=$1&action=$2&subaction=$3&subid=$4');
@@ -33,26 +38,41 @@ class Application {
 
     }
 
-    private function resolveClass($className,$actionName,$query,$httpMethod) {
+    public function registerModules()
+    {
+        $hookHandler = HookHandler::getInstance();
+        $modulesHooked = $hookHandler->getHook('register_module');
+        $modules = [];
+
+        foreach ($modulesHooked as $moduleHook) {
+            $modules = array_merge($modules, $moduleHook());
+        }
+        $this->modules = $modules;
+    }
+
+    public function getModuleInstance($name)
+    {
+        return $this->modules[$name];
+    }
+
+    private function resolveClass($className, $actionName, $query, $httpMethod)
+    {
         $class = new $className();
-        if (method_exists($class,$actionName)){
+        if (method_exists($class, $actionName)) {
             try {
                 $datas = $class->$actionName($query);
                 return $class->render($datas);
-            }
-            catch (ApiException $e) {
+            } catch (ApiException $e) {
                 header($e->getResponseHeader());
                 return json_encode(['message' => $e->getMessage()]);
             }
-        }
-        else {
-            $actionName = strtolower($httpMethod). 'Index';
+        } else {
+            $actionName = strtolower($httpMethod) . 'Index';
             if (method_exists($class, $actionName)) {
                 try {
                     $datas = $class->$actionName($query);
                     return $class->render($datas);
-                }
-                catch (ApiException $e) {
+                } catch (ApiException $e) {
                     header($e->getResponseHeader());
                     return json_encode(['message' => $e->getMessage()]);
                 }
@@ -62,27 +82,26 @@ class Application {
     }
 
 
-    public function handleRouteQuery(Array $query) {
+    public function handleRouteQuery(Array $query)
+    {
         header("Access-Control-Allow-Origin: *");
 
-        $className = 'Cadencio\\Controllers\\'.ucfirst($query['resource']);
+        $className = 'Cadencio\\Controllers\\' . ucfirst($query['resource']);
         $httpMethod = $_SERVER['REQUEST_METHOD'];
 
-        $actionName = strtolower($httpMethod).ucfirst($query['action']);
+        $actionName = strtolower($httpMethod) . ucfirst($query['action']);
 
         $modulesRestClasses = [];
         $modulesRestClassesHook = HookHandler::getInstance()->getHook('register_rest_controller');
-        foreach($modulesRestClassesHook as $hook) {
+        foreach ($modulesRestClassesHook as $hook) {
             $modulesRestClasses = array_merge($modulesRestClasses, $hook());
         }
 
         if (class_exists($className)) {
-            return $this->resolveClass($className,$actionName,$query,$httpMethod);
-        }
-        elseif(array_key_exists($query['resource'], $modulesRestClasses)) {
-            return $this->resolveClass($modulesRestClasses[$query['resource']], $actionName,$query,$httpMethod);
-        }
-        else{
+            return $this->resolveClass($className, $actionName, $query, $httpMethod);
+        } elseif (array_key_exists($query['resource'], $modulesRestClasses)) {
+            return $this->resolveClass($modulesRestClasses[$query['resource']], $actionName, $query, $httpMethod);
+        } else {
             header("HTTP/1.0 404 Not found");
         }
 
@@ -90,17 +109,21 @@ class Application {
 
     }
 
-    public function run() {
+    public function run()
+    {
         $query = $this->route();
+        $this->registerModules();
         echo $this->handleRouteQuery($query);
 
     }
 
-    public function getCurrentUserId() {
+    public function getCurrentUserId()
+    {
         return $this->currUserId;
     }
 
-    public function setCurrentUserId($idUser) {
+    public function setCurrentUserId($idUser)
+    {
         $this->currUserId = $idUser;
     }
 }

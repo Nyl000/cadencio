@@ -2,6 +2,9 @@
 
 namespace Cadencio\Models;
 
+use Cadencio\Application;
+use Cadencio\Services\ModulesManager;
+
 class ModuleModel extends AbstractModel
 {
 
@@ -16,6 +19,16 @@ class ModuleModel extends AbstractModel
     }
 
     public function patch($id, $datas, $uniqueFieldname = 'id') {
+        if (isset($datas->active) && $datas->active == 1) {
+
+            $current = $this->getOne($id,$uniqueFieldname);
+            if($current['active'] == 0) {
+                ModulesManager::getInstance()->registerModule($current['name']);
+                $instance = Application::$instance->getModuleInstance($current['name']);
+                $instance->onActivate();
+            }
+
+        }
         return parent::patch($id,$datas,'name');
     }
 
