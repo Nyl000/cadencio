@@ -56,6 +56,12 @@
 						}
 						},
 						{
+							property: 'db_version', label: 'Database Version', sortable: false, renderer: {
+							type: Cell,
+							placeholder: 'Database Version',
+						}
+						},
+						{
 							property: 'active', label: 'Active', sortable: true, renderer: {
 							type: EditableCheckbox,
 							placeholder: 'Active',
