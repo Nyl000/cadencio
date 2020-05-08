@@ -45,7 +45,10 @@
                         }
                     );
                 }
-            }
+            },
+			leaveEditmodeNoCallback: function () {
+				this.editMode = false
+			}
         },
 
     }

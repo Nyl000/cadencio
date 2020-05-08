@@ -2,7 +2,7 @@
     <transition name="fade">
         <div class="editable">
             <div v-show="editMode">
-                <select ref="input" v-model="val"  v-on:blur="leaveEditmode"  v-on:change="leaveEditmode">
+                <select ref="input" v-model="val"  v-on:blur="leaveEditmodeNoCallback"  v-on:change="leaveEditmode">
                     <option value="1">Yes</option>
                     <option value="0">No</option>
                 </select>
