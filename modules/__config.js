@@ -30,6 +30,11 @@ const getModulesDirs = function() {
                     out.push(moduleDir + '/front');
                 }
             }
+			if (fs.existsSync(moduleDir + '/front/node_modules')) {
+				if (fs.lstatSync(moduleDir + '/front/node_modules').isDirectory()) {
+					out.push(moduleDir + '/front/node_modules');
+				}
+			}
         }
     });
 
