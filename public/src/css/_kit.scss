@@ -306,6 +306,23 @@ button {
   }
 }
 
+.roundedbox  {
+  box-shadow: 0 0 10px rgba(30, 30, 30, 0.1);
+  background: white;
+  border-radius:5px;
+  margin-bottom:.5em;
+
+  .topbar {
+    border-bottom: 1px solid #e2e2e2;
+    padding:.5em;
+  }
+  .inner {
+    padding:.5em;
+
+  }
+
+}
+
 .editable {
   cursor: pointer;
   display: inline-block;
