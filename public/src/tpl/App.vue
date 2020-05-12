@@ -83,13 +83,9 @@
 				menuItems[s.name] = s;
 			});
 
-			menuHooks.forEach((menu) => {
-				let m = menu();
-				menuItems[m.section].entries.push(m);
-			});
 
 			//put settings at the end of menu
-			menuItems.settings = {
+			menuItems.cadencio_settings = {
 				name: 'cadencio_settings',
 				title: 'Settings',
 				canDisplay: hasPermission('settings', '*'),
@@ -104,6 +100,11 @@
 
 				]
 			};
+
+			menuHooks.forEach((menu) => {
+				let m = menu();
+				menuItems[m.section].entries.push(m);
+			});
 
 			let showMenu = true;
 			if (localStorage.getItem('global_showmenu') && localStorage.getItem('global_showmenu') == 0) {
