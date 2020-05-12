@@ -21,6 +21,7 @@ class Main {
 
 		if (!instance) {
 
+			document.title = Config.appName;
 			var routes = [
 				{path: '/', component: Home},
 				{name: 'paged_planning_home', path: '/home/planning/:page?', component: Home},
