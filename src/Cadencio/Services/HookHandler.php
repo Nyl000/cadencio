@@ -24,14 +24,23 @@ class HookHandler
         return self::$instance;
     }
 
-    public function setHook($name,$function) {
-        if (!isset($this->hooks[$name])) {
-            $this->hooks[$name] = [];
+    public function setHook($name, $function)
+    {
+        if (is_callable($function)) {
+
+            if (!isset($this->hooks[$name])) {
+                $this->hooks[$name] = [];
+            }
+            $this->hooks[$name][] = $function;
+
         }
-        $this->hooks[$name][] = $function;
+        else {
+            trigger_error('Seems you attempt to hook a non-callable variable on hook ['.$name.']',E_USER_WARNING);
+        }
     }
 
-    public function getHook($name) {
+    public function getHook($name)
+    {
         if (!isset($this->hooks[$name])) {
             return [];
         }
