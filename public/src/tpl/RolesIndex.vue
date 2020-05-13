@@ -35,7 +35,7 @@
 	import EntityTable from 'tpl/Ui/EntityTable';
 	import EditableText from 'tpl/Ui/EditableText.vue';
 	import DeleteIcon from 'vue-material-design-icons/Delete.vue';
-	import GearIcon from 'vue-material-design-icons/Settings'
+	import GearIcon from 'vue-material-design-icons/Gear'
 	const rolesModel = require('js/Models/Role');
 
 	export default {
