@@ -51,7 +51,7 @@
 	import PowerIcon from 'vue-material-design-icons/Power.vue';
 	import MenuIcon from 'vue-material-design-icons/Menu.vue'
 	import ToyBrickIcon from 'vue-material-design-icons/ToyBrick.vue'
-	import CogOutlineIcon from 'vue-material-design-icons/SettingsOutline.vue'
+	import CogOutlineIcon from 'vue-material-design-icons/CogOutline.vue'
 	import AccountSupervisorCircleIcon from 'vue-material-design-icons/AccountSupervisorCircle.vue'
 	import CrownIcon from 'vue-material-design-icons/Crown.vue'
 
