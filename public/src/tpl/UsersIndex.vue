@@ -25,7 +25,7 @@
 
 <script>
 
-    import {hasPermission} from 'js/Models/User';
+    import {hasPermission,deleteItem} from 'js/Models/User';
     import {selectList as selectListRole}  from 'js/Models/Role';
 
     import Modale from 'tpl/Ui/Modale.vue';
@@ -110,7 +110,7 @@
                         },
                     ],
                     actions: [
-                        { action : self.deleteItem, component : DeleteIcon, canDisplay : hasPermission('users','delete')  },
+                        { action : this.deleteItem, component : DeleteIcon, canDisplay : hasPermission('users','delete')  },
                 ]
                 };
             },
