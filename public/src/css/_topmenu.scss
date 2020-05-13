@@ -96,7 +96,8 @@
   }
   .appview {
     flex:1;
-    overflow:hidden;
+    overflow-x:hidden;
+    overflow-y:scroll;
   }
 }
 

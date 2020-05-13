@@ -22,7 +22,7 @@
             <div class="tabletitle">{{definition.title}}</div>
         </div>
 
-        <div class="table-reponsive">
+        <div class="table-responsive">
             <table class="list">
                 <thead>
                 <draggable v-model="columnsOrdered" @end="columnsOrderChange" tag="tr">
