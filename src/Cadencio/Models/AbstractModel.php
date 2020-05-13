@@ -110,7 +110,7 @@ abstract class AbstractModel
             $datas = (array) $datas;
         }
 
-        if (empty($datas['id'])) {
+        if (empty($datas['id']) || $datas['id'] == 0) {
             unset($datas['id']);
         }
         $fields = $this->getTableProperties();
@@ -123,7 +123,7 @@ abstract class AbstractModel
         foreach ($datas as $key => $property) {
             $key = strtolower($key);
 
-            if (in_array($key, $fields)) {
+            if (in_array($key, $fields) || $property == '') {
                 $queryParts1[] = '`' . $key . '`';
                 $queryParts2[] = '?';
                 $queryParts3[] = '`' . $key . '`=VALUES(`' . $key . '`)';
