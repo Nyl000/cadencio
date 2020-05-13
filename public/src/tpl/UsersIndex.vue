@@ -110,14 +110,14 @@
                         },
                     ],
                     actions: [
-                        { action : this.deleteItem, component : DeleteIcon, canDisplay : hasPermission('users','delete')  },
+                        { action : self.deleteItem, component : DeleteIcon, canDisplay : hasPermission('users','delete')  },
                 ]
                 };
             },
             hasPermission: hasPermission,
-            deleteItem: function (userId) {
-                if (confirm('Confirmez que vous voulez supprimer l\'utilisateur')) {
-                    deleteItem(userId).then(() => {
+            deleteItem: function (user) {
+                if (confirm('Please confirm the user deletion')) {
+                    deleteItem(user.id).then(() => {
                         this.refreshGrid();
                     })
                 }
