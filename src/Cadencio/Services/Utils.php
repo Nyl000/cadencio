@@ -2,6 +2,8 @@
 
 namespace Cadencio\Services;
 
+use Cadencio\Models\SettingModel;
+
 class Utils {
 
     public static function sendWithSendgrid($to) {
@@ -23,5 +25,29 @@ class Utils {
         } catch (Exception $e) {
             echo 'Caught exception: '. $e->getMessage() ."\n";
         }
+    }
+
+    public static function generateOAuthChallenge() {
+        $random_bytes = substr(md5(microtime() + rand(1,9999)),0,64);
+        $codeverifier = rtrim(strtr(base64_encode($random_bytes), "+/","-_"), "=");
+        $challenge_bytes = hash("sha256", $codeverifier, true);
+        $codechallenge = rtrim(strtr(base64_encode($challenge_bytes), "+/", "-_"), "=");
+
+
+        return [
+            'code_challenge' => $codechallenge,
+            'code_verifier' => $codeverifier,
+        ];
+    }
+
+    public static function setAppSetting($name,$val) {
+        $model = new SettingModel();
+        $model->createOrUpdate(['name' => $name,'val' => $val]);
+    }
+
+    public static function getAppSetting($name) {
+        $model = new SettingModel();
+        $data = $model->getOne($name,'name');
+        return $data['val'];
     }
 }
