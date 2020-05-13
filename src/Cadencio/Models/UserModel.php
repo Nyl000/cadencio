@@ -22,6 +22,19 @@ class UserModel extends AbstractModel
         return $userId;
     }
 
+    public function createOrUpdate($datas)
+    {
+        if (is_object($datas)) {
+            $datas = (array) $datas;
+        }
+
+        if (!isset($datas['id']) || empty($datas['id'])) {
+            unset($datas['id']);
+            $datas['date_register'] = date('Y-m-d H:i:s');
+        }
+        return parent::createOrUpdate($datas);
+    }
+
     public function getOne($id, $field = 'id',$ignoreCase = true) {
         $roleModel = new RoleModel();
         $optionsModel = new UserOptionModel();
