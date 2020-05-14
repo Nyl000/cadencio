@@ -1,6 +1,6 @@
 
 .table-responsive {
-  overflow:scroll;
+  overflow:auto;
   background:white;
 }
 .tablecontainer {
@@ -65,10 +65,7 @@
     }
   }
 
-  .tablewrapper {
-    overflow:scroll;
 
-  }
   .actionbar {
     padding-bottom:.5em;
     .button {
