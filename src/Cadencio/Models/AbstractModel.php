@@ -7,7 +7,7 @@ use Cadencio\Adapters\MysqlAdapter;
 abstract class AbstractModel
 {
 
-    private static $adapter = false;
+    protected static $adapter = false;
 
     protected $modelName;
     protected $resourceName;
