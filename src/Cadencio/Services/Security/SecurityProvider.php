@@ -6,20 +6,20 @@ use Cadencio\Application;
 
 class SecurityProvider {
 
-    private $layers = [];
+    private $providers = [];
 
     public function init() {
-        foreach($this->layers as &$layer) {
-            $layerResult = $layer->test();
-            if($layerResult) {
-                Application::$instance->setCurrentUserId($layerResult);
+        foreach($this->providers as &$provider) {
+            $providersResults = $provider->test();
+            if($providersResults) {
+                Application::$instance->setCurrentUserId($providersResults);
                 return;
             }
         }
     }
 
-    public function addLayer($layer) {
-        $this->layers[] = $layer;
+    public function addProvider(ProviderInterface $provider) {
+        $this->providers[] = $provider;
     }
 
     public function secure($func) {

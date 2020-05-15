@@ -22,7 +22,7 @@ class RestController extends AbstractController
 
         header('Content-Type: text/json');
         $this->auth = new SecurityProvider();
-        $this->auth->addLayer(new BasicAuth());
+        $this->auth->addProvider(new BasicAuth());
         $this->auth->init();
         parent::__construct();      
 

@@ -4,7 +4,7 @@ namespace Cadencio\Services\Security;
 use Cadencio\Application;
 use Cadencio\Models\UserModel;
 
-class BasicAuth {
+class BasicAuth implements ProviderInterface {
 
     public function test() {
         if (!isset ($_SERVER['PHP_AUTH_USER'])) {
