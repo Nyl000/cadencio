@@ -9,6 +9,7 @@ use Cadencio\Exceptions\ApiUnprocessableException;
 use Cadencio\Services\auth;
 use Cadencio\Services\Permissions;
 use Cadencio\Services\Security\BasicAuth;
+use Cadencio\Services\Security\DigestAuth;
 use Cadencio\Services\Security\SecurityProvider;
 
 
@@ -39,13 +40,6 @@ class RestController extends AbstractController
     public function render($datas)
     {
         return json_encode($datas);
-    }
-
-    public function optionsIndex()
-    {
-        header('Access-Control-Allow-Headers: Authorization');
-        header('Access-Control-Allow-Methods: GET,POST,PUT,PATCH,DELETE,OPTIONS');
-        return true;
     }
 
     public function deleteIndex($query)

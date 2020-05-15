@@ -85,9 +85,15 @@ class Application
     public function handleRouteQuery(Array $query)
     {
         header("Access-Control-Allow-Origin: *");
+        $httpMethod = $_SERVER['REQUEST_METHOD'];
+
+        if($httpMethod == 'OPTIONS') {
+            header('Access-Control-Allow-Headers: Authorization');
+            header('Access-Control-Allow-Methods: GET,POST,PUT,PATCH,DELETE,OPTIONS');
+            die();
+        }
 
         $className = 'Cadencio\\Controllers\\' . ucfirst($query['resource']);
-        $httpMethod = $_SERVER['REQUEST_METHOD'];
 
         $actionName = strtolower($httpMethod) . ucfirst($query['action']);
 
