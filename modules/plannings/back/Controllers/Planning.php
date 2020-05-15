@@ -11,7 +11,7 @@ class Planning extends RestController {
     }
 
     public function getEntries($query) {
-        return $this->basicAuth->secure(function () use ($query) {
+        return $this->auth->secure(function () use ($query) {
 
             $model = new PlanningEntryModel();
 
@@ -23,7 +23,7 @@ class Planning extends RestController {
     }
 
     public function getTimeline($query) {
-        return $this->basicAuth->secure(function () use ($query) {
+        return $this->auth->secure(function () use ($query) {
 
             $model = new PlanningEntryModel();
 

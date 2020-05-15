@@ -14,7 +14,7 @@ class Planning_entry extends RestController {
 
 
     public function postTogglefollow($query) {
-        return $this->basicAuth->secure(function () use ($query) {
+        return $this->auth->secure(function () use ($query) {
 
             $body = $this->getRequest()->getJsonBody();
             if (!isset($body->id_entry)) { throw new ApiUnprocessableException('Missing id_entry'); }

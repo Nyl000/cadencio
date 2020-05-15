@@ -6,21 +6,24 @@ use Cadencio\Application;
 use Cadencio\Exceptions\ApiForbiddenException;
 use Cadencio\Exceptions\ApiNotFoundException;
 use Cadencio\Exceptions\ApiUnprocessableException;
-use Cadencio\Services\BasicAuthSecure;
+use Cadencio\Services\auth;
 use Cadencio\Services\Permissions;
+use Cadencio\Services\Security\BasicAuth;
+use Cadencio\Services\Security\SecurityProvider;
 
 
 class RestController extends AbstractController
 {
 
-    protected $basicAuth;
+    protected $auth;
 
     public function __construct()
     {
 
         header('Content-Type: text/json');
-        $this->basicAuth = new BasicAuthSecure();
-        $this->basicAuth->init();
+        $this->auth = new SecurityProvider();
+        $this->auth->addLayer(new BasicAuth());
+        $this->auth->init();
         parent::__construct();      
 
     }
@@ -48,7 +51,7 @@ class RestController extends AbstractController
     public function deleteIndex($query)
     {
 
-        return $this->basicAuth->secure(function () use ($query) {
+        return $this->auth->secure(function () use ($query) {
 
             $this->abortIfNotAllowed($this->getModel()->getResourceName(), 'delete');
 
@@ -64,7 +67,7 @@ class RestController extends AbstractController
     public function getIndex($query)
     {
 
-        return $this->basicAuth->secure(function () use ($query) {
+        return $this->auth->secure(function () use ($query) {
 
             $this->abortIfNotAllowed($this->getModel()->getResourceName(), 'read');
 
@@ -95,7 +98,7 @@ class RestController extends AbstractController
     }
 
     public function postMultiples($query) {
-        return $this->basicAuth->secure(function () use ($query) {
+        return $this->auth->secure(function () use ($query) {
 
             $this->abortIfNotAllowed($this->getModel()->getResourceName(), 'update');
 
@@ -118,7 +121,7 @@ class RestController extends AbstractController
     public function postIndex($query)
     {
 
-        return $this->basicAuth->secure(function () use ($query) {
+        return $this->auth->secure(function () use ($query) {
 
             if ($query['action'] == 'index') {
 

@@ -18,7 +18,7 @@ class Roles extends RestController
     public function postIndex($query)
     {
         if ($query['action'] !== 'index' && $query['subaction'] === 'permissions') {
-            return $this->basicAuth->secure(function () use ($query) {
+            return $this->auth->secure(function () use ($query) {
                 $this->abortIfNotAllowed('roles','update');
                 if (!$this->getModel()->idExists($query['action'])) {
                     throw new ApiNotFoundException();
@@ -42,7 +42,7 @@ class Roles extends RestController
     {
 
         if ($query['action'] !== 'index' && $query['subaction'] === 'permissions' && isset($query['subid'])) {
-            return $this->basicAuth->secure(function () use ($query) {
+            return $this->auth->secure(function () use ($query) {
                 $this->abortIfNotAllowed('roles','delete');
                 if (!$this->getModel()->idExists($query['action'])) {
                     throw new ApiNotFoundException();

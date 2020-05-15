@@ -33,7 +33,7 @@ class User extends RestController {
     }
 
     public function getChecktoken() {
-        return $this->basicAuth->secure(function ()  {
+        return $this->auth->secure(function ()  {
             $user = $this->getModel()->getOne(Application::$instance->getCurrentUserId());
 
             return ['status' => 'ok','user' => $user];
@@ -41,7 +41,7 @@ class User extends RestController {
     }
 
     public function getMynotifications() {
-        return $this->basicAuth->secure(function ()  {
+        return $this->auth->secure(function ()  {
 
             $model = new NotificationModel();
 
@@ -50,7 +50,7 @@ class User extends RestController {
     }
 
     public function getSelf_options() {
-        return $this->basicAuth->secure(function ()  {
+        return $this->auth->secure(function ()  {
 
             $this->abortIfNotAllowed($this->getModel()->getResourceName(), 'update_self');
 
@@ -71,7 +71,7 @@ class User extends RestController {
     }
 
     public function postSelfoptions() {
-        return $this->basicAuth->secure(function ()  {
+        return $this->auth->secure(function ()  {
 
             $this->abortIfNotAllowed($this->getModel()->getResourceName(), 'update_self');
 
