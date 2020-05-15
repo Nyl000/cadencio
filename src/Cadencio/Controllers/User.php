@@ -5,6 +5,7 @@ use Cadencio\Exceptions\ApiUnprocessableException;
 use Cadencio\Models\NotificationModel;
 use Cadencio\Models\UserModel;
 use Cadencio\Models\UserOptionModel;
+use Firebase\JWT\JWT;
 
 class User extends RestController {
 
@@ -23,8 +24,22 @@ class User extends RestController {
         if (!isset($body->password) ) {
             throw new ApiUnprocessableException('Missing password');
         }
+        $login = $this->getModel()->login($body->email,$body->password);
+        if($login) {
+            if  (isset($body->use_jwt) && $body->use_jwt) {
+                $nonce = md5(uniqid());
+                $payload = array(
+                    "iss" => "http://example.org",
+                    "aud" => "http://example.com",
+                    "iat" => time(),
+                    "exp" => time() + 60 * 60 * 24,
+                    'pwd_nonce' => $nonce,
+                    'pwd' => hash('SHA256',$nonce. hash('SHA256',$body->password).JWT_PRIV_KEY),
+                    'user_id' => $login
+                );
+                return ['status' => 'ok','token' => JWT::encode($payload, JWT_PRIV_KEY, 'HS256')];
 
-        if($this->getModel()->login($body->email,$body->password)) {
+            }
             return ['status' => 'ok'];
         }
         else {

@@ -22,6 +22,10 @@ class UserModel extends AbstractModel
         return $userId;
     }
 
+    public function getHashedPassword($userId) {
+        return $this->getAdapter()->fetchOne('SELECT password FROM '.$this->modelName.' WHERE id = ?', [$userId]);
+    }
+
     public function createOrUpdate($datas)
     {
         if (is_object($datas)) {

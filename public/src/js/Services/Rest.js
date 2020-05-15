@@ -67,7 +67,7 @@ export default {
     authRequest: (endpoint, httpMethod, requestDatas, contentType) => {
         let headers = new Headers();
         let token = localStorage.getItem('token');
-        headers.append('Authorization', 'Basic ' + token);
+        headers.append('Authorization', 'Bearer ' + token);
         return request(endpoint, httpMethod, requestDatas, contentType, headers);
     },
     request

@@ -12,6 +12,9 @@ define ('SENGRID_KEY' , '');
 
 define('DEFAULT_PAGINATION', 20);
 
+define('JWT_PRIV_KEY','xxxxxx');
+
+
 function core_autoloader($class)
 {
     $path = str_replace('\\','/',$class);

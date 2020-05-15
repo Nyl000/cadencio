@@ -37,12 +37,13 @@
                 Rest.request('/user/login', 'POST', {
                     email: this.$data.username,
                     password: this.$data.password,
+                    use_jwt : true,
 
                 }).then(
                     (data) => {
                         if (data.status === 'ok') {
                             let token = base64.encode(this.$data.username + ':' + this.$data.password);
-                            localStorage.setItem('token', token);
+                            localStorage.setItem('token', data.token);
                             testToken(token).then((datas) => {
                                 localStorage.setItem('user', JSON.stringify(datas.user));
 								modulesModel.refreshActivesModules(() => {

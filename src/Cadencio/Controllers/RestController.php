@@ -10,6 +10,7 @@ use Cadencio\Services\auth;
 use Cadencio\Services\Permissions;
 use Cadencio\Services\Security\BasicAuth;
 use Cadencio\Services\Security\DigestAuth;
+use Cadencio\Services\Security\Jwt;
 use Cadencio\Services\Security\SecurityProvider;
 
 
@@ -24,6 +25,7 @@ class RestController extends AbstractController
         header('Content-Type: text/json');
         $this->auth = new SecurityProvider();
         $this->auth->addProvider(new BasicAuth());
+        $this->auth->addProvider(new Jwt());
         $this->auth->init();
         parent::__construct();      
 
