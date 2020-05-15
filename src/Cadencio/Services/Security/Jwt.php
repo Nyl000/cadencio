@@ -2,7 +2,6 @@
 namespace Cadencio\Services\Security;
 
 use Cadencio\Models\UserModel;
-use Firebase\JWT\BeforeValidException;
 use Firebase\JWT\JWT as JWTLib;
 class Jwt implements ProviderInterface {
 
