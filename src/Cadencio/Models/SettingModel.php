@@ -42,5 +42,11 @@ class SettingModel extends AbstractModel
 
     }
 
+    public function getSettings(...$names) {
+        return $this->getAdapter()->fetchPairs('SELECT `name`, val FROM '.$this->modelName.' WHERE `name` IN ('.implode(',',array_fill(0,count($names),'?')).')  ',$names);
+    }
+
+
+
 
 }

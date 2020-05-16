@@ -9,7 +9,12 @@ const set = (name,val) => {
 	return Rest.authRequest('/settings','POST',{name,val});
 };
 
+const sendTestmail = () => {
+	return Rest.authRequest(('/settings/sendtestmail'));
+};
+
 export {
     get,
-	set
+	set,
+	sendTestmail
 }

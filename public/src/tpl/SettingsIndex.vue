@@ -35,6 +35,9 @@
                         <button class="button success" v-on:click="saveEmail">
                             Save
                         </button>
+                        <button class="button" v-on:click="sendTestEmail">
+                            Send a test email
+                        </button>
                     </div>
                 </div>
             </div>
@@ -44,7 +47,7 @@
 
 <script>
 
-	import {get, set} from 'js/Models/Setting';
+	import {get, set, sendTestmail} from 'js/Models/Setting';
 
 
 	export default {
@@ -90,8 +93,22 @@
 				}
 				await set('mail_smtp_frommail', this.mail_smtp_frommail);
 				await set('mail_smtp_fromname', this.mail_smtp_fromname);
+			},
+			sendTestEmail : async function() {
+				try {
+					let response = await sendTestmail();
+					if (response.status == 'ok') {
+						alert('A test email was sent to :' + response.sent_to);
+					}
+					else {
+						alert('Error occured : '+response.message);
+					}
 
-			}
+				}
+				catch(error) {
+					alert('Error occured , please check log file or contract your administrator');
+                }
+            }
 		}
 	}
 
