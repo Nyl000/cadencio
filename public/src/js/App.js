@@ -10,6 +10,7 @@ import UsersIndex from 'tpl/UsersIndex.vue';
 import RolesIndex from 'tpl/RolesIndex.vue';
 import ProfileIndex from 'tpl/ProfileIndex.vue';
 import ModulesIndex from 'tpl/ModulesIndex.vue';
+import SettingsIndex from 'tpl/SettingsIndex.vue';
 import {getHooks} from 'js/Services/HookHandler';
 import {refreshActivesModules} from 'js/Models/Module';
 
@@ -24,12 +25,12 @@ class Main {
 			document.title = Config.appName;
 			var routes = [
 				{path: '/', component: Home},
-				{name: 'paged_planning_home', path: '/home/planning/:page?', component: Home},
 				{path: '/login', component: Login},
 				{path: '/users/:page?', component: UsersIndex},
 				{path: '/userprofile', component: ProfileIndex},
 				{path: '/roles/:page?', component: RolesIndex},
 				{path: '/modules/:page?', component: ModulesIndex},
+				{path: '/settings', component: SettingsIndex},
 
 			];
 
