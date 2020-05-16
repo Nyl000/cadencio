@@ -11,6 +11,7 @@ const resolve = require('path').resolve;
 const moduleConf = require('../../modules/__config');
 
 var modulesEntries = moduleConf.getModulesFiles();
+modulesEntries.push('babel-polyfill');
 modulesEntries.push('./src/app.js');
 
 

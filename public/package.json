@@ -33,6 +33,7 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.42",
     "@babel/preset-env": "^7.0.0-beta.42",
     "babel-loader": "^8.0.0-beta.2",
+    "babel-polyfill": "^6.26.0",
     "copy-webpack-plugin": "^4.6.0",
     "css-loader": "^2.1.0",
     "file-loader": "^5.0.2",
