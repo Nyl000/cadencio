@@ -2,7 +2,6 @@
     "name": "loicboucha/planner",
     "type": "project",
     "require": {
-        "sendgrid/sendgrid": "^7.3",
         "phpmailer/phpmailer": "^6.1",
         "firebase/php-jwt": "^5.2"
     },

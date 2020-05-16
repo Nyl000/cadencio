@@ -3,6 +3,7 @@
 namespace Cadencio\Models;
 
 use Cadencio\Application;
+use Cadencio\Services\Utils;
 use SendGrid\Mail\Mail;
 
 class NotificationModel extends AbstractModel
@@ -34,21 +35,10 @@ class NotificationModel extends AbstractModel
 
         if (isset($datas['send_email']) && $datas['send_email']) {
 
-            $email = new Mail();
-            $email->setFrom("notification@cadencio.com", "Cadencio Notification");
-            $email->setSubject($datas['title']);
-
             $userMail = $this->getAdapter()->fetchOne('SELECT email FROM users WHERE id = ?', [$datas['id_user']]);
-            $email->addTo($userMail);
-            $email->addContent(
-                "text/plain",  strip_tags($datas['content'])
-            );
-            $email->addContent(
-                "text/html",  $datas['content']
-            );
-            $sendgrid = new \SendGrid(SENGRID_KEY);
+
             try {
-                $response = $sendgrid->send($email);
+                Utils::sendMail($userMail , $datas['title'], $datas['content'] );
             } catch (Exception $e) {
                 error_log('Caught exception: '.  $e->getMessage());
             }
