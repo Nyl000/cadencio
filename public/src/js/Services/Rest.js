@@ -27,6 +27,10 @@ const request = (endpoint, httpMethod, requestDatas, contentType, headers) => {
         }
 
         fetch(url, options).then((response) => {
+            if (response.status === 401) {
+				localStorage.removeItem('token');
+				window.location = Config.baseUrl+'/login';
+            }
             if (response.status !== 200 && response.status !== 201 && response.status !== 204) {
                 response.text().then(
                     (text) => {
