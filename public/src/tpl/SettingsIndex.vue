@@ -17,12 +17,13 @@
                             <input type="text" v-model="mail_smtp_port"/>
                         </div>
                         <div class="formInput">
+                            <input type="password" v-model="password" v-show="false"/>
                             <label>Username</label>
                             <input type="text" v-model="mail_smtp_user"/>
                         </div>
                         <div class="formInput">
                             <label>Password</label>
-                            <input type="password" v-model="mail_smtp_password"/>
+                            <input type="password" v-model="mail_smtp_password" autocomplete="new-password"/>
                         </div>
                         <div class="formInput">
                             <label>From email</label>
