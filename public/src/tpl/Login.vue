@@ -9,6 +9,9 @@
                 <input type="password" v-model="password" placeholder="password"/>
                 <button v-on:click="attemptLogin" class="send">Login</button>
                 <info-message type="error" v-bind:message="errorMessage" ref="info"/>
+                <router-link to="/passwordreset">
+                    I forgot my password
+                </router-link>
             </div>
         </form>
     </div>

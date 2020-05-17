@@ -35,6 +35,7 @@ class UserModel extends AbstractModel
         if (!isset($datas['id']) || empty($datas['id'])) {
             unset($datas['id']);
             $datas['date_register'] = date('Y-m-d H:i:s');
+            $datas['hash'] = hash('SHA256', uniqid());
         }
         return parent::createOrUpdate($datas);
     }

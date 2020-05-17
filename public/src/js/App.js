@@ -11,6 +11,9 @@ import RolesIndex from 'tpl/RolesIndex.vue';
 import ProfileIndex from 'tpl/ProfileIndex.vue';
 import ModulesIndex from 'tpl/ModulesIndex.vue';
 import SettingsIndex from 'tpl/SettingsIndex.vue';
+import AskPasswordReset from 'tpl/AskPasswordReset.vue';
+import PasswordReset from 'tpl/PasswordReset.vue';
+
 import {getHooks} from 'js/Services/HookHandler';
 import {refreshActivesModules} from 'js/Models/Module';
 
@@ -31,6 +34,8 @@ class Main {
 				{path: '/roles/:page?', component: RolesIndex},
 				{path: '/modules/:page?', component: ModulesIndex},
 				{path: '/settings', component: SettingsIndex},
+				{path: '/passwordreset', component: AskPasswordReset},
+				{path: '/confirmreset/:hash', component: PasswordReset},
 
 			];
 
@@ -49,7 +54,10 @@ class Main {
 			let token = localStorage.getItem('token');
 			let router = this.router;
 			if (!token) {
-				router.push('login');
+				if (!this.isResetPasswordRoute()) {
+					router.push('login');
+				}
+
 			}
 			else {
 				testToken(token).then(
@@ -58,7 +66,9 @@ class Main {
 						refreshActivesModules();
 					},
 					() => {
-						router.push('login');
+						if (!this.isResetPasswordRoute()) {
+							router.push('login');
+						}
 					}
 				);
 			}
@@ -73,8 +83,15 @@ class Main {
 	}
 
 	tokenInvalidFallback() {
-		instance.router.push('login');
+		if (!this.isResetPasswordRoute()) {
+			instance.router.push('login');
+		}
 	}
+
+	isResetPasswordRoute() {
+		return /confirmreset\//.test(window.location.href)
+	}
+
 }
 
 export {

@@ -39,6 +39,7 @@ CREATE TABLE users (
     password VARCHAR(256) NOT NULL,
     date_register DATETIME NOT NULL,
     id_role INT UNSIGNED NOT NULL DEFAULT 2,
+    hash VARCHAR(256),
     PRIMARY KEY(id),
     UNIQUE KEY(email),
     FOREIGN KEY(id_role) REFERENCES roles(id) ON DELETE RESTRICT ON UPDATE CASCADE

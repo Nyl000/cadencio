@@ -101,9 +101,15 @@ button {
   padding: 10px 20px;
   color: grey;
   box-sizing: border-box;
+  margin-bottom:1em;
   &.error {
     color: red;
     border-color: rgba(255, 0, 0, 0.39);
+  }
+  &.success {
+    color:green;
+    border-color: #006300;
+
   }
 }
 
