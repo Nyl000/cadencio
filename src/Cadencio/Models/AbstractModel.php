@@ -240,9 +240,10 @@ abstract class AbstractModel
         return $this->getAdapter()->fetchRow('SELECT  ' . implode(',',$this->getPublicFields()) . ' FROM ' . $this->from . ' WHERE ' .$filter . $this->getGroup() ,$params);
     }
 
-    public function getAll($options = array())
+    public function getAll($options = [])
     {
-        return $this->getAdapter()->fetchAll('SELECT ' . implode(',',$this->getPublicFields()) . ' FROM ' . $this->modelName, array());
+        $query = $this->getAllQuery($options);
+        return $this->getAdapter()->fetchAll($query['query'], $query['params']);
     }
 
     public function getByIds(array $arrayValues, $field = 'id')
