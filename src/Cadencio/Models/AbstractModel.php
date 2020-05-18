@@ -17,6 +17,7 @@ abstract class AbstractModel
     private $query_parameters = [];
     private $where = [];
     protected $identifier = 'id';
+    private $paging = true;
 
 
     public function __construct()
@@ -30,6 +31,18 @@ abstract class AbstractModel
         $this->from = $this->modelName;
         $this->setGroup('');
         $this->init();
+    }
+
+
+    public function isPaging()
+    {
+        return $this->paging;
+    }
+
+
+    public function setPaging($paging)
+    {
+        $this->paging = $paging;
     }
 
     public function where($condition, array $parameters) {
@@ -307,7 +320,7 @@ abstract class AbstractModel
 
         $paging = '';
         //Paging
-        if (!$countOnly) {
+        if (!$countOnly && $this->paging) {
             $nbItems = isset($options['nbItems']) ? $options['nbItems'] : DEFAULT_PAGINATION;
             $activePage = isset($options['page']) ? $options['page'] : 1;
 
