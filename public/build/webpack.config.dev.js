@@ -10,8 +10,9 @@ const resolve = require('path').resolve;
 
 const moduleConf = require('../../modules/__config');
 
-var modulesEntries = moduleConf.getModulesFiles();
-modulesEntries.push('babel-polyfill');
+var modulesEntries = ['babel-polyfill'];
+
+modulesEntries = modulesEntries.concat(moduleConf.getModulesFiles());
 modulesEntries.push('./src/app.js');
 
 
