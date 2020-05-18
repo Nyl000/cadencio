@@ -67,6 +67,11 @@ button {
       opacity: .3;
     }
   }
+  &.primary {
+    background: $color1;
+    color:white;
+  }
+
   &:hover {
     background: #bababa;
 
@@ -597,4 +602,42 @@ hr {
 
 .main_container {
   padding:.5em;
+}
+
+.searchbox {
+  input[type="search"] {
+    display: inline-block;
+    width: 300px;
+    border-bottom: 1px solid grey;
+  }
+  .button {
+    display: inline-block;
+    width: auto;
+
+  }
+  ul {
+    list-style: none;
+    padding-left: 0;
+    li {
+      background: #efefef;
+      margin-bottom: .5em;
+      border-radius: .3em;
+      display: block;
+      padding: .5em;
+      &.active {
+        background: green;
+        color: white;
+      }
+
+      .choiced {
+        color: green;
+        display: inline-block;
+        padding-right: 1em;
+      }
+      &:hover {
+        opacity: .7;
+        cursor: pointer;
+      }
+    }
+  }
 }
