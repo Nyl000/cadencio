@@ -553,6 +553,21 @@ hr {
   justify-content: center;
   font-size: 3em;
   color: $color2;
+  .spin {
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-name: rotate;
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(365deg);
+  }
 }
 
 .markdown-entry-description {
