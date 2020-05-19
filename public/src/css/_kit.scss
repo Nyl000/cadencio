@@ -646,14 +646,15 @@ hr {
 
   margin-bottom:.5em;
   .title {
-    font-size:1.1em;
+    font-size:.8em;
+    font-weight:bold;
     text-transform:uppercase;
-    font-weight:200;
-    color:grey;
+    color:#575757;
   }
   .hint {
     font-style: italic;
-    font-size:.9em;
+    font-size:.8em;
     padding-top:1em;
+    color:grey;
   }
 }
