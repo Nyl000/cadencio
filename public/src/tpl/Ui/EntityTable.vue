@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="entitytable">
         <div class="list filters">
             <div class="colselector">
                 <format-columns-icon v-on:click="chooserDisplayed = !chooserDisplayed"/>
@@ -80,6 +80,8 @@
             </table>
         </div>
         <paginator :paginator="paginator"/>
+        <Loader v-if="load" />
+
     </div>
 </template>
 
@@ -94,6 +96,7 @@
 	import Paginator from 'tpl/Ui/Paginator.vue';
 	import ActionTable from 'tpl/Ui/ActionTable.vue';
 	import draggable from 'vuedraggable'
+    import Loader from 'tpl/Ui/Loader.vue';
 
 
 	export default {
@@ -114,7 +117,7 @@
 				columnsDisplayed: [],
 				columnsOrdered: [],
 				chooserDisplayed: false,
-
+                load : false,
 			}
 		},
 
@@ -218,6 +221,7 @@
 
 			refresh: function () {
 
+				this.load = true;
 				let options = {
 					order: this.order,
 					orderDirection: this.orderDirection,
@@ -230,6 +234,7 @@
 				this.modelObj.list(options).then((response) => {
 					this.list = response[Object.keys(response)[0]];
 					this.paginator = response.paginator;
+					this.load=false;
 				});
 			},
 		},
@@ -241,7 +246,8 @@
 			CheckboxBlankCircleIcon,
 			Paginator,
 			draggable,
-			ActionTable
+			ActionTable,
+            Loader
 		},
 		watch: {
 			page: function (newVal, oldVal) { // watch it
