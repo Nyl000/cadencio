@@ -8,7 +8,7 @@
                     <span class="item" :key="item[identifier]" v-for="item in selectedItems">{{item[label]}}</span>
                     <em class="empty" v-if="Object.keys(selectedItems).length == 0">No entry</em>
                 </div>
-                <div class="button primary " @click.prevent="openSearch">Search</div>
+                <div class="button primary " @click.prevent="openSearch">Modify</div>
             </div>
         </div>
         <Modale ref="searchModale">
@@ -42,6 +42,7 @@
             'label',
             'title',
             'onChangeCallback',
+
         ],
 
 		mounted: async function () {
