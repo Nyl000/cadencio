@@ -30,7 +30,7 @@ const refreshActivesModules = (callback) => {
 			callback();
         }
 	})
-}
+};
 
 export {
     list,
