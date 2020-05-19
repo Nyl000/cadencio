@@ -65,9 +65,10 @@
             }
 
 		},
-
-
-		components: {
-		}
+		watch : {
+			tags : function(newval) {
+				this.tagString = newval.join(', ');
+			}
+        }
 	}
 </script>
