@@ -1,8 +1,11 @@
 <template>
 
     <div>
-        <div>
-            <div class="title">{{title}}</div>
+        <div class="multipleselect">
+            <div class="title" v-if="title">{{title}}</div>
+            <div class="hint" v-if="hint">
+                {{hint}}
+            </div>
             <div class="groupitems">
                 <div>
                     <span class="item" :key="item[identifier]" v-for="item in selectedItems">{{item[label]}}</span>
@@ -41,6 +44,7 @@
             'identifier',
             'label',
             'title',
+            'hint',
             'onChangeCallback',
 
         ],

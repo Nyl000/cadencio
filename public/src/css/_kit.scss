@@ -641,3 +641,17 @@ hr {
     }
   }
 }
+
+.multipleselect {
+
+  margin-bottom:.5em;
+  .title {
+    font-size:1.1em;
+    text-transform:uppercase;
+    font-weight:200;
+    color:grey;
+  }
+  .hint {
+    font-style: italic;
+  }
+}
