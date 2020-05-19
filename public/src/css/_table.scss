@@ -232,6 +232,30 @@
         display:inline-block;
         margin-right:.3em;
       }
+      .material-design-icon {
+        cursor:pointer;
+        padding:1em;
+        border-radius:50px;
+        background: #e3e3e3;
+        transition: background .3s;
+
+        &:hover {
+          background: $color2;
+          color:white;
+        }
+        position:relative;
+        .material-design-icon__svg {
+          transition: .3s;
+          height: 15px;
+          width: 15px;
+          fill: currentColor;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translateY(-50%) translateX(-50%);
+          bottom:auto;
+        }
+      }
     }
 
   }
