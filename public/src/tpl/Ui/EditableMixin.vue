@@ -50,6 +50,11 @@
 				this.editMode = false
 			}
         },
+		watch: {
+			value: function (newVal) {
+				this.val = newVal;
+			}
+		}
 
     }
 
