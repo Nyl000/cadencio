@@ -109,7 +109,12 @@ abstract class AbstractModel
 
     public function getOrderFields()
     {
-        return $this->getTableProperties();
+        $fields = $this->getTableProperties();
+        $out = [];
+        foreach($fields as $field) {
+            $out[$field] = $this->modelName.'.'.$field;
+        }
+        return $out;
     }
 
     protected function getAdapter()
@@ -339,9 +344,9 @@ abstract class AbstractModel
 
         //Order
         $order = '';
-        if (isset($options['order']) && in_array($options['order'], $this->getOrderFields())) {
-            $order .= ' ORDER BY ' . $this->modelName.'.'.$options['order'].' IS NULL, ';
-            $order .=  $this->modelName.'.'.$options['order'];
+        if (isset($options['order']) && in_array($options['order'], array_keys($this->getOrderFields()))) {
+            $order .= ' ORDER BY ' .$this->getOrderFields()[$options['order']].' IS NULL, ';
+            $order .=  $this->getOrderFields()[$options['order']];
             $order .= isset($options['orderDirection']) && $options['orderDirection'] == 'DESC' ? ' DESC' : ' ASC';
         }
 
