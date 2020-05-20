@@ -14,6 +14,7 @@ abstract class AbstractModel
     private $tableProperties = false;
     private $from;
     private $group;
+    private $having;
     private $query_parameters = [];
     private $where = [];
     protected $identifier = 'id';
@@ -31,6 +32,7 @@ abstract class AbstractModel
         }
         $this->from = $this->modelName;
         $this->setGroup('');
+        $this->setHaving('');
         $this->init();
     }
 
@@ -76,6 +78,14 @@ abstract class AbstractModel
 
     public function setGroup($groupBy) {
         $this->group = $groupBy;
+    }
+
+    public function getHaving() {
+        return $this->having;
+    }
+
+    public function setHaving($having) {
+        $this->having = $having;
     }
 
     public function getResourceName() {
@@ -253,7 +263,7 @@ abstract class AbstractModel
         }
 
         $params[] = $id;
-        return $this->getAdapter()->fetchRow('SELECT  ' . implode(',',$this->getPublicFields()) . ' FROM ' . $this->from . ' WHERE ' .$filter . $this->getGroup() ,$params);
+        return $this->getAdapter()->fetchRow('SELECT  ' . implode(',',$this->getPublicFields()) . ' FROM ' . $this->from . ' WHERE ' .$filter . ' '. $this->getGroup().' '.$this->getHaving() ,$params);
     }
 
     public function getAll($options = [])
@@ -385,7 +395,7 @@ abstract class AbstractModel
         $queryParts = $this->prepareQuery($options, $countOnly);
 
         return [
-            'query' => $queryParts['select'] . $queryParts['from'] . $queryParts['where'] . $this->getGroup(). $queryParts['order'] . $queryParts['paging'],
+            'query' => $queryParts['select'] . $queryParts['from'] . $queryParts['where'] . ' '.  $this->getGroup(). ' ' . $this->getHaving().' '. $queryParts['order'] . $queryParts['paging'],
             'params' => $queryParts['params']
         ];
     }
