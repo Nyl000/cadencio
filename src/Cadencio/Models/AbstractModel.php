@@ -326,7 +326,7 @@ abstract class AbstractModel
     {
 
         if ($countOnly) {
-            $select = 'SELECT count('.$this->modelName.'.'.$this->identifier.')';
+            $select = 'SELECT '.$this->modelName.'.'.$this->identifier;
         } else {
             $select = 'SELECT  ' . implode(',',$this->getPublicFields());
         }
@@ -399,8 +399,13 @@ abstract class AbstractModel
 
         $queryParts = $this->prepareQuery($options, $countOnly);
 
+        $query = $queryParts['select'] . $queryParts['from'] . $queryParts['where'] . ' '.  $this->getGroup(). ' ' . $this->getHaving().' '. $queryParts['order'] . $queryParts['paging'];
+        if($countOnly) {
+            $query = 'SELECT COUNT(*) FROM ('.$query.') as countable';
+            error_log($query);
+        }
         return [
-            'query' => $queryParts['select'] . $queryParts['from'] . $queryParts['where'] . ' '.  $this->getGroup(). ' ' . $this->getHaving().' '. $queryParts['order'] . $queryParts['paging'],
+            'query' => $query,
             'params' => $queryParts['params']
         ];
     }
