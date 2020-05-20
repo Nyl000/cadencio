@@ -95,7 +95,7 @@
     overflow: visible;
     position: relative;
     z-index: 100;
-    padding: 5px 25px;
+    padding: 12px 25px;
     border-bottom: 1px solid #e2e2e2;
     color: #4b4b4b;
     border-radius: 5px 5px 0px 0px;
@@ -108,6 +108,20 @@
 
     }
 
+  }
+  .exportbutton {
+    position:absolute;
+    right:.5em;
+    top:.5em;
+    background: #e7e7e7;
+    padding:.5em;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.09);
+    border-radius:5px;
+    cursor:pointer;
+    color:black;
+    &:hover {
+      background:white;
+    }
   }
 
   .colselector {

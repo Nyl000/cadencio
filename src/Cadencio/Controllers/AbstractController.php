@@ -32,6 +32,10 @@ abstract class AbstractController {
         echo $datas;
     }
 
+    /**
+     * @return AbstractModel
+     * @throws \Exception
+     */
     protected function getModel() {
         if (!isset($this->model)) {
             throw new \Exception('No model defined');

@@ -1,6 +1,9 @@
 <template>
     <div class="entitytable">
         <div class="list filters">
+            <a v-if="isExportable()" @click="exportItems" class="exportbutton">
+                EXPORT <export-icon />
+            </a>
             <div class="colselector">
                 <format-columns-icon v-on:click="chooserDisplayed = !chooserDisplayed"/>
                 <div class="chooser" v-if="chooserDisplayed">
@@ -97,6 +100,8 @@
 	import ActionTable from 'tpl/Ui/ActionTable.vue';
 	import draggable from 'vuedraggable'
     import Loader from 'tpl/Ui/Loader.vue';
+	import {objectToUrl} from 'js/Services/Utils';
+	import ExportIcon from 'vue-material-design-icons/Export.vue';
 
 
 	export default {
@@ -124,6 +129,19 @@
 		methods: {
 			mounted: function () {
 				this.setColumnsDisplayed();
+			},
+			isExportable : function() {
+				return  typeof(this.modelObj) !== 'undefined' && typeof (this.modelObj.getExportUrl) !== 'undefined';
+            },
+			exportItems : function() {
+				let options = {
+					order: this.order,
+					orderDirection: this.orderDirection,
+					page: this.page,
+				};
+				options = Object.assign(options, this.$props.listOptions || {});
+				window.open(this.modelObj.getExportUrl(options));
+
 			},
 			setOrder: function (field) {
 				var orderDir = 'ASC';
@@ -162,7 +180,6 @@
 			},
 			columnsOrderChange: function () {
 				localStorage.setItem('table_' + this.$props.name + '_orderedColumns', JSON.stringify(this.columnsOrdered));
-				let listTmp = this.list;
 				this.refresh();
 
 			},
@@ -247,7 +264,8 @@
 			Paginator,
 			draggable,
 			ActionTable,
-            Loader
+            Loader,
+			ExportIcon
 		},
 		watch: {
 			page: function (newVal, oldVal) { // watch it

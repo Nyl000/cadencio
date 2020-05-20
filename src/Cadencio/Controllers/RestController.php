@@ -18,6 +18,7 @@ class RestController extends AbstractController
 {
 
     protected $auth;
+    protected $renderOverrideFunction;
 
     public function __construct()
     {
@@ -31,6 +32,16 @@ class RestController extends AbstractController
 
     }
 
+    protected function setRenderOverrideFunction($func) {
+        if (is_callable($func)) {
+            $this->renderOverrideFunction = $func;
+        }
+    }
+
+    protected function getRenderOverrideFunction() {
+        return $this->renderOverrideFunction;
+    }
+
     public function abortIfNotAllowed($resource, $action)
     {
         $permission = new Permissions();
@@ -41,6 +52,10 @@ class RestController extends AbstractController
 
     public function render($datas)
     {
+        if (is_callable($this->getRenderOverrideFunction())) {
+            return $this->getRenderOverrideFunction()($datas);
+        }
+
         return json_encode($datas);
     }
 
@@ -112,6 +127,36 @@ class RestController extends AbstractController
             return ['result' => 'ok'];
 
         });
+    }
+
+    public function getExport($query) {
+
+        $this->setRenderOverrideFunction(function($datas) {
+            header('Content-Type: text/csv');
+            return $datas;
+
+        });
+
+        $_GET['nbItems'] = 9999999;
+
+        $this->getModel()->setPublicFields($this->getModel()->getExportFields());
+        $datas = $this->getModel()->buildPaginatedQuery($_GET);
+        $datas = $datas[$this->getModel()->getModelName()];
+
+        $fh = fopen('php://temp', 'rw');
+
+        fputcsv($fh, array_keys(current($datas)),';');
+        foreach ($datas as &$row) {
+            fputcsv($fh, $row,';');
+        }
+
+        rewind($fh);
+        $csv = stream_get_contents($fh);
+        fclose($fh);
+        return $csv;
+
+
+
     }
 
     public function postIndex($query)

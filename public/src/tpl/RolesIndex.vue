@@ -37,6 +37,7 @@
 	import DeleteIcon from 'vue-material-design-icons/Delete.vue';
 	import GearIcon from 'vue-material-design-icons/Cog'
 	const rolesModel = require('js/Models/Role');
+	import {objectToUrl} from 'js/Services/Utils';
 
 	export default {
 		data: function () {

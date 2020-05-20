@@ -18,6 +18,7 @@ abstract class AbstractModel
     private $where = [];
     protected $identifier = 'id';
     private $paging = true;
+    private $publicFields = false;
 
 
     public function __construct()
@@ -82,6 +83,17 @@ abstract class AbstractModel
     }
 
     public function getPublicFields() {
+        if(!$this->publicFields) {
+            return [$this->modelName.'.*'];
+        }
+        return $this->publicFields;
+    }
+
+    public function setPublicFields($fields) {
+        $this->publicFields = $fields;
+    }
+
+    public function getExportFields() {
         return [$this->modelName.'.*'];
     }
 
@@ -153,6 +165,10 @@ abstract class AbstractModel
 
         return isset($datas['id']) && $datas['id'] != 0 ? $datas['id'] : $this->getAdapter()->getLastId();
 
+    }
+
+    public function getModelName() {
+        return $this->modelName;
     }
 
     public function patch($id, $datas, $uniqueFieldname = 'id')
