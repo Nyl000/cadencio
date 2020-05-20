@@ -402,7 +402,6 @@ abstract class AbstractModel
         $query = $queryParts['select'] . $queryParts['from'] . $queryParts['where'] . ' '.  $this->getGroup(). ' ' . $this->getHaving().' '. $queryParts['order'] . $queryParts['paging'];
         if($countOnly) {
             $query = 'SELECT COUNT(*) FROM ('.$query.') as countable';
-            error_log($query);
         }
         return [
             'query' => $query,
