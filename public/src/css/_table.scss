@@ -90,6 +90,7 @@
   border-radius: 0px 0px 5px 5px;
   font-size:.8em;
   width:100%;
+  transform-style: preserve-3d;
 
   &.filters {
     overflow: visible;
@@ -185,6 +186,9 @@
     }
   }
 
+  thead {
+    background:white;
+  }
   th {
     border-bottom: 1px solid #e2e2e2;
     padding: 10px 25px;

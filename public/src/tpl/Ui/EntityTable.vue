@@ -1,5 +1,5 @@
 <template>
-    <div class="entitytable">
+    <div  class="entitytable">
         <div class="list filters">
             <a v-if="isExportable()" @click="exportItems" class="exportbutton">
                 EXPORT <export-icon />
@@ -27,7 +27,7 @@
 
         <div class="table-responsive">
             <table class="list">
-                <thead>
+                <thead ref="tablehead">
                 <draggable v-model="columnsOrdered" @end="columnsOrderChange" tag="tr">
                     <th v-for="column in columnsOrdered" class=" information" :key="column.property"
                         v-on:click="setOrder(column.property)"
@@ -126,9 +126,26 @@
 			}
 		},
 
+		created () {
+			window.addEventListener('scroll', this.onScroll);
+		},
+		destroyed () {
+			window.removeEventListener('scroll', this.onScroll);
+		},
 		methods: {
 			mounted: function () {
 				this.setColumnsDisplayed();
+			}
+			,onScroll : function() {
+				this.$refs.tablehead.style.position = 'relative';
+				this.$refs.tablehead.style.transform = '';
+
+				let topOffset = this.$refs.tablehead.getBoundingClientRect().top
+                if (topOffset < 0) {
+					let height = Math.abs(topOffset-this.$refs.tablehead.clientHeight);
+					this.$refs.tablehead.style.transform = 'translateY('+Math.abs(topOffset)+'px) translateZ(10px)';
+
+				}
 			},
 			isExportable : function() {
 				return  typeof(this.modelObj) !== 'undefined' && typeof (this.modelObj.getExportUrl) !== 'undefined';
