@@ -105,11 +105,13 @@
 
 
 	export default {
-		props: ['model', 'definition', 'page', 'listOptions','name'],
+		props: ['model', 'definition', 'page', 'listOptions','name','loadOnStart'],
 
 		mounted: function () {
 			this.modelObj = this.model;
-			this.refresh();
+			if (this.loadStart) {
+				this.refresh();
+			}
 
 		},
 
@@ -123,6 +125,7 @@
 				columnsOrdered: [],
 				chooserDisplayed: false,
                 load : false,
+				loadStart : typeof this.$props.loadOnStart !== 'undefined' ? this.$props.loadOnStart : true,
 			}
 		},
 
