@@ -658,7 +658,7 @@ hr {
   }
 }
 
-.multipleselect,.tag_editor {
+.multipleselect,.simpleselect, .tag_editor {
   margin-top:1em;
   margin-bottom:.5em;
   .title {
@@ -673,4 +673,27 @@ hr {
     padding-top:1em;
     color:grey;
   }
+  .groupitems {
+    padding:.3em;
+    border:1px solid #eaeaea;
+    margin-top:.5em;
+    .item {
+      display:inline-block;
+      background: #eaeaea;
+      border-radius:5px;
+      margin-bottom:.5em;
+      margin-right:.5em;
+      padding:.5em;
+    }
+    .empty {
+      padding:.5em;
+      display:inline-block;
+    }
+    .button {
+      display:inline-block;
+      width:auto;
+      margin-top:.2em;
+    }
+  }
+
 }
