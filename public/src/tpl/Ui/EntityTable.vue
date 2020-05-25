@@ -141,7 +141,7 @@
 			}
 			,onScroll : function() {
 				this.$refs.tablehead.style.position = 'relative';
-				this.$refs.tablehead.style.transform = '';
+				this.$refs.tablehead.style.transform = 'translateY(0px) translateZ(10px)';
 
 				let topOffset = this.$refs.tablehead.getBoundingClientRect().top
                 if (topOffset < 0) {
