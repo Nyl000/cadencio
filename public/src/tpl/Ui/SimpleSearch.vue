@@ -8,7 +8,7 @@
         </div>
         <ul class="search_results">
             <li :class="' '+getActive(item[identifier]) " v-for="item in items" :key="item[identifier]" v-on:click="select(item[identifier],item)">
-                {{item[label]}}
+                {{renderItem(item)}}
             </li>
         </ul>
     </div>
@@ -19,7 +19,7 @@
 	import MagnifyIcon from 'vue-material-design-icons/Magnify.vue';
 
 	export default {
-		props: ['onSelected','selectedItem','id_excluded', 'model','placeholder','identifier','label'],
+		props: ['onSelected','selectedItem','id_excluded', 'model','placeholder','identifier','label','itemRenderer'],
 
 		data: function()  {
 			return {
@@ -48,6 +48,14 @@
 			getActive : function(id) {
 				return this.isSelected(id) ? 'active' : '';
 			},
+			renderItem : function(item) {
+				if (typeof this.itemRenderer === 'function') {
+					return this.itemRenderer(item);
+                }
+                else {
+					return item[this.label];
+                }
+            },
 			select: function (id,item) {
 
 				if (this.isSelected(id)) {

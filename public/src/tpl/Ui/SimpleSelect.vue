@@ -8,7 +8,7 @@
             </div>
             <div class="groupitems">
                 <div>
-                    <span class="item" v-if="typeof selectedItem[identifier] !== 'undefined' ">{{selectedItem[label]}}</span>
+                    <span class="item" v-if="typeof selectedItem[identifier] !== 'undefined' ">{{renderItem(selectedItem)}}</span>
                     <em class="empty" v-if="typeof selectedItem[identifier] == 'undefined' ">{{placeholder}}</em>
                 </div>
                 <div class="button primary" @click.prevent="openSearch">{{ buttonText || "Select an item" }}</div>
@@ -23,6 +23,7 @@
                     :placeholder="search_placeholder"
                     :identifier="identifier"
                     :label="label"
+                    :itemRenderer="itemRenderer"
             />
         </Modale>
     </div>
@@ -47,7 +48,8 @@
             'hint',
             'onChangeCallback',
             'placeholder',
-            'buttonText'
+            'buttonText',
+            'itemRenderer'
 
         ],
 
@@ -66,7 +68,15 @@
 				if(typeof this.onChangeCallback === 'function') {
 					this.onChangeCallback(item)
                 }
-			}
+			},
+			renderItem : function(item) {
+				if (typeof this.itemRenderer === 'function') {
+					return this.itemRenderer(item);
+				}
+				else {
+					return item[this.label];
+				}
+			},
 
 		},
 
