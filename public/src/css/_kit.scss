@@ -697,3 +697,45 @@ hr {
   }
 
 }
+
+
+.toggle {
+  position: relative;
+  display: inline-block;
+  width: 2em;
+  height: 1em;
+  &.on {
+    .slider {
+      background-color: $color2;
+      &:before {
+        -webkit-transform: translateX(1em);
+        -ms-transform: translateX(1em);
+        transform: translateX(1em);
+      }
+    }
+  }
+  .slider {
+    border-radius: .5em;
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+    &:before {
+      position: absolute;
+      content: "";
+      height: .5em;
+      width: .5em;
+      left: .2em;
+      bottom: .25em;
+      background-color: white;
+      -webkit-transition: .4s;
+      transition: .4s;
+      border-radius: 50%;
+    }
+  }
+}
