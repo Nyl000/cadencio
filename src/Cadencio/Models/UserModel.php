@@ -3,6 +3,8 @@
 namespace Cadencio\Models;
 
 use Cadencio\Application;
+use Cadencio\Exceptions\ApiForbiddenException;
+use Cadencio\Exceptions\ApiNotFoundException;
 
 class UserModel extends AbstractModel
 {
@@ -58,10 +60,42 @@ class UserModel extends AbstractModel
             $datas['date_register'] = date('Y-m-d H:i:s');
             $datas['hash'] = hash('SHA256', uniqid());
         }
+        else {
+            if (isset($datas['id_role'])) {
+                $roleModel = new RoleModel();
+                if (!$this->isAdministrator(Application::$instance->getCurrentUserId() && $roleModel->isAdministrator($datas['id_role']))) {
+                    throw new ApiForbiddenException('You cannot grant a user as administrator');
+                }
+            }
+        }
         return parent::createOrUpdate($datas);
     }
 
+    public function patch($id, $datas, $uniqueFieldname = 'id')
+    {
+        if (is_object($datas)) {
+            $datas = (array) $datas;
+        }
+
+        if (isset($datas['id_role'])) {
+            $roleModel = new RoleModel();
+            if (!$this->isAdministrator(Application::$instance->getCurrentUserId() && $roleModel->isAdministrator($datas['id_role']))) {
+                throw new ApiForbiddenException('You cannot grant a user as administrator');
+            }
+        }
+        parent::patch($id, $datas, $uniqueFieldname);
+    }
+
+    public function delete($id)
+    {
+        if (!$this->isAdministrator(Application::$instance->getCurrentUserId() && $this->isAdministrator($id))) {
+            throw new ApiForbiddenException('You cannot delete an administrator');
+        }
+        return parent::delete($id);
+    }
+
     public function getOne($id, $field = 'id',$ignoreCase = true) {
+
         $roleModel = new RoleModel();
         $optionsModel = new UserOptionModel();
 
@@ -69,6 +103,10 @@ class UserModel extends AbstractModel
 
         $user['role'] = $roleModel->getOne($user['id_role']);
         $user['options'] = $optionsModel->getByUser(($user['id']));
+
+        if (!$this->isAdministrator(Application::$instance->getCurrentUserId() && $this->isAdministrator($user['id']))) {
+            throw new ApiNotFoundException();
+        }
 
         unset($user['id_role']);
 
