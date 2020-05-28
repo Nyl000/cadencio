@@ -13,6 +13,19 @@ class Modules extends RestController
         $this->setModel(new ModuleModel());
     }
 
+    public function getIndex($query)
+    {
+
+        return $this->auth->secure(function () use ($query) {
+
+            if ($query['action'] !== 'index') {
+                return $this->getModel()->getOne($query['action']);
+            } else {
+                return $this->getModel()->buildPaginatedQuery($_GET);
+            }
+
+        });
+    }
 
     public function postIndex($query)
     {
