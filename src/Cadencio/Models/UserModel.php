@@ -2,11 +2,22 @@
 
 namespace Cadencio\Models;
 
+use Cadencio\Application;
+use Cadencio\Services\Permissions;
+
 class UserModel extends AbstractModel
 {
 
     protected $modelName = 'users';
     protected $resourceName = 'users';
+
+    public function init()
+    {
+        $permission = new Permissions();
+        if (!$permission->userHasPermission(Application::$instance->getCurrentUserId(), '*', '*')) {
+            $this->where('id_role != 1', []);
+        }
+    }
 
     public function getPublicFields()
     {
