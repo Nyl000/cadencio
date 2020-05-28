@@ -13,8 +13,8 @@ class RoleModel extends AbstractModel
 
     public function init()
     {
-        $permissions = $this->getPermissionsFromUser(Application::$instance->getCurrentUserId());
-        if (!in_array('*.*', $permissions)) {
+        $userModel = new UserModel();
+        if (!$userModel->isAdministrator(Application::$instance->getCurrentUserId())) {
             $this->where('roles.id != 1', []);
         }
     }
@@ -24,6 +24,11 @@ class RoleModel extends AbstractModel
         $role = $this->getAdapter()->fetchRow('SELECT ' . $this->modelName . '.* FROM ' . $this->modelName . ' JOIN users ON ' . $this->modelName . '.id = users.id_role WHERE users.id = ? ', [$idUser]);
         $role['permissions'] = $this->getPermissionsFromRole($role['id']);
         return $role;
+    }
+
+    public function isAdministrator($idRole) {
+        $permissions = $this->getPermissionsFromRole($idRole);
+        return in_array('*.*', $permissions);
     }
 
     public function getPermissionsFromRole($idRole)

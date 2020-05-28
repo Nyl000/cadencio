@@ -13,10 +13,21 @@ class UserModel extends AbstractModel
 
     public function init()
     {
-        $permission = new Permissions();
-        if (!$permission->userHasPermission(Application::$instance->getCurrentUserId(), '*', '*')) {
+        if (!$this->isAdministrator(Application::$instance->getCurrentUserId())) {
             $this->where('id_role != 1', []);
         }
+    }
+
+    public function isAdministrator($idUser) {
+
+        return
+            $this->getAdapter()->fetchOne(
+                'SELECT COUNT(*) 
+                        FROM roles_resources 
+                        JOIN users ON users.id_role = roles_resources.id_role
+                        WHERE users.id = ? AND resource_name = ? AND resource_right = ?', [$idUser,'*','*']
+            ) > 0;
+
     }
 
     public function getPublicFields()
