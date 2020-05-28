@@ -3,7 +3,6 @@
 namespace Cadencio\Models;
 
 use Cadencio\Application;
-use Cadencio\Services\Permissions;
 
 class UserModel extends AbstractModel
 {

@@ -2,6 +2,9 @@
 
 namespace Cadencio\Controllers;
 
+use Cadencio\Application;
+use Cadencio\Exceptions\ApiForbiddenException;
+use Cadencio\Models\UserModel;
 use Config\Permissions;
 use Cadencio\Exceptions\ApiNotFoundException;
 use Cadencio\Exceptions\ApiUnprocessableException;
@@ -20,6 +23,12 @@ class Roles extends RestController
         if ($query['action'] !== 'index' && $query['subaction'] === 'permissions') {
             return $this->auth->secure(function () use ($query) {
                 $this->abortIfNotAllowed('roles','update');
+
+                $userModel = new UserModel();
+                if ($this->getModel()->isAdministrator($query['action']) &&  !$userModel->isAdministrator(Application::$instance->getCurrentUserId())) {
+                    throw new ApiForbiddenException('You cannot update an admin role !');
+                }
+
                 if (!$this->getModel()->idExists($query['action'])) {
                     throw new ApiNotFoundException();
                 }
@@ -30,6 +39,9 @@ class Roles extends RestController
                 }
                 if (!isset($body->right)) {
                     throw new ApiUnprocessableException('Missing right in body');
+                }
+                if($body->resource == '*' && $body->right == '*' && !$userModel->isAdministrator(Application::$instance->getCurrentUserId())) {
+                    throw new ApiUnprocessableException('You cannot create an admin role');
                 }
                 $this->getModel()->addPermission($query['action'],$body->resource,$body->right);
             });
@@ -48,11 +60,24 @@ class Roles extends RestController
                     throw new ApiNotFoundException();
                 }
                 $permission = explode('.',$query['subid']);
+                $userModel = new UserModel();
+                if ($this->getModel()->isAdministrator($query['action']) &&  !$userModel->isAdministrator(Application::$instance->getCurrentUserId())) {
+                    throw new ApiForbiddenException('You cannot update an admin role !');
+                }
+
                 $this->getModel()->removePermission($query['action'],$permission[0],$permission[1]);
             });
         }
         else {
-            return parent::deleteIndex($query);
+            return $this->auth->secure(function() use ($query) {
+
+                $userModel = new UserModel();
+                if ($this->getModel()->isAdministrator($query['action']) &&  !$userModel->isAdministrator(Application::$instance->getCurrentUserId())) {
+                    throw new ApiForbiddenException('You cannot delete an admin role !');
+                }
+                return parent::deleteIndex($query);
+
+            });
         }
 
 
