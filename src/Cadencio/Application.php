@@ -25,10 +25,10 @@ class Application
     {
 
 
-        $this->rewriter->addRewrite('^/([a-z0-9_]+)/([a-z0-9_]+)/([a-z0-9]+)/([a-z0-9\._\*]+)/?.*', 'index.php?resource=$1&action=$2&subaction=$3&subid=$4');
-        $this->rewriter->addRewrite('^/([a-z0-9_]+)/([a-z0-9_]+)/([a-z0-9]+)/?.*', 'index.php?resource=$1&action=$2&subaction=$3');
-        $this->rewriter->addRewrite('^/([a-z0-9_]+)/([a-z0-9_]+)/?.*', 'index.php?resource=$1&action=$2');
-        $this->rewriter->addRewrite('^/([a-z0-9_]+)/?.*', 'index.php?resource=$1&action=index');
+        $this->rewriter->addRewrite('^/([-a-z0-9_]+)/([-a-z0-9_]+)/([-a-z0-9]+)/([-a-z0-9\._\*]+)/?.*', 'index.php?resource=$1&action=$2&subaction=$3&subid=$4');
+        $this->rewriter->addRewrite('^/([-a-z0-9_]+)/([-a-z0-9_]+)/([-a-z0-9]+)/?.*', 'index.php?resource=$1&action=$2&subaction=$3');
+        $this->rewriter->addRewrite('^/([-a-z0-9_]+)/([-a-z0-9_]+)/?.*', 'index.php?resource=$1&action=$2');
+        $this->rewriter->addRewrite('^/([-a-z0-9_]+)/?.*', 'index.php?resource=$1&action=index');
         $this->rewriter->addRewrite('^/', 'index.php?resource=index&action=index');
 
         $this->rewriter->rewrite();
