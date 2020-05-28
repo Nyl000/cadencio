@@ -1,5 +1,5 @@
 <template>
-   <div @click="toggle" :class="'toggle ' + (value ? 'on':'off')">
+   <div @click="toggle" :class="'toggle ' + ( value == true ? 'on':'off')">
        <span class="slider"></span>
    </div>
 </template>
@@ -10,8 +10,10 @@
 		props: ['value'],
         methods : {
             toggle : function() {
-            	this.$emit('input', !this.value);
-            }
+            	let val = this.value == true;
+            	this.$emit('input',  !val);
+				this.$emit('change', !val);
+			}
         }
 
 	}

@@ -1,31 +1,45 @@
 <template>
     <transition name="fade">
         <div class="editable">
-            <div v-show="editMode">
-                <select ref="input" v-model="val"  v-on:blur="leaveEditmodeNoCallback"  v-on:change="leaveEditmode">
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
-                </select>
-            </div>
-            <div v-show="!editMode" v-on:click="enterEditmode">
-                {{val == '1' ? 'Yes' : 'No'}}
-                <check-bold-icon v-if="success" class="icon success" />
-                <close-icon v-if="error" class="icon error" />
+            <div>
+                <ToggleInput v-model="val" @change="leaveEditmode"/>
             </div>
         </div>
     </transition>
 </template>
 
 <script>
-    import Rest from 'js/Services/Rest';
-    import Editable from 'tpl/Ui/EditableMixin.vue';
-    import CheckBoldIcon from 'vue-material-design-icons/CheckBold.vue';
-    import CloseIcon from 'vue-material-design-icons/Close.vue';
+	import Rest from 'js/Services/Rest';
+	import Editable from 'tpl/Ui/EditableMixin.vue';
+	import CheckBoldIcon from 'vue-material-design-icons/CheckBold.vue';
+	import CloseIcon from 'vue-material-design-icons/Close.vue';
+	import ToggleInput from 'tpl/Ui/ToggleInput.vue';
 
-    export default {
-        mixins: [Editable],
-        components: {CheckBoldIcon,CloseIcon}
+	export default {
+		mixins: [Editable],
+		components: {CheckBoldIcon, CloseIcon, ToggleInput},
+		methods: {
+			leaveEditmode: function () {
+				this.editMode = false;
+				this.error = false;
+				let datas = {id: this.id};
+				datas[this.field] = this.val;
+				Rest.authRequest(this.saveurl, 'POST', datas).then(
+					() => {
+						this.success = true;
+						setTimeout(() => {
+							this.success = false;
+							this.onCallback();
+						}, 800);
+					},
+					() => {
+						this.error = true;
+					}
+				);
+
+			}
+		}
 
 
-    }
+	}
 </script>
