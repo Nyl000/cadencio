@@ -63,7 +63,7 @@
                 this.tableDefinition = {
                     idField: 'id',
                     title : 'Users',
-                    saveurl: '/users/{id}',
+                    saveurl: '/user/{id}',
                     columns: [
                         {
                             property: 'email', label: 'Email', sortable: true, renderer: {
