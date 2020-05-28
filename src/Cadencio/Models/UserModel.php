@@ -104,7 +104,7 @@ class UserModel extends AbstractModel
         $user['role'] = $roleModel->getOne($user['id_role']);
         $user['options'] = $optionsModel->getByUser(($user['id']));
 
-        if (!$this->isAdministrator(Application::$instance->getCurrentUserId() && $this->isAdministrator($user['id']))) {
+        if (!$this->isAdministrator(Application::$instance->getCurrentUserId()) && $this->isAdministrator($user['id'])) {
             throw new ApiNotFoundException();
         }
 
