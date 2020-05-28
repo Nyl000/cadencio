@@ -5,6 +5,7 @@ namespace Cadencio\Models;
 class RoleModel extends AbstractModel {
 
     protected $modelName = 'roles';
+    protected $resourceName = 'roles';
 
 
     public function getFromUser($idUser) {
