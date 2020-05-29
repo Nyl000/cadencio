@@ -19,7 +19,10 @@ modulesEntries.push('./src/app.js');
 var moduleResolve = moduleConf.getModulesDirs();
 moduleResolve = moduleResolve.concat([ path.resolve('./node_modules'), path.resolve('./src')]);
 
-
+var resourcesDirs = moduleConf.getResourcesDirs();
+resourcesDirs.push({from:'src/resources',to:'resources'});
+resourcesDirs.push({from: 'config.sample.js', to: 'config.sample.js'});
+resourcesDirs.push({from: '.htaccess', to: '.htaccess'});
 
 
 module.exports = {
@@ -108,12 +111,7 @@ module.exports = {
             template: 'index.html',
             inject: true
         }),
-        new CopyWebpackPlugin([
-            {from:'src/resources',to:'resources'},
-            {from: 'config.sample.js', to: 'config.sample.js'},
-            {from: '.htaccess', to: '.'},
-
-        ])
+        new CopyWebpackPlugin(resourcesDirs)
 
 
     ]
