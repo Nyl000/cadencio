@@ -3,7 +3,9 @@
     "type": "project",
     "require": {
         "phpmailer/phpmailer": "^6.1",
-        "firebase/php-jwt": "^5.2"
+        "firebase/php-jwt": "^5.2",
+        "fpdf/fpdf": "^1.81",
+        "setasign/fpdi-fpdf": "^2.0"
     },
     "authors": [
         {
