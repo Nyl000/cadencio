@@ -1,20 +1,36 @@
 <template>
     <div class="home">
-        <div class="roundedbox">
-            <div class="inner">
-                <h1>Nothing to do here ! (for now..)</h1>
-                <p>This is the home screen, should display activated modules or other things.</p>
-            </div>
+        <default-home v-if="home_components.length == 0" />
+        <div v-if="home_components.length > 0">
+            <component v-for="c in home_components" :is="c" />
         </div>
     </div>
 </template>
 
 <script>
 
+    import DefaultHome from 'tpl/DefaultHome.vue';
+    import {getHooks} from 'js/Services/HookHandler';
 
     export default {
 
+        data : function() {
+            return {
+                home_components : []
+            }
+        },
 
+        components: {
+            DefaultHome
+        },
+
+        mounted : function() {
+            let components = getHooks('register_home_component');
+            components.forEach((component) => {
+                this.home_components.push(component());
+            });
+
+        }
     }
 
 </script>
