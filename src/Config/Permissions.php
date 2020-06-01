@@ -6,9 +6,6 @@ use Cadencio\Services\HookHandler;
 class Permissions {
 
     public static function getResources() {
-
-
-
         $resources = [
             '*' => [
               '*'
