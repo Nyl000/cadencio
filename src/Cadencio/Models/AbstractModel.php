@@ -3,6 +3,7 @@
 namespace Cadencio\Models;
 
 use Cadencio\Adapters\MysqlAdapter;
+use Cadencio\Services\HookHandler;
 
 abstract class AbstractModel
 {
@@ -125,6 +126,7 @@ abstract class AbstractModel
 
     public function init()
     {
+
     }
 
     public function getTableProperties()
@@ -178,7 +180,10 @@ abstract class AbstractModel
             error_log($e->getMessage());
         }
 
-        return isset($datas['id']) && $datas['id'] != 0 ? $datas['id'] : $this->getAdapter()->getLastId();
+        $id_saved = isset($datas['id']) && $datas['id'] != 0 ? $datas['id'] : $this->getAdapter()->getLastId();
+        $hooks = HookHandler::getInstance()->getHook((isset($datas['id']) && $datas['id'] != 0  ? 'do_after_update_':'do_after_insert_').$this->getModelName());
+        foreach($hooks as $hook) { $hook($id_saved); }
+        return $id_saved;
 
     }
 
@@ -218,6 +223,9 @@ abstract class AbstractModel
         }
         $q = $this->getAdapter()->query($query, $params);
 
+        $hooks = HookHandler::getInstance()->getHook('do_after_update_'.$this->getModelName());
+        foreach($hooks as $hook) { $hook($id); }
+
     }
 
     public function idExists($id, $field = 'id')
@@ -231,7 +239,9 @@ abstract class AbstractModel
 
     public function delete($id)
     {
-        return $this->getAdapter()->query('DELETE FROM ' . $this->modelName . ' WHERE id = ?', array($id));
+        $res = $this->getAdapter()->query('DELETE FROM ' . $this->modelName . ' WHERE id = ?', array($id));
+        $hooks = HookHandler::getInstance()->getHook('do_after_delete_'.$this->getModelName());
+        return $res;
     }
 
     public function findBy($properties)
