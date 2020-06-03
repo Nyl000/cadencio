@@ -52,4 +52,11 @@ class Utils {
         $data = $model->getOne($name,'name');
         return $data['val'];
     }
+
+    public static function isPdf($filePath) {
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $mime = finfo_file($finfo, $filePath);
+        finfo_close($finfo);
+        return $mime == 'application/pdf';
+    }
 }
