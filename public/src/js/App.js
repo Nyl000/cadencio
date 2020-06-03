@@ -27,8 +27,8 @@ class Main {
 
 			document.title = Config.appName;
 			var routes = [
-				{path: '/:page?', component: Home},
 				{path: '/login', component: Login},
+				{path: '/:page?', component: Home},
 				{path: '/users/:page?', component: UsersIndex},
 				{path: '/userprofile', component: ProfileIndex},
 				{path: '/roles/:page?', component: RolesIndex},
