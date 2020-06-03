@@ -30,14 +30,10 @@
 <script>
 
     import {hasPermission,updateUserOption,getUserOption} from 'js/Models/User';
-    import {list, deleteItem}  from 'js/Models/Planning';
 
     import EditableText from 'tpl/Ui/EditableText.vue';
     import EditableList from 'tpl/Ui/EditableList.vue';
-    import Paginator from 'tpl/Ui/Paginator.vue';
 
-    import Modale from 'tpl/Ui/Modale.vue';
-    import PlanningAdd from 'tpl/PlanningAdd.vue';
 
     import {getSelect as selectTimezone} from 'js/Datas/Timezones';
 
