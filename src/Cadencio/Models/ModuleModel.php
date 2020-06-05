@@ -27,7 +27,10 @@ class ModuleModel extends AbstractModel
                 $instance = Application::$instance->getModuleInstance($current['name']);
                 $instance->onActivate();
             }
-
+        }
+        else {
+            //Necessary to avoid "false" returned to DB.. if direct "false" value, query fails, did't investigated why yet.
+            $datas->active = '0';
         }
         return parent::patch($id,$datas,'name');
     }
