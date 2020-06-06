@@ -292,7 +292,9 @@
 				this.refresh();
 			},
 			listOptions: function (newVal, oldVal) { // watch it
-				this.refresh();
+			    if (JSON.stringify(newVal) !=  JSON.stringify(oldVal)) {
+                    this.refresh();
+                }
 			},
 			definition: function () {
 				this.setColumnsDisplayed();
