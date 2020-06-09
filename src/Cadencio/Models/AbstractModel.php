@@ -270,6 +270,7 @@ abstract class AbstractModel
         if (!in_array($field, $this->getTableProperties())) {
             throw new \Exception('unknown filter error');
         }
+
         $params = $this->query_parameters;
 
         $filter = $this->modelName.'.'.$field . ' = ?';
@@ -329,7 +330,7 @@ abstract class AbstractModel
     }
 
     public function getFilters() {
-        return ['id_user'];
+        return [];
     }
 
     public function prepareQuery($options, $countOnly = false)
@@ -369,13 +370,13 @@ abstract class AbstractModel
             $paging .= ' LIMIT ' . ($activePage - 1) * $nbItems . ',' . $nbItems;
         }
 
-        foreach ($this->getFilters() as $filterName) {
-            if (isset($options[$filterName])) {
+        foreach ($this->getFilters() as $key => $val) {
+            if (isset($options[$key])) {
 
-                if (is_array($options[$filterName])) {
+                if (is_array($options[$key])) {
                     $subwhere = ' AND ( 1=0 ';
-                    foreach ($options[$filterName] as $option) {
-                        $subwhere .= ' OR '.$filterName. '= ? ';
+                    foreach ($options[$key] as $option) {
+                        $subwhere .= ' OR '.$val. '= ? ';
                         $parameters[] = $option;
 
                     }
@@ -383,8 +384,8 @@ abstract class AbstractModel
                     $where .= $subwhere;
                 }
                 else {
-                    $where.= ' AND '.$filterName.' = ?';
-                    $parameters[] = $options[$filterName];
+                    $where.= ' AND '.$val.' = ?';
+                    $parameters[] = $options[$key];
                 }
             }
         }

@@ -22,7 +22,7 @@ class PlanningEntryModel extends AbstractModel
     }
 
     public function getFilters() {
-        return ['id_status','id_planning'];
+        return ['id_status' => 'id_status','id_planning' => 'id_planning'];
     }
 
     public function init() {
