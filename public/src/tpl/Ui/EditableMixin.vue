@@ -23,7 +23,7 @@
             },
             onCallback : function() {
                 if (typeof this.$props.callbackSuccess !== 'undefined')  {
-                    this.$props.callbackSuccess();
+                    this.$props.callbackSuccess(this.val);
                 }
             },
             leaveEditmode: function () {
