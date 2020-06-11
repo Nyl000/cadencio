@@ -29,11 +29,13 @@
 
             show: function () {
                 this.$data.visible = true;
+                this.$emit('show');
 
             },
 
             hide: function () {
                 this.$data.visible = false;
+                this.$emit('hide');
             }
         },
         components : {CloseIcon}
