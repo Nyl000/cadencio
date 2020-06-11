@@ -59,8 +59,8 @@ abstract class AbstractModel
         $this->query_parameters[] = $parameter;
     }
 
-    protected function addRelation($modelName, $idProperty, $idDistant = 'id' ,$type = 'INNER JOIN',$alias = false , $moreCondition = '') {
-        $this->from .=' '.$type.' '.$modelName.' '.($alias ? ' AS '.$alias : '').' ON `'.($alias ? $alias:$modelName).'`.`'.$idDistant.'` = `'.$this->modelName.'`.`'.$idProperty.'` '.$moreCondition;
+    protected function addRelation($modelName, $idProperty, $idDistant = 'id' ,$type = 'INNER JOIN',$alias = false , $moreCondition = '',$linkTo = '') {
+        $this->from .=' '.$type.' '.$modelName.' '.($alias ? ' AS '.$alias : '').' ON `'.($alias ? $alias:$modelName).'`.`'.$idDistant.'` = `'.(empty($linkTo) ? $this->modelName : $linkTo).'`.`'.$idProperty.'` '.$moreCondition;
     }
 
     public function massEdit($idArray, $key,$value) {
