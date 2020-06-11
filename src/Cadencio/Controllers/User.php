@@ -69,7 +69,7 @@ class User extends RestController {
         if (!isset($body->password) ) {
             throw new ApiUnprocessableException('Missing password');
         }
-        $login = $this->getModel()->login($body->email,$body->password);
+        $login = $this->getModel()->login(trim($body->email),$body->password);
         if($login) {
             if  (isset($body->use_jwt) && $body->use_jwt) {
                 $nonce = md5(uniqid());
