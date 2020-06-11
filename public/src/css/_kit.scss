@@ -747,3 +747,25 @@ hr {
 
   }
 }
+
+.yesno_modale {
+  padding:.1em;
+  .message {
+    padding-bottom:1em;
+  }
+  .buttons {
+    padding-top:.5em;
+    padding-bottom:.2em;
+    text-align:right;
+    border-top:1px solid #e8e8e8;
+    .button {
+      background: #eeeeee;
+      display:inline-block;
+      width:auto;
+      text-transform: uppercase;
+      box-shadow: none;
+      padding: .2em 2em;
+    }
+  }
+
+}
