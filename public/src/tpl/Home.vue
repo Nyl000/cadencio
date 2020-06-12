@@ -2,7 +2,7 @@
     <div class="home">
         <default-home v-if="home_components.length == 0" />
         <div v-if="home_components.length > 0">
-            <component v-for="c in home_components" :is="c" />
+            <component v-for="(c,index) in home_components" :is="c" :key="index" />
         </div>
     </div>
 </template>
