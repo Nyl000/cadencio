@@ -1,6 +1,7 @@
 import "vue-swatches/dist/vue-swatches.min.css"
 import 'vue-simple-markdown/dist/vue-simple-markdown.css';
 import 'vue-material-design-icons/styles.css';
+import 'vue-datetime/dist/vue-datetime.min.css'
 
 import 'css/app.scss'
 import VueSimpleMarkdown from 'vue-simple-markdown';
