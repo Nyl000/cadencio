@@ -70,12 +70,13 @@
                     <td class="actions"
                         v-if="typeof definition.actions !== 'undefined' && definition.actions.length > 0">
                         <div class="titleresponsive">Actions</div>
-                        <ActionTable v-for="action in definition.actions"
+                        <ActionTable v-for="(action,index) in definition.actions"
                                      v-if="action.canDisplay"
                                      :item="item"
                                      :component="action.component"
                                      :action="action.action"
                                      :class="action.class"
+                                     :key="index"
                         />
                     </td>
                 </tr>
