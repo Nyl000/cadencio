@@ -92,7 +92,7 @@ class UserModel extends AbstractModel
 
         if (isset($datas['id_role'])) {
             $roleModel = new RoleModel();
-            if (!$this->isAdministrator(Application::$instance->getCurrentUserId() && $roleModel->isAdministrator($datas['id_role']))) {
+            if (!$this->isAdministrator(Application::$instance->getCurrentUserId()) && $roleModel->isAdministrator($datas['id_role'])) {
                 throw new ApiForbiddenException('You cannot grant a user as administrator');
             }
         }
