@@ -7,7 +7,7 @@
                 </div>
                 <input type="text" v-model="username" placeholder="your@email.com"/>
                 <input type="password" v-model="password" placeholder="password"/>
-                <button v-on:click="attemptLogin" class="send">Login</button>
+                <button v-on:click="attemptLogin" class="send"><small-loader v-if="loading" /> Login</button>
                 <info-message type="error" v-bind:message="errorMessage" ref="info"/>
                 <router-link to="/passwordreset">
                     I forgot my password
@@ -21,9 +21,9 @@
 
     import Rest from 'js/Services/Rest';
     import InfoMessage from 'tpl/Ui/InfoMessage.vue';
-    import {instance} from 'js/App';
     import base64 from 'base-64';
     import {testToken} from 'js/Models/User';
+    import SmallLoader from 'tpl/Ui/SmallLoader';
 	const modulesModel = require('js/Models/Module');
 
     export default {
@@ -32,16 +32,16 @@
                 username: '',
                 password: '',
                 errorMessage: '',
+                loading: false,
             }
         },
         methods: {
             attemptLogin: function () {
-
+                this.loading = true;
                 Rest.request('/user/login', 'POST', {
                     email: this.$data.username,
                     password: this.$data.password,
                     use_jwt : true,
-
                 }).then(
                     (data) => {
                         if (data.status === 'ok') {
@@ -57,17 +57,21 @@
                         else {
                             this.errorMessage = "Wrong login/password";
                             this.$refs.info.show();
+                            this.loading = false;
+
                         }
                     },
                     (error) => {
                         this.errorMessage = error.message;
                         this.$refs.info.show();
+                        this.loading = false;
                     }
                 )
             }
         },
         components: {
-            InfoMessage
+            InfoMessage,
+            SmallLoader
         }
     }
 </script>
