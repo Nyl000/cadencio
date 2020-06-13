@@ -554,11 +554,14 @@ hr {
   font-size: 3em;
   color:$color2;
   z-index:50;
-  .spin {
-    animation-duration: 1s;
-    animation-iteration-count: infinite;
-    animation-name: rotate;
-  }
+}
+.spin {
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-name: rotate;
+}
+.spin-inline {
+  display:inline-block;
 }
 
 @keyframes rotate {
