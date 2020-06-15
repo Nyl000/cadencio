@@ -11,6 +11,7 @@ use Cadencio\Services\Permissions;
 use Cadencio\Services\Security\BasicAuth;
 use Cadencio\Services\Security\DigestAuth;
 use Cadencio\Services\Security\Jwt;
+use Cadencio\Services\Security\JwtInUrl;
 use Cadencio\Services\Security\SecurityProvider;
 
 
@@ -27,6 +28,7 @@ class RestController extends AbstractController
         $this->auth = new SecurityProvider();
         $this->auth->addProvider(new BasicAuth());
         $this->auth->addProvider(new Jwt());
+        $this->auth->addProvider(new JwtInUrl());
         $this->auth->init();
         parent::__construct();      
 
