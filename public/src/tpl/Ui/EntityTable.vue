@@ -103,10 +103,11 @@
     import Loader from 'tpl/Ui/Loader.vue';
 	import {objectToUrl} from 'js/Services/Utils';
 	import ExportIcon from 'vue-material-design-icons/Export.vue';
+    import {hasPermission} from 'js/Models/User';
 
 
 	export default {
-		props: ['model', 'definition', 'page', 'listOptions','name','loadOnStart'],
+		props: ['model', 'definition', 'page', 'listOptions','name','loadOnStart','resource'],
 
 		mounted: function () {
 			this.modelObj = this.model;
@@ -152,7 +153,7 @@
 				}
 			},
 			isExportable : function() {
-				return  typeof(this.modelObj) !== 'undefined' && typeof (this.modelObj.getExportUrl) !== 'undefined';
+				return  hasPermission(this.resource,'export') && typeof(this.modelObj) !== 'undefined' && typeof (this.modelObj.getExportUrl) !== 'undefined';
             },
 			exportItems : function() {
 				let options = {
