@@ -34,6 +34,10 @@ const list = (options) => {
     return Rest.authRequest('/user?'+objectToUrl(options),'GET');
 };
 
+const getTempToken = () => {
+    return Rest.authRequest('/user/temptoken','GET');
+};
+
 const getMyNotifications = () => {
     return Rest.authRequest('/user/mynotifications','GET');
 };
@@ -83,5 +87,6 @@ export {
     updateUserOption,
     getUserOption,
     getLoggedUser,
-    getMyNotifications
+    getMyNotifications,
+    getTempToken
 }
