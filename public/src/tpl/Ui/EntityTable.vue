@@ -103,7 +103,7 @@
     import Loader from 'tpl/Ui/Loader.vue';
 	import {objectToUrl} from 'js/Services/Utils';
 	import ExportIcon from 'vue-material-design-icons/Export.vue';
-    import {hasPermission} from 'js/Models/User';
+    import {hasPermission,getTempToken} from 'js/Models/User';
 
 
 	export default {
@@ -155,13 +155,17 @@
 			isExportable : function() {
 				return  hasPermission(this.resource,'export') && typeof(this.modelObj) !== 'undefined' && typeof (this.modelObj.getExportUrl) !== 'undefined';
             },
-			exportItems : function() {
+			exportItems : async function() {
 				let options = {
 					order: this.order,
 					orderDirection: this.orderDirection,
 					page: this.page,
 				};
 				options = Object.assign(options, this.$props.listOptions || {});
+
+               let dataToken = await getTempToken();
+
+				options.authtoken = dataToken.token;
 				window.open(this.modelObj.getExportUrl(options));
 
 			},
