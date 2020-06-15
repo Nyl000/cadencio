@@ -58,6 +58,23 @@ class User extends RestController {
 
     }
 
+    public function getTemptoken() {
+        return $this->auth->secure(function ()  {
+            $hashedPwd = $this->getModel()->getHashedPassword(Application::$instance->getCurrentUserId());
+            $nonce = md5(uniqid());
+            $payload = array(
+                "iss" => "http://example.org",
+                "aud" => "http://example.com",
+                "iat" => time(),
+                "exp" => time() + 10,
+                'pwd_nonce' => $nonce,
+                'pwd' => hash('SHA256',$nonce.$hashedPwd.JWT_PRIV_KEY),
+                'user_id' => Application::$instance->getCurrentUserId()
+            );
+            return ['token' => JWT::encode($payload, JWT_PRIV_KEY, 'HS256')];
+        });
+    }
+
     public function postLogin() {
 
         $body = $this->getRequest()->getJsonBody();
