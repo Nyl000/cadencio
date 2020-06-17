@@ -24,6 +24,7 @@ abstract class AbstractController {
     }
 
 
+
     protected function getRequest() {
         return self::$request;
     }

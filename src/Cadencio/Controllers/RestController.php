@@ -30,17 +30,19 @@ class RestController extends AbstractController
         $this->auth->addProvider(new Jwt());
         $this->auth->addProvider(new JwtInUrl());
         $this->auth->init();
-        parent::__construct();      
+        parent::__construct();
 
     }
 
-    protected function setRenderOverrideFunction($func) {
+    protected function setRenderOverrideFunction($func)
+    {
         if (is_callable($func)) {
             $this->renderOverrideFunction = $func;
         }
     }
 
-    protected function getRenderOverrideFunction() {
+    protected function getRenderOverrideFunction()
+    {
         return $this->renderOverrideFunction;
     }
 
@@ -101,16 +103,19 @@ class RestController extends AbstractController
     {
     }
 
-    protected function postProcessEntity($candidate) {
+    protected function postProcessEntity($candidate)
+    {
 
         return $candidate;
     }
 
-    protected function doAfterCreate($entity) {
+    protected function doAfterCreate($entity)
+    {
         return;
     }
 
-    public function postMultiples($query) {
+    public function postMultiples($query)
+    {
         return $this->auth->secure(function () use ($query) {
 
             $this->abortIfNotAllowed($this->getModel()->getResourceName(), 'update');
@@ -119,19 +124,20 @@ class RestController extends AbstractController
             if (!isset($body->ids) || !is_array($body->ids)) {
                 throw new ApiUnprocessableException('Missing ids Array');
             }
-            if (!isset($body->key) ) {
+            if (!isset($body->key)) {
                 throw new ApiUnprocessableException('Missing key');
             }
-            if (!isset($body->value) ) {
+            if (!isset($body->value)) {
                 throw new ApiUnprocessableException('Missing value');
             }
-            $this->getModel()->massEdit($body->ids, $body->key,$body->value);
+            $this->getModel()->massEdit($body->ids, $body->key, $body->value);
             return ['result' => 'ok'];
 
         });
     }
 
-    public function getExport($query) {
+    public function getExport($query)
+    {
         return $this->auth->secure(function () use ($query) {
             $this->abortIfNotAllowed($this->getModel()->getResourceName(), 'export');
 
@@ -193,6 +199,25 @@ class RestController extends AbstractController
                 }
             }
         });
+    }
+
+    public function postCsvinfos($query)
+    {
+        $body = $this->getRequest()->getJsonBody();
+        $file = base64_decode($body->file);
+        $md5 = md5($file);
+        $rows = [];
+        file_put_contents('/tmp/cadencio_import_' . $md5, $file);
+        if (($handle = fopen('/tmp/cadencio_import_' . $md5, "r")) !== FALSE) {
+            while (($data = fgetcsv($handle, 100000, ";",'"')) !== FALSE) {
+                $rows[] = $data;
+            }
+        }
+        fclose($handle);
+        unlink('/tmp/cadencio_import_' . $md5);
+
+
+        return $rows;
     }
 
 }
