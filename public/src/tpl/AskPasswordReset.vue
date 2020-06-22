@@ -10,7 +10,7 @@
                         Please enter your email. If a user match with it, you will receive a link in your mailbox to reset your password.
                     </p>
                     <input type="text" v-model="username" placeholder="your@email.com"/>
-                    <button v-on:click="askReset" class="send">Send</button>
+                    <button type="submit" class="send">Send</button>
                 </div>
                 <info-message type="success" v-bind:message="successMessage" ref="info"/>
                 <router-link to="/login">
