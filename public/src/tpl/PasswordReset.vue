@@ -39,7 +39,6 @@
 		},
 		methods: {
 			askReset: function () {
-
 				Rest.request('/user/resetpassword', 'POST', {
 					password: this.$data.password,
 					hash : this.$route.params.hash,
