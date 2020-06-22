@@ -20,7 +20,7 @@ class User extends RestController {
         if (!isset($body->email) ) {
             throw new ApiUnprocessableException('Missing email');
         }
-        $user = $this->getModel()->getOne($body->email,'email');
+        $user = $this->getModel()->getOneWithoutAdminCheck($body->email,'email');
         if($user) {
             $hash = hash('SHA256',uniqid());
             $this->getModel()->patch($user['id'], ['hash' => $hash]);
@@ -45,7 +45,7 @@ class User extends RestController {
         if (!isset($body->password) ) {
             throw new ApiUnprocessableException('Missing password');
         }
-        $user = $this->getModel()->getOne($body->hash,'hash');
+        $user = $this->getModel()->getOneWithoutAdminCheck($body->hash,'hash');
         if(isset($user['id'])) {
             $password = hash('SHA256',$body->password);
             $hash = hash('SHA256',uniqid());
