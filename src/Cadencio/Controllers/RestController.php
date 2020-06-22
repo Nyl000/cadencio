@@ -205,11 +205,13 @@ class RestController extends AbstractController
     {
         $body = $this->getRequest()->getJsonBody();
         $file = base64_decode($body->file);
+        $separator = isset($body->separator) ? $body->separator : ';';
+        $enclosure = isset($body->enclosure) ? $body->enclosure : '"';
         $md5 = md5($file);
         $rows = [];
         file_put_contents('/tmp/cadencio_import_' . $md5, $file);
         if (($handle = fopen('/tmp/cadencio_import_' . $md5, "r")) !== FALSE) {
-            while (($data = fgetcsv($handle, 100000, ";",'"')) !== FALSE) {
+            while (($data = fgetcsv($handle, 100000, $separator,$enclosure)) !== FALSE) {
                 $rows[] = $data;
             }
         }
@@ -219,5 +221,12 @@ class RestController extends AbstractController
 
         return $rows;
     }
+
+    public function getEmpty() {
+        return $this->auth->secure(function() {
+            return $this->getModel()->getEmpty();
+        });
+    }
+
 
 }
