@@ -10,7 +10,7 @@
                         Please enter a new password
                     </p>
                     <input type="password" v-model="password" placeholder="New password"/>
-                    <button v-on:click="askReset" class="send">Reset</button>
+                    <button type="submit" class="send">Reset</button>
                 </div>
                 <info-message type="success" v-bind:message="successMessage" ref="info"/>
                 <info-message type="error" v-bind:message="errorMessage" ref="error"/>
