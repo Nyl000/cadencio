@@ -107,6 +107,22 @@ class UserModel extends AbstractModel
         return parent::delete($id);
     }
 
+
+    public function getOneWithoutAdminCheck($id,$field,$ignoreCase = true) {
+        $roleModel = new RoleModel();
+        $optionsModel = new UserOptionModel();
+
+        $user = parent::getOne($id, $field, $ignoreCase);
+
+        $user['role'] = $roleModel->getOne($user['id_role']);
+        $user['options'] = $optionsModel->getByUser(($user['id']));
+
+        unset($user['id_role']);
+
+        return $user;
+
+    }
+
     public function getOne($id, $field = 'id', $ignoreCase = true)
     {
 
