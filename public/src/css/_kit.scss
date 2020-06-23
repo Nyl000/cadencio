@@ -12,6 +12,7 @@ html {
 body {
   height:100%;
   background: #f2f2f2;
+
 }
 
 a {
@@ -33,6 +34,7 @@ a {
   flex-direction:column;
   justify-content:flex-start;
   height: 100%;
+
 }
 
 input, button {
@@ -195,9 +197,21 @@ button {
   }
 }
 
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
+.fadedown-enter-active, .fadedown-leave-active {
+  transition: opacity .5s, transform .4s;
 }
+
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s, transform .4s;
+}
+
+.fadedown-enter, .fadedown-leave-to /* .fade-leave-active below version 2.1.8 */
+{
+  opacity: 0;
+  transform: translateY(-100%);
+}
+
 
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */
 {
@@ -773,4 +787,28 @@ hr {
     }
   }
 
+}
+
+.toast {
+  margin-top:.5em;
+  padding: .5em 1.5em;
+  color:white;
+  background: $color2;
+  border-radius: 100px;
+  box-shadow: 0 0px 10px rgba(30, 30, 30, 0.1);
+
+  &.success {
+    background: #008549;
+    color:white;
+  }
+  &.absolute {
+    position:absolute;
+  }
+  &.fixedBottom {
+    position:fixed;
+    bottom:10px;
+    right:10px;
+    box-sizing: border-box;
+    left:5px;
+  }
 }
