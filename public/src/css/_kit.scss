@@ -359,23 +359,25 @@ button {
 }
 
 .tab-box {
-  margin: .5em;
   .tab-box-content {
-    border: 1px solid #cdcdcd;
     background: white;
     padding: .3em;
     border-radius:0px 5px 5px 5px;
-
+    box-shadow: 0 10px 10px rgba(30, 30, 30, 0.1);
+    position:relative;
+    z-index:10;
   }
   .tabs {
     position: relative;
     top: 1px;
+
     button {
       border-radius: 5px 5px 0px 0px;
-      border: 1px solid #cdcdcd;
       border-bottom: 0px;
       margin-right: .5em;
       background: #d5d5d5;
+      box-shadow: 0 0 10px rgba(30, 30, 30, 0.1);
+
       &.active {
         background: white;
       }
