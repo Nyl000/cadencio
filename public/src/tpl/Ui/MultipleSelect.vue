@@ -11,7 +11,7 @@
                     <span class="item" :key="item[identifier]" v-for="item in selectedItems">{{item[label]}}</span>
                     <em class="empty" v-if="Object.keys(selectedItems).length == 0">No entry</em>
                 </div>
-                <div class="button primary " @click.prevent="openSearch">Modify</div>
+                <a href="#"  @click.prevent="openSearch">{{modify_button_label || 'Modify'}}</a>
             </div>
         </div>
         <Modale ref="searchModale">
@@ -46,6 +46,7 @@
             'title',
             'hint',
             'onChangeCallback',
+            'modify_button_label'
 
         ],
 
