@@ -143,6 +143,7 @@ class RestController extends AbstractController
 
             $this->setRenderOverrideFunction(function ($datas) {
                 header('Content-Type: text/csv');
+                header('Content-Disposition: attachment; filename="export_'.date('Y-m-d_H-i-s').'.csv"');
                 return $datas;
 
             });
