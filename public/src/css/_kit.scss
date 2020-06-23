@@ -62,6 +62,10 @@ button {
   cursor: pointer;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 
+  &.inline {
+    width:auto;
+    display:inline-block;
+  }
   &:disabled {
     opacity: .3;
     cursor: auto;
