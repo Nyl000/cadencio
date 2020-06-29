@@ -12,7 +12,7 @@ define ('SENGRID_KEY' , '');
 
 define('DEFAULT_PAGINATION', 20);
 
-define('JWT_PRIV_KEY','xxxxxx');
+define('JWT_PRIV_KEY','%JWT_KEY%');
 
 
 function core_autoloader($class)
