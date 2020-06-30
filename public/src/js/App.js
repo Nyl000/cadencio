@@ -72,6 +72,12 @@ class Main {
 					}
 				);
 			}
+			let cssHooks = getHooks('css_overrides');
+
+			//load CSS overrides
+			cssHooks.forEach((cssHook) => {
+				cssHook()
+			});
 
 			new Vue({
 				router,
