@@ -13,6 +13,7 @@ use Cadencio\Services\Security\DigestAuth;
 use Cadencio\Services\Security\Jwt;
 use Cadencio\Services\Security\JwtInUrl;
 use Cadencio\Services\Security\SecurityProvider;
+use Cadencio\Services\CsvUtils;
 
 
 class RestController extends AbstractController
@@ -97,6 +98,7 @@ class RestController extends AbstractController
 
     protected function validateNewEntity($candidate)
     {
+
     }
 
     protected function validateUpdatedEntity($candidate)
@@ -206,6 +208,7 @@ class RestController extends AbstractController
     {
         $body = $this->getRequest()->getJsonBody();
         $file = base64_decode($body->file);
+        $file = CsvUtils::decode($file,'auto');
         $separator = isset($body->separator) ? $body->separator : ';';
         $enclosure = isset($body->enclosure) ? $body->enclosure : '"';
         $md5 = md5($file);
