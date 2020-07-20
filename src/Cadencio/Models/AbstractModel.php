@@ -63,6 +63,10 @@ abstract class AbstractModel
         $this->from .=' '.$type.' '.$modelName.' '.($alias ? ' AS '.$alias : '').' ON `'.($alias ? $alias:$modelName).'`.`'.$idDistant.'` = `'.(empty($linkTo) ? $this->modelName : $linkTo).'`.`'.$idProperty.'` '.$moreCondition;
     }
 
+    protected function getDefaultOrder() {
+        return '`'.$this->modelName.'`.`'.$this->identifier.'`';
+    }
+
     public function massEdit($idArray, $key,$value) {
         foreach ($idArray as $id) {
             $object = [$key => $value];
@@ -359,6 +363,9 @@ abstract class AbstractModel
             $order .= ' ORDER BY ' .$this->getOrderFields()[$options['order']].' IS NULL, ';
             $order .=  $this->getOrderFields()[$options['order']];
             $order .= isset($options['orderDirection']) && $options['orderDirection'] == 'DESC' ? ' DESC' : ' ASC';
+        }
+        else {
+            $order .= 'ORDER BY '.$this->getDefaultOrder();
         }
 
         $paging = '';
