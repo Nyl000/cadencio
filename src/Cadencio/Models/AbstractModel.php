@@ -20,7 +20,7 @@ abstract class AbstractModel
     private $where = [];
     protected $identifier = 'id';
     private $paging = true;
-    private $publicFields = false;
+    protected $publicFields = false;
 
 
     public function __construct()
