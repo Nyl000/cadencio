@@ -1,6 +1,6 @@
 <template>
     <div class="searchbox">
-        <div>
+        <div v-if="!hide_search">
             <form v-on:submit.prevent="search">
                 <input type="search" v-model="search" :placeholder="placeholder"/>
                 <button class="button" v-on:click.prevent="searchItems"><magnify-icon /></button>
@@ -19,12 +19,12 @@
 	import MagnifyIcon from 'vue-material-design-icons/Magnify.vue';
 
 	export default {
-		props: ['onSelected','selectedItems','id_excluded', 'model','placeholder','identifier','label'],
+		props: ['onSelected','selectedItems','id_excluded', 'model','placeholder','identifier','label','hide_search'],
 
 		data: function()  {
 			return {
 				search: '',
-				items: [],
+				items:  [],
 				selected : this.$props.selectedItems ? this.$props.selectedItems : {},
 			}
 		},

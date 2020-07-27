@@ -23,6 +23,7 @@
                     :placeholder="search_placeholder"
                     :identifier="identifier"
                     :label="label"
+                    :hide_search="hide_search"
             />
         </Modale>
     </div>
@@ -47,7 +48,8 @@
             'hint',
             'onChangeCallback',
             'modify_button_label',
-            'empty_label'
+            'empty_label',
+           'hide_search',
 
         ],
 
