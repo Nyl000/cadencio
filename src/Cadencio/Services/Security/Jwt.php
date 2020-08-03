@@ -11,7 +11,6 @@ class Jwt implements ProviderInterface {
         if ($token) {
             try {
                 $decoded = JWTLib::decode($token, JWT_PRIV_KEY, array('HS256'));
-
             }
             catch(\Exception $e) {
                 error_log($e->getMessage());
@@ -25,8 +24,6 @@ class Jwt implements ProviderInterface {
                     return $decoded->user_id;
                 }
             }
-
-
         }
 
         return false;
