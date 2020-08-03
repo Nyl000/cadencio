@@ -5,7 +5,8 @@
         "phpmailer/phpmailer": "^6.1",
         "firebase/php-jwt": "^5.2",
         "fpdf/fpdf": "^1.81",
-        "setasign/fpdi-fpdf": "^2.0"
+        "setasign/fpdi-fpdf": "^2.0",
+        "twig/twig": "^3.0"
     },
     "authors": [
         {
