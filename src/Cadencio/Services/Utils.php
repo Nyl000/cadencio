@@ -62,6 +62,10 @@ class Utils {
         return $mime == 'application/pdf';
     }
 
+    public static function isJson($string) {
+        return json_decode($string) !== null;
+    }
+
     /**
      * Convert date format.
      *
