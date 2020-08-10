@@ -4,6 +4,8 @@ namespace Cadencio\Services;
 
 use Cadencio\Models\SettingModel;
 use PHPMailer\PHPMailer\PHPMailer;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 
 class Utils {
 
@@ -60,6 +62,10 @@ class Utils {
         return $mime == 'application/pdf';
     }
 
+    public static function isJson($string) {
+        return json_decode($string) !== null;
+    }
+
     /**
      * Convert date format.
      *
@@ -92,5 +98,23 @@ class Utils {
             $new_date = '0000-00-00';
         }
         return $new_date;
+    }
+
+    public static function renderTwigTemplate($templateFilePath,$vars) {
+
+        $path = realpath($templateFilePath);
+        if (!is_file($path)) {
+            throw new \Exception($templateFilePath. 'is not a file');
+        }
+
+        $dir = dirname($path);
+        $file = basename($path);
+
+        $twigLoader = new FilesystemLoader($dir);
+        $twig = new Environment($twigLoader);
+
+        $template = $twig->load($file);
+        return $template->render($vars);
+
     }
 }

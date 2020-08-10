@@ -27,7 +27,7 @@
                 }
             },
             leaveEditmode: function () {
-                this.editMode = false
+                this.editMode = false;
                 this.error = false;
                 let datas = {id: this.id};
                 datas[this.field] = this.val;
