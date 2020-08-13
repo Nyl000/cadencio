@@ -5,12 +5,17 @@
             {{hint}}
         </div>
         <div class="groupitems">
-            <div v-show="!editMode" @click="enterEditMode">
-                <span class="item" :key="tag" v-for="tag in tags">{{tag}}</span>
+            <div class="tags">
+                <span class="item" :key="tag" v-for="tag in tags">{{tag}} <close-icon class="delete" @click="remove(tag)"/> </span>
                 <em class="empty" v-if="tags.length == 0">No tags</em>
             </div>
-            <div v-show="editMode" class="formInput">
-                <input type="text" ref="inputText" v-model="tagString" @blur="leaveEditMode"/>
+            <div class="formInput">
+                <input type="text" :placeholder="placeholder" ref="inputText" v-model="tagString" @input="input" />
+            </div>
+            <div class="suggestions" v-show="suggestions.length > 0">
+                <ul>
+                    <li v-for="suggestion in suggestions" @click="autocomplete(suggestion)">{{suggestion}}</li>
+                </ul>
             </div>
         </div>
     </div>
@@ -19,26 +24,25 @@
 
 <script>
 
-
+    import CloseIcon from  'vue-material-design-icons/Close.vue';
 	export default {
 		props: [
 			'model',
 			'title',
 			'hint',
 			'onChangeCallback',
-            'tags'
+            'tags',
+            'autoCompleteMethod',
+            'placeholder'
 		],
 		data: () => {
 			return {
 				editMode: false,
                 tagString : '',
+                suggestions : [],
 			}
 		},
 
-		mounted: async function () {
-            this.tagString = this.tags.join(', ');
-
-		},
 		methods: {
 
 			onChange: function (items) {
@@ -57,18 +61,41 @@
 			},
             enterEditMode : function() {
 				this.editMode = true;
-				console.log(this.$refs);
-				//Need to to this to let element appears before giving the focus.
-				setTimeout(() => {
+                this.$nextTick(()=>{
 					this.$refs.inputText.focus();
-                },20);
-            }
+                });
+            },
+            remove : function(tag) {
+			   this.tags.splice(this.tags.indexOf(tag),1);
+                this.onChange(this.tags);
+            },
+            input : async function() {
+                let tags = this.tagString.split(',');
+                if(tags.length == 1) {
+                    if (typeof this.autoCompleteMethod === 'function') {
+                        this.suggestions = await this.autoCompleteMethod(tags[0]);
+                    }
+                }
+                else {
+                    this.tags.push(tags.shift());
+                    this.tagString = '';
+                    this.suggestions = [];
+                    this.onChange(this.tags);
+
+                }
+            },
+            autocomplete : function(suggestion) {
+                this.tags.push(suggestion);
+                this.onChange(this.tags);
+                this.suggestions = [];
+                this.$nextTick(()=>{
+                    this.tagString = '';
+                    this.$refs.inputText.focus();
+                });
+            },
 
 		},
-		watch : {
-			tags : function(newval) {
-				this.tagString = newval.join(', ');
-			}
-        }
+        components: {CloseIcon}
+
 	}
 </script>

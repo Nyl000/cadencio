@@ -138,6 +138,7 @@ abstract class AbstractModel
         if (!$this->tableProperties) {
             $this->tableProperties = $this->getAdapter()->fetchColumn('DESCRIBE ' . $this->modelName, array());
         }
+
         return $this->tableProperties;
     }
 
@@ -272,7 +273,7 @@ abstract class AbstractModel
     public function getOne($id, $field = 'id',$ignoreCase = false)
     {
         if (!in_array($field, $this->getTableProperties())) {
-            throw new \Exception('unknown filter error');
+            throw new \Exception('unknown filter "'.$field.'". Filter are '.implode(',',$this->getTableProperties()));
         }
 
         $params = $this->query_parameters;

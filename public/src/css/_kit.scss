@@ -707,6 +707,12 @@ hr {
       margin-bottom:.5em;
       margin-right:.5em;
       padding:.5em;
+      .delete {
+        cursor:pointer;
+        &:hover {
+          opacity:.7;
+        }
+      }
     }
     .empty {
       padding:.5em;
@@ -721,6 +727,40 @@ hr {
 
 }
 
+.tag_editor {
+  overflow: visible;
+  position:relative;
+  .suggestions {
+    position: absolute;
+    bottom: 2em;
+    left: .5em;
+    transform: translateY(100%);
+
+    ul {
+      background: white;
+      border-radius: 5px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.26);
+      padding-left: 0;
+      margin-left: 0;
+      list-style: none;
+
+      li {
+        display: block;
+        padding: .5em;
+        border-bottom: 1px solid #d8d8d8;
+        cursor: pointer;
+        font-size: .9em;
+        min-width:200px;
+        &:hover {
+          opacity:.6;
+        }
+        &:last-child {
+          border-bottom:0;
+        }
+      }
+    }
+  }
+}
 
 .toggle {
   position: relative;
