@@ -36,7 +36,7 @@
 			searchItems: function () {
                 let options = { search : this.search,nbItems: 99999,};
                 if (this.id_excluded) {
-                	options.exclude = [this.id_excluded];
+                	options.exclude = this.id_excluded;
                 }
 				this.model.list(options).then((results) => {
 					this.items = results[Object.keys(results)[0]];
