@@ -34,9 +34,9 @@
 
 		methods: {
 			searchItems: function () {
-                let options = { search : this.search,nbItems: 99999,};
+                let options = { search : this.search,nbItems: 99999};
                 if (this.id_excluded) {
-                    options = {...options,...this.id_excluded};
+                    options.exclude  = this.id_excluded;
                 }
 
                 if (this.additionnal_filters && typeof this.additionnal_filters == 'object') {
