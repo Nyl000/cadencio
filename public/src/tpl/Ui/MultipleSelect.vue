@@ -24,6 +24,7 @@
                     :identifier="identifier"
                     :label="label"
                     :hide_search="hide_search"
+                    :additionnal_filters="additionnal_filters"
             />
         </Modale>
     </div>
@@ -49,7 +50,8 @@
             'onChangeCallback',
             'modify_button_label',
             'empty_label',
-           'hide_search',
+            'hide_search',
+            'additionnal_filters'
 
         ],
 
