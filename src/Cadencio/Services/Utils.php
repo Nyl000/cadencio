@@ -32,7 +32,7 @@ class Utils {
     }
 
     public static function generateOAuthChallenge() {
-        $random_bytes = substr(md5(microtime() + rand(1,9999)),0,64);
+        $random_bytes = substr(md5(microtime() . rand(1,9999)),0,64);
         $codeverifier = rtrim(strtr(base64_encode($random_bytes), "+/","-_"), "=");
         $challenge_bytes = hash("sha256", $codeverifier, true);
         $codechallenge = rtrim(strtr(base64_encode($challenge_bytes), "+/", "-_"), "=");
