@@ -359,9 +359,11 @@ abstract class AbstractModel
         }
 
         //Order
-        $order = '';
+        $order =  ' ORDER BY ';
         if (isset($options['order']) && in_array($options['order'], array_keys($this->getOrderFields()))) {
-            $order .= ' ORDER BY ' .$this->getOrderFields()[$options['order']].' IS NULL, ';
+            if (!isset($options['order_empty_values'])) {
+                $order .=  $this->getOrderFields()[$options['order']] . ' IS NULL, ';
+            }
             $order .=  $this->getOrderFields()[$options['order']];
             $order .= isset($options['orderDirection']) && $options['orderDirection'] == 'DESC' ? ' DESC' : ' ASC';
         }
