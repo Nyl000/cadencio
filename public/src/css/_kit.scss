@@ -857,3 +857,16 @@ hr {
     z-index:500;
   }
 }
+
+
+.infobox {
+  display:inline-block;
+  padding:.5em;
+  border-radius:3px;
+  border: 1px solid $color2;
+  background: transparentize($color2,.2);
+  text-transform: uppercase;
+  margin-top:.5em;
+  font-size:.8em;
+  color:white;
+}
