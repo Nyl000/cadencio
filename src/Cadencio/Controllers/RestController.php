@@ -5,6 +5,7 @@ namespace Cadencio\Controllers;
 use Cadencio\Application;
 use Cadencio\Exceptions\ApiForbiddenException;
 use Cadencio\Exceptions\ApiNotFoundException;
+use Cadencio\Exceptions\ApiRuntimeException;
 use Cadencio\Exceptions\ApiUnprocessableException;
 use Cadencio\Services\auth;
 use Cadencio\Services\Permissions;
@@ -60,8 +61,12 @@ class RestController extends AbstractController
         if (is_callable($this->getRenderOverrideFunction())) {
             return $this->getRenderOverrideFunction()($datas);
         }
+        $datasJson = json_encode($datas);
 
-        return json_encode($datas);
+        if (!$datasJson) {
+            throw new ApiRuntimeException('Invalid json string in output (Maybe charset error ?)');
+        }
+        return $datasJson;
     }
 
     public function deleteIndex($query)
