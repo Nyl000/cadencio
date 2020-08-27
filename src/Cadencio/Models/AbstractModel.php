@@ -368,7 +368,7 @@ abstract class AbstractModel
             $order .= isset($options['orderDirection']) && $options['orderDirection'] == 'DESC' ? ' DESC' : ' ASC';
         }
         else {
-            $order .= 'ORDER BY '.$this->getDefaultOrder();
+            $order .= $this->getDefaultOrder();
         }
 
         $paging = '';
