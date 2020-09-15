@@ -13,7 +13,8 @@
             	let val = this.value == true;
             	this.$emit('input',  !val);
 				this.$emit('change', !val);
-			}
+                this.$emit('click', !val);
+            }
         }
 
 	}
