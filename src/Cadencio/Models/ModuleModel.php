@@ -23,9 +23,17 @@ class ModuleModel extends AbstractModel
 
             $current = $this->getOne($id,$uniqueFieldname);
             if($current['active'] == 0) {
+
                 ModulesManager::getInstance()->registerModule($current['name']);
                 $instance = Application::$instance->getModuleInstance($current['name']);
-                $instance->onActivate();
+                try {
+                    $instance->onActivate();
+                }
+                catch (\Exception $e) {
+                    error_log( print_r($e,true) );
+
+                    return ['error' => $e->getMessage()];
+                }
             }
         }
         else {
