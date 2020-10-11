@@ -15,9 +15,10 @@ body {
 
 }
 
-a {
+a,.link {
   color: #2d80ae;
   text-decoration:none;
+  cursor:pointer;
   &:hover {
     opacity:.7;
   }
