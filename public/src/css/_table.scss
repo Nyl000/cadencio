@@ -92,6 +92,18 @@
   width:100%;
   transform-style: preserve-3d;
 
+  &.selectable {
+    .items,.items:nth-child(even) {
+      &.selected,
+      &:hover {
+        td {
+          background: transparentize($color1, .5);
+          cursor:pointer;
+        }
+      }
+    }
+  }
+
   &.filters {
     overflow: visible;
     position: relative;

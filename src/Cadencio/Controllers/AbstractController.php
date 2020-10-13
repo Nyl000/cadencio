@@ -56,6 +56,7 @@ abstract class AbstractController {
         return $this;
     }
 
+
     protected function setResource($r) {
         $this->resource = $r;
         return $this;

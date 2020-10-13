@@ -27,7 +27,7 @@
         </div>
 
         <div class="table-responsive">
-            <table class="list">
+            <table :class="'list ' + (isSelectable() ? 'selectable' : '')">
                 <thead ref="tablehead">
                 <draggable v-model="columnsOrdered" @end="columnsOrderChange" tag="tr">
                     <th v-for="column in columnsOrdered" class=" information" :key="column.property"
@@ -47,7 +47,7 @@
                 </draggable>
                 </thead>
                 <tbody>
-                <tr class="items" v-for="item in list" :key="item.id">
+                <tr :class="'items ' + (isSelected(item) ? 'selected' : '') " v-for="item in list" :key="item.id" @click="doSelect(item)">
                     <td v-for="(column,index) in columnsOrdered" class="titleBlock information"
                         v-if="isDisplayed(column.property)"
                         :style="{minWidth : column.renderer.minWidth || 'auto'}">
@@ -108,13 +108,14 @@
 
 
     export default {
-        props: ['model', 'definition', 'page', 'listOptions', 'name', 'loadOnStart', 'resource'],
+        props: ['model', 'definition', 'page', 'listOptions', 'name', 'loadOnStart', 'resource','selectable'],
 
         mounted: function () {
             this.modelObj = this.model;
             if (this.loadStart) {
                 this.refresh();
             }
+            console.log(this.selectable);
 
         },
 
@@ -123,6 +124,7 @@
                 order: localStorage.getItem('table_' + this.$props.name + '_order') || '',
                 orderDirection: localStorage.getItem('table_' + this.$props.name + '_orderDirection') || '',
                 list: [],
+                selected: {},
                 paginator: {},
                 columnsDisplayed: [],
                 columnsOrdered: [],
@@ -141,8 +143,8 @@
         methods: {
             mounted: function () {
                 this.setColumnsDisplayed();
-            }
-            , onScroll: function () {
+            },
+            onScroll: function () {
                 this.$refs.tablehead.style.position = 'relative';
                 this.$refs.tablehead.style.transform = 'translateY(0px) translateZ(10px)';
 
@@ -151,6 +153,18 @@
                     let height = Math.abs(topOffset - this.$refs.tablehead.clientHeight);
                     this.$refs.tablehead.style.transform = 'translateY(' + Math.abs(topOffset) + 'px) translateZ(10px)';
 
+                }
+            },
+            isSelectable : function() {
+                return typeof this.selectable !== 'undefined' && this.selectable;
+            },
+            isSelected : function(item) {
+                return item[this.definition.idField] == this.selected[this.definition.idField];
+            },
+            doSelect : function(item) {
+                if (this.isSelectable()) {
+                    this.selected = item;
+                    this.$emit('select', item);
                 }
             },
             isExportable: function () {
@@ -288,6 +302,7 @@
                     this.list = response[Object.keys(response)[0]];
                     this.paginator = response.paginator;
                     this.load = false;
+                    this.$emit('refresh',this.list);
                 });
             },
         },
