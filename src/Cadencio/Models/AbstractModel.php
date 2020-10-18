@@ -187,7 +187,7 @@ abstract class AbstractModel
 
         $id_saved = isset($datas['id']) && $datas['id'] != 0 ? $datas['id'] : $this->getAdapter()->getLastId();
         $hooks = HookHandler::getInstance()->getHook((isset($datas['id']) && $datas['id'] != 0  ? 'do_after_update_':'do_after_insert_').$this->getModelName());
-        foreach($hooks as $hook) { $hook($id_saved); }
+        foreach($hooks as $hook) { $hook($id_saved,$datas); }
         return $id_saved;
 
     }
@@ -227,7 +227,6 @@ abstract class AbstractModel
             }
         }
         $q = $this->getAdapter()->query($query, $params);
-
         $hooks = HookHandler::getInstance()->getHook('do_after_update_'.$this->getModelName());
         foreach($hooks as $hook) { $hook($id); }
 
