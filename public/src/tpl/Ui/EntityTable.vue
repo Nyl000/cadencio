@@ -78,6 +78,7 @@
                                      :action="action.action"
                                      :class="action.class"
                                      :key="index"
+                                     :title="action.title"
                         />
                     </td>
                 </tr>
