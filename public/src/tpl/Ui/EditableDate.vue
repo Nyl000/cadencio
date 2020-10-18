@@ -1,21 +1,11 @@
 <template>
     <transition name="fade">
         <div class="editable">
-            <div v-show="editMode">
 
-                <input type="date" ref="input" v-model="val" v-on:blur="leaveEditmode"/>
-            </div>
-            <div v-show="!editMode" v-on:click="enterEditmode">
-                <div v-if="link">
-                    🔗 <a v-bind:href="link">{{val}}</a>
-                </div>
-                <div v-if="!link">
-                    {{val}}
-                </div>
-                <span class="placeholder" v-if="val.length == 0">{{placeholder}}</span>
+            <div>
+                <Datetime :zone="getUserOption('timezone')" :placeholder="this.placeholder" type="date" v-model="val" :disabled="!canupdate"></Datetime>&nbsp;<close-icon v-on:click="remove" v-if="this.val!== '' && this.val !== null" />
                 <check-bold-icon v-if="success" class="icon success" />
                 <close-icon v-if="error" class="icon error" />
-
             </div>
         </div>
     </transition>
@@ -24,33 +14,40 @@
 
 <script>
     import Rest from 'js/Services/Rest';
+    import {Datetime} from 'vue-datetime';
+    import 'vue-datetime/dist/vue-datetime.css';
+    import moment from 'moment-timezone';
+    import {getUserOption} from 'js/Models/User';
     import CheckBoldIcon from 'vue-material-design-icons/CheckBold.vue';
     import CloseIcon from 'vue-material-design-icons/Close.vue';
 
     export default {
         props: ['value', 'list', 'saveurl', 'id', 'field', 'canupdate','placeholder','link'],
         data: function () {
+            let dateStr = '';
+
+            if(this.value !== null) {
+                let date = moment.tz(this.value,'UTC');
+                dateStr = date.toISOString();
+            }
+
             return {
                 editMode: false,
-                val: this.value,
+                val: dateStr,
+                displayVal : moment(this.value).calendar(),
                 success: false,
-                error: false
+                error: false,
+                init: false
             }
         },
         methods: {
-            enterEditmode: function () {
-                if (this.canupdate) {
-                    this.editMode = true;
-                    setTimeout(() => {
-                        this.$refs.input.focus();
-                    }, 10)
-                }
-            },
             leaveEditmode: function () {
                 this.editMode = false
                 this.error = false;
                 let datas = {id: this.id};
-                datas[this.field] = this.val;
+                let newDate = moment.tz(this.val,'UTC');
+
+                datas[this.field] = newDate.isValid() ? newDate.format('YYYY-MM-DD HH:mm:ss') : null;
                 if (this.val !== this.value) {
                     Rest.authRequest(this.saveurl, 'POST', datas).then(
                         () => {
@@ -64,9 +61,26 @@
                         }
                     );
                 }
+            },
+            remove : function() {
+                this.val = null;
+            },
+            getUserOption:getUserOption
+        },
+        watch: {
+            'val': function (newParam, oldParam) {
+                let oldDate = moment(oldParam).toDate().getTime();
+                let newDate = moment(newParam).toDate().getTime();
+                if (newParam!= '' && oldDate != newDate) {
+                    this.leaveEditmode();
+                }
+                if (!this.$data.init) {
+                    this.$data.init = true;
+                }
             }
         },
-        components: {CheckBoldIcon,CloseIcon}
+        components: {Datetime, CheckBoldIcon,CloseIcon}
+
 
     }
 </script>
