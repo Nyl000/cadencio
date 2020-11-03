@@ -5,7 +5,6 @@
             <div>
                 <Datetime :zone="getUserOption('timezone')" :placeholder="this.placeholder" type="date" v-model="val" :disabled="!canupdate"></Datetime>&nbsp;<close-icon v-on:click="remove" v-if="this.val!== '' && this.val !== null" />
                 <check-bold-icon v-if="success" class="icon success" />
-                <close-icon v-if="error" class="icon error" />
             </div>
         </div>
     </transition>
@@ -27,7 +26,7 @@
             let dateStr = '';
 
             if(this.value !== null) {
-                let date = moment.tz(this.value,'UTC');
+                let date = moment.tz(this.value,getUserOption('timezone'));
                 dateStr = date.toISOString();
             }
 
