@@ -14,7 +14,9 @@ const objectToUrl = (object) => {
             }
         }
         else {
-            outputArray.push(key+'='+val);
+            if (val !== '') {
+                outputArray.push(key + '=' + val);
+            }
         }
     }
     return outputArray.join('&');
