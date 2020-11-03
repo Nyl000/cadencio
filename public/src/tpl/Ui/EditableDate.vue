@@ -41,24 +41,28 @@
         },
         methods: {
             leaveEditmode: function () {
-                this.editMode = false
+                this.editMode = false;
                 this.error = false;
                 let datas = {id: this.id};
                 let newDate = moment.tz(this.val,'UTC');
 
                 datas[this.field] = newDate.isValid() ? newDate.format('YYYY-MM-DD HH:mm:ss') : null;
                 if (this.val !== this.value) {
-                    Rest.authRequest(this.saveurl, 'POST', datas).then(
-                        () => {
-                            this.success = true;
-                            setTimeout(() => {
-                                this.success = false;
-                            }, 800);
-                        },
-                        () => {
-                            this.error = true;
-                        }
-                    );
+                    this.$emit('input',  this.val);
+                    this.$emit('change', this.val);
+                    if (this.saveurl) {
+                        Rest.authRequest(this.saveurl, 'POST', datas).then(
+                            () => {
+                                this.success = true;
+                                setTimeout(() => {
+                                    this.success = false;
+                                }, 800);
+                            },
+                            () => {
+                                this.error = true;
+                            }
+                        );
+                    }
                 }
             },
             remove : function() {
