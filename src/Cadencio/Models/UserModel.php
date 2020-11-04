@@ -34,7 +34,7 @@ class UserModel extends AbstractModel
 
     public function getPublicFields()
     {
-        return ['id', 'email', 'id_role', 'name', 'firstname', 'nickname'];
+        return ['id', 'email', 'id_role', 'name', 'firstname', 'nickname','active'];
     }
 
     public function getSearchField()
@@ -44,8 +44,7 @@ class UserModel extends AbstractModel
 
     public function login($email, $password)
     {
-        $userId = $this->getAdapter()->fetchOne('SELECT id FROM ' . $this->modelName . ' WHERE email = ? AND password = ?', [$email, hash('sha256', $password)]);
-        return $userId;
+        $userId = $this->getAdapter()->fetchOne('SELECT id FROM ' . $this->modelName . ' WHERE active = 1 AND email = ? AND password = ?', [$email, hash('sha256', $password)]);        return $userId;
     }
 
     public function getHashedPassword($userId)
@@ -53,10 +52,17 @@ class UserModel extends AbstractModel
         return $this->getAdapter()->fetchOne('SELECT password FROM ' . $this->modelName . ' WHERE id = ?', [$userId]);
     }
 
+    public function isActive($userId) {
+        return $this->getAdapter()->fetchOne('SELECT active FROM ' . $this->modelName . ' WHERE id = ? ',[$userId]);
+    }
+
     public function createOrUpdate($datas)
     {
         if (is_object($datas)) {
             $datas = (array)$datas;
+        }
+        if(isset($datas['active'])) {
+            $datas['active'] = $datas['active'] ? 1 : 0;
         }
 
         if (!isset($datas['id']) || empty($datas['id'])) {
@@ -88,6 +94,10 @@ class UserModel extends AbstractModel
     {
         if (is_object($datas)) {
             $datas = (array)$datas;
+        }
+
+        if(isset($datas['active'])) {
+            $datas['active'] = $datas['active'] ? 1 : 0;
         }
 
         if (isset($datas['id_role'])) {

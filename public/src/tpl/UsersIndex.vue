@@ -39,6 +39,8 @@
     import EditableText from 'tpl/Ui/EditableText.vue';
     import EditableList from 'tpl/Ui/EditableList.vue';
     import EditablePassword from 'tpl/Ui/EditablePassword.vue';
+    import EditableCheckbox from 'tpl/Ui/EditableCheckbox';
+
     const userModel = require('js/Models/User');
 
 
@@ -108,6 +110,13 @@
                             canUpdate: hasPermission('users', 'update'),
                         }
                         },
+                        {
+                            property: 'active', label: 'Active', sortable: true, renderer: {
+                                type: EditableCheckbox,
+                                placeholder: 'Active',
+                                canUpdate: hasPermission('users', 'update'),
+                            }
+                        }
                     ],
                     actions: [
                         { action : this.deleteItem, component : DeleteIcon, canDisplay : hasPermission('users','delete')  },
