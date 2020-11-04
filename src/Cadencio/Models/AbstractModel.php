@@ -213,20 +213,23 @@ abstract class AbstractModel
                 $params[] = $property;
             }
         }
-        $query .= implode(',', $queryPart1);
+        if (!empty($queryPart1)) {
 
-        if (!is_object($id)) {
-            $query .= ' WHERE `' . $uniqueFieldname . '`= ?';
-            $params[] = $id;
-        } else {
-            $id = (array)$id;
-            $query .= ' WHERE 1=1 ';
-            foreach ($id as $fieldWhere => $valWhere) {
-                $query .= ' AND `' . $fieldWhere . '`= ? ';
-                $params[] = $valWhere;
+            $query .= implode(',', $queryPart1);
+
+            if (!is_object($id)) {
+                $query .= ' WHERE `' . $uniqueFieldname . '`= ?';
+                $params[] = $id;
+            } else {
+                $id = (array)$id;
+                $query .= ' WHERE 1=1 ';
+                foreach ($id as $fieldWhere => $valWhere) {
+                    $query .= ' AND `' . $fieldWhere . '`= ? ';
+                    $params[] = $valWhere;
+                }
             }
+            $q = $this->getAdapter()->query($query, $params);
         }
-        $q = $this->getAdapter()->query($query, $params);
         $hooks = HookHandler::getInstance()->getHook('do_after_update_'.$this->getModelName());
         foreach($hooks as $hook) { $hook($id); }
 
