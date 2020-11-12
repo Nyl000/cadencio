@@ -34,7 +34,7 @@ class UserModel extends AbstractModel
 
     public function getPublicFields()
     {
-        return ['id', 'email', 'id_role', 'name', 'firstname', 'nickname','active'];
+        return ['id', 'email', 'id_role', 'name', 'firstname', 'nickname','active','users.phone'];
     }
 
     public function getSearchField()

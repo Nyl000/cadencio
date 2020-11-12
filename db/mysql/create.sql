@@ -36,6 +36,7 @@ CREATE TABLE users (
     firstname VARCHAR(128) DEFAULT NULL,
     nickname VARCHAR(128) DEFAULT NULL,
     email VARCHAR(128) NOT NULL,
+    phone VARCHAR(128) NOT NULL DEFAULT '',
     password VARCHAR(256) NOT NULL,
     date_register DATETIME NOT NULL,
     id_role INT UNSIGNED NOT NULL DEFAULT 2,

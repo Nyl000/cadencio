@@ -111,6 +111,13 @@
                         }
                         },
                         {
+                            property: 'phone', label: 'Phone Number', sortable: true, renderer: {
+                                type: EditableText,
+                                placeholder: 'Phone Number',
+                                canUpdate: hasPermission('users', 'update'),
+                            }
+                        },
+                        {
                             property: 'active', label: 'Active', sortable: true, renderer: {
                                 type: EditableCheckbox,
                                 placeholder: 'Active',
