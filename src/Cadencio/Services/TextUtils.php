@@ -29,7 +29,7 @@ class TextUtils {
         elseif ($first2 == UTF16_LITTLE_ENDIAN_BOM) return 'utf16le';
 
 		// fb("Detecting encoding with iconv...");
-		foreach (array("cp1252","utf8", "iso88591", "mac", "utf16le", "utf16be", "utf32le", "utf32be","latin1") as $encoding) {
+		foreach (array("cp1252","utf8", "iso88591", "mac", "utf16le", "utf16be", "utf32le", "utf32be") as $encoding) {
             $valid_for_encoding = md5(@iconv($encoding, "$encoding//IGNORE", $str)) == md5($str);
             if ($valid_for_encoding) {
                 if (in_array($encoding, array("iso88591", "mac"))) {
