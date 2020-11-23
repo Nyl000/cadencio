@@ -80,6 +80,16 @@
                 if (!this.$data.init) {
                     this.$data.init = true;
                 }
+            },
+            'value': function (newParam, oldParam) {
+                let dateStr = '';
+
+                if(newParam !== null) {
+                    let date = moment.tz(newParam,getUserOption('timezone'));
+                    dateStr = date.toISOString();
+                }
+                this.val = dateStr;
+
             }
         },
         components: {Datetime, CheckBoldIcon,CloseIcon}
