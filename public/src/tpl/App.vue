@@ -7,7 +7,7 @@
                         <menu-icon/>
                     </div>
                     <router-link to="/">
-                        <img class="logo" src="/resources/images/logo.png" alt="Cadencio"/>
+                        <img class="logo" :src="getLogo()" alt="logo"/>
                     </router-link>
                 </div>
             </div>
@@ -132,7 +132,18 @@
 				this.menuOpen = !this.menuOpen;
 				localStorage.setItem('global_showmenu', this.menuOpen ? 1 : 0);
 
-			}
+			},
+            getLogo : function() {
+
+                let logopath = '/resources/images/logo.png';
+                let logoHooks = getHooks('override_menu_logo');
+
+                logoHooks.forEach((hook) => {
+                    logopath = hook(logopath);
+                });
+
+                return logopath;
+            },
 
 		},
 		components: {NotificationBox, AccountIcon, PowerIcon, MenuIcon}

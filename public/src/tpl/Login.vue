@@ -3,7 +3,7 @@
         <form v-on:submit.prevent="attemptLogin">
             <div class="loginbox">
                 <div class="logowrap">
-                    <img class="logo" src="/resources/images/logo.png" alt="Cadencio"/>
+                    <img class="logo" :src="getLogo()" alt="Cadencio"/>
                 </div>
                 <input type="text" v-model="username" placeholder="your@email.com"/>
                 <input type="password" v-model="password" placeholder="password"/>
@@ -24,7 +24,9 @@
     import base64 from 'base-64';
     import {testToken} from 'js/Models/User';
     import SmallLoader from 'tpl/Ui/SmallLoader';
-	const modulesModel = require('js/Models/Module');
+    import {getHooks} from 'js/Services/HookHandler';
+
+    const modulesModel = require('js/Models/Module');
 
     export default {
         data: () => {
@@ -36,6 +38,17 @@
             }
         },
         methods: {
+            getLogo : function() {
+
+                let logopath = '/resources/images/logo.png';
+                let logoHooks = getHooks('override_login_logo');
+
+                logoHooks.forEach((hook) => {
+                    logopath = hook(logopath);
+                });
+
+                return logopath;
+            },
             attemptLogin: function () {
                 this.loading = true;
                 Rest.request('/user/login', 'POST', {
