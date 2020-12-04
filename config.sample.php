@@ -6,6 +6,8 @@ define('DB_HOST', '%DBHOST%');
 define('DB_NAME', '%DBNAME%');
 
 define('BASE_URL', '%BASEURL%');
+define('API_BASE_URL', '%APIBASEURL%');
+
 define('BASE_DIR', __DIR__.'/src');
 
 define ('SENGRID_KEY' , '');

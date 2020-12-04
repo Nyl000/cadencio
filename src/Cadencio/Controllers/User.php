@@ -30,7 +30,7 @@ class User extends RestController {
                 <p>Hello</p>
                 <p>Someone (Probably you) asked to reset your password. Please follow <a href=\"{$baseUrl}confirmreset/$hash\">this link</a> to reset your password. 
                 If you cannot click on the link, copy paste the link below: </p>
-                <p>{$baseUrl}confirmreset/$hash</p>
+                <p>{$baseUrl}/confirmreset/$hash</p>
                 <p>If you didn't ask a password reset, please ignore this message.</p>
             
             ");

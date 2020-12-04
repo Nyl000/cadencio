@@ -21,6 +21,9 @@ read dbpassword;
 echo Database Name ?
 read dbname;
 
+echo  What is the base URL ? \(Please avoid trailing /\)
+read baseurl;
+
 echo  What is the API base URL ? \(Please avoid trailing /\)
 read apiurl;
 
@@ -31,7 +34,8 @@ sed -i'.bak' 's|%DBUSER%|'$dbuser'|g' config.php;
 sed -i'.bak' 's|%DBNAME%|'$dbname'|g' config.php;
 sed -i'.bak' 's|%DBPASSWORD%|'$dbpassword'|g' config.php;
 sed -i'.bak' 's|%DBHOST%|'$dbhost'|g' config.php;
-sed -i'.bak' 's|%BASEURL%|'$apiurl'|g' config.php;
+sed -i'.bak' 's|%APIBASEURL%|'$apiurl'|g' config.php;
+sed -i'.bak' 's|%BASEURL%|'$baseurl'|g' config.php;
 sed -i'.bak' "s|%JWT_KEY%|$randomjwt|g" config.php;
 
 rm config.php.test.bak;

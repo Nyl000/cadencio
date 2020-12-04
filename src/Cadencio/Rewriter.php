@@ -25,7 +25,7 @@ class Rewriter {
     public function rewrite() {
         foreach ($this->rewriteRules as $rule) {
 
-            $url = preg_replace('#'.$rule['regex'].'#', BASE_URL.$rule['url'],$this->queryString);
+            $url = preg_replace('#'.$rule['regex'].'#', API_BASE_URL.$rule['url'],$this->queryString);
             if (preg_match('#'.$rule['regex'].'#',$this->queryString)){
                 $this->parsedUrl = parse_url($url);
                 parse_str($this->parsedUrl['query'],$this->parsedUrl['query']);
