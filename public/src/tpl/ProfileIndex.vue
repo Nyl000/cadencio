@@ -22,6 +22,18 @@
                         </select>
                     </td>
                 </tr>
+                <tr class="items">
+                    <td class="titleBlock information">
+                        {{ $t('lang') }}
+                    </td>
+                    <td class="titleBlock information">
+                        <select v-model="selectedLang" v-on:change="updateOption('lang',selectedLang)">
+                            <option v-for="(lang) in langs" v-bind:value="lang">
+                                {{lang}}
+                            </option>
+                        </select>
+                    </td>
+                </tr>
             </table>
         </div>
     </div>
@@ -47,6 +59,9 @@
                 page: 1,
                 timezones : selectTimezone(),
                 selectedTimezone : getUserOption('timezone') || 'UTC',
+                langs: Config.langs || ['fr', 'en'],
+                selectedLang: getUserOption('lang') || 'en',
+
             }
         },
         mounted: function () {
@@ -60,6 +75,9 @@
             },
             updateOption : function(key,val ){
                 updateUserOption(key,val);
+                if(key == 'lang') {
+                    this.$i18n.locale = val;
+                }
             },
             refresh: function () {
 

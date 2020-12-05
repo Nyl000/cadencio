@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import i18n from 'js/Translations/_translations';
 
 import {testToken} from 'js/Models/User';
 
@@ -81,6 +82,7 @@ class Main {
 
 			new Vue({
 				router,
+				i18n,
 				render: h => h(App)
 			}).$mount('#app');
 
