@@ -1,4 +1,6 @@
 export default {
-    'lang' : 'langue'
-
+    'lang' : 'Langue',
+    'Option': 'Option',
+    'Value' : 'Valeur',
+    'Timezone' : 'Fuseau horaire'
 }

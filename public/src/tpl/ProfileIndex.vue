@@ -4,15 +4,15 @@
             <table class="list">
                 <tr class="items title">
                     <th class=" information" v-on:click="setOrder('title')">
-                        Option
+                        {{ $t('Option') }}
                     </th>
                     <th class=" information" v-on:click="setOrder('title')">
-                        Value
+                        {{ $t('Value') }}
                     </th>
                 </tr>
                 <tr class="items">
                     <td class="titleBlock information">
-                        Timezone
+                        {{ $t('Timezone') }}
                     </td>
                     <td class="titleBlock information">
                         <select v-model="selectedTimezone" v-on:change="updateOption('timezone',selectedTimezone)">

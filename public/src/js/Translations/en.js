@@ -1,3 +1,6 @@
 export default {
-    'lang' : 'lang'
+    'lang' : 'Language',
+    'Option': 'Option',
+    'Value' : 'Value',
+    'Timezone' : 'Timezone'
 }
