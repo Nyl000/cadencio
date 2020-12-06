@@ -7,7 +7,7 @@
                 </div>
                 <div v-if="!sent">
                     <p class="helptext">
-                        Please enter a new password
+                        {{$t('Please enter a new password')}}
                     </p>
                     <input type="password" v-model="password" placeholder="New password"/>
                     <button type="submit" class="send">Reset</button>
@@ -16,7 +16,7 @@
                 <info-message type="error" v-bind:message="errorMessage" ref="error"/>
 
                 <router-link to="/login">
-                    Back to Login
+                    {{$t('Back to Login')}}
                 </router-link>
             </div>
         </form>
@@ -45,12 +45,12 @@
 				}).then(
 					() => {
 						this.sent = true;
-						this.successMessage = "Your password has been reset ! ";
+						this.successMessage = this.$t("Your password has been reset !");
 						this.$refs.info.show();
 					},
 					() => {
 						this.sent = true;
-						this.errorMessage = "This link is invalid or expired.";
+						this.errorMessage = this.$t("This link is invalid or expired.");
 						this.$refs.error.show();
 					}
 				)

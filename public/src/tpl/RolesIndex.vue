@@ -4,7 +4,7 @@
             <div class="actionbar">
                 <button class="button button-add" v-on:click="addRoleModal">
                     <plus-icon/>
-                    Add
+                    {{$t('Add')}}
                 </button>
                 <button class="button button-secondary" v-on:click="refreshGrid()">
                     <sync-icon/>
@@ -37,7 +37,6 @@
 	import DeleteIcon from 'vue-material-design-icons/Delete.vue';
 	import GearIcon from 'vue-material-design-icons/Cog'
 	const rolesModel = require('js/Models/Role');
-	import {objectToUrl} from 'js/Services/Utils';
 
 	export default {
 		data: function () {
@@ -59,19 +58,19 @@
 				this.tableDefinition = {
 					idField: 'id',
 					saveurl: '/roles/{id}',
-					title: 'Roles',
+					title: this.$t('Roles'),
 					columns: [
 						{
-							property: 'name', label: 'Name', sortable: true, renderer: {
+							property: 'name', label: this.$t('Name'), sortable: true, renderer: {
 							type: EditableText,
-							placeholder: 'Name',
+							placeholder: this.$t('Name'),
 							canUpdate: hasPermission('roles', 'update'),
 						}
 						},
 						{
-							property: 'label', label: 'Label', sortable: true, renderer: {
+							property: 'label', label: this.$t('Label'), sortable: true, renderer: {
 							type: EditableText,
-							placeholder: 'Label',
+							placeholder: this.$t('Label'),
 							canUpdate: hasPermission('roles', 'update'),
 						}
 						},
@@ -90,7 +89,7 @@
 				return hasPermission(resource, action);
 			},
 			deleteRole: function (role) {
-				if (confirm('Confirmez que vous voulez supprimer le role')) {
+				if (confirm(this.$t('Please confirm you want to delete that role'))) {
 					deleteItem(role.id).then(() => {
 						this.refreshGrid();
 					})

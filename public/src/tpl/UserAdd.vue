@@ -3,15 +3,15 @@
         <div class="formInput">
             <input type="password" v-model="password" v-show="false"/>
 
-            <label>Email</label>
+            <label>{{$t('Email')}}</label>
             <input type="email" v-model="email"/>
         </div>
         <div class="formInput">
-            <label>Password</label>
+            <label>{{$t('Password')}}</label>
             <input type="password" v-model="password" autocomplete="new-password" />
         </div>
         <div class="formInput">
-            <label>Role</label>
+            <label>{{$t('Role')}}</label>
             <select v-model="id_role">
                 <option v-for="(item,key) in roles" v-bind:value="key">
                     {{item}}
@@ -19,7 +19,7 @@
             </select>
         </div>
         <button v-bind:disabled="title === ''" class="button success" v-on:click="add">
-            Add
+            {{$t('Add')}}
         </button>
     </div>
 </template>

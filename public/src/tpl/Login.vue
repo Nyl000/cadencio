@@ -7,10 +7,10 @@
                 </div>
                 <input type="text" v-model="username" placeholder="your@email.com"/>
                 <input type="password" v-model="password" placeholder="password"/>
-                <button v-on:click="attemptLogin" class="send"><small-loader v-if="loading" /> Login</button>
+                <button v-on:click="attemptLogin" class="send"><small-loader v-if="loading" /> {{$t('Login')}}</button>
                 <info-message type="error" v-bind:message="errorMessage" ref="info"/>
                 <router-link to="/passwordreset">
-                    I forgot my password
+                    {{$t('I forgot my password')}}
                 </router-link>
             </div>
         </form>
@@ -68,7 +68,7 @@
                             });
                         }
                         else {
-                            this.errorMessage = "Wrong login/password";
+                            this.errorMessage = this.$t("Wrong login/password");
                             this.$refs.info.show();
                             this.loading = false;
 

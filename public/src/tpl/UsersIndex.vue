@@ -4,7 +4,7 @@
             <div class="actionbar">
                 <button class="button button-add" v-on:click="addUserModal">
                     <plus-icon/>
-                    Add
+                    {{$t('Add')}}
                 </button>
                 <button class="button button-secondary " v-on:click="refreshGrid()">
                     <sync-icon/>
@@ -64,63 +64,63 @@
                 let self = this;
                 this.tableDefinition = {
                     idField: 'id',
-                    title : 'Users',
+                    title : this.$t('Users'),
                     saveurl: '/user/{id}',
                     columns: [
                         {
-                            property: 'email', label: 'Email', sortable: true, renderer: {
+                            property: 'email', label: this.$t('Email'), sortable: true, renderer: {
                             type: EditableText,
-                            placeholder: 'Email',
+                            placeholder: this.$t('Email'),
                             canUpdate: hasPermission('users', 'update'),
                         }
                         },
                         {
-                            property: 'id_role', label: 'Role', sortable: true, renderer: {
+                            property: 'id_role', label:  this.$t('Role'), sortable: true, renderer: {
                             type: EditableList,
                             list: self.roles,
-                            placeholder: 'Role',
+                            placeholder:  this.$t('Role'),
                             canUpdate: hasPermission('users', 'update'),
                         }
                         },
                         {
-                            property: 'password', label: 'Password', sortable: false, renderer: {
+                            property: 'password', label:  this.$t('Password'), sortable: false, renderer: {
                             type: EditablePassword,
-                            placeholder: 'Password',
+                            placeholder:  this.$t('Password'),
                             canUpdate: hasPermission('users', 'update'),
                         }
                         },
                         {
-                            property: 'name', label: 'Name', sortable: true, renderer: {
+                            property: 'name', label:  this.$t('Name'), sortable: true, renderer: {
                             type: EditableText,
-                            placeholder: 'Name',
+                            placeholder:  this.$t('Name'),
                             canUpdate: hasPermission('users', 'update'),
                         }
                         },
                         {
-                            property: 'firstname', label: 'First Name', sortable: true, renderer: {
+                            property: 'firstname', label:  this.$t('First Name'), sortable: true, renderer: {
                             type: EditableText,
-                            placeholder: 'First Name',
+                            placeholder:  this.$t('First Name'),
                             canUpdate: hasPermission('users', 'update'),
                         }
                         },
                         {
-                            property: 'nickname', label: 'Display Name', sortable: true, renderer: {
+                            property: 'nickname', label: this.$t('Display Name'), sortable: true, renderer: {
                             type: EditableText,
-                            placeholder: 'Display Name',
+                            placeholder: this.$t('Display Name'),
                             canUpdate: hasPermission('users', 'update'),
                         }
                         },
                         {
-                            property: 'phone', label: 'Phone Number', sortable: true, renderer: {
+                            property: 'phone', label: this.$t('Phone Number'), sortable: true, renderer: {
                                 type: EditableText,
-                                placeholder: 'Phone Number',
+                                placeholder: this.$t('Phone Number'),
                                 canUpdate: hasPermission('users', 'update'),
                             }
                         },
                         {
-                            property: 'active', label: 'Active', sortable: true, renderer: {
+                            property: 'active', label: this.$t('Active'), sortable: true, renderer: {
                                 type: EditableCheckbox,
-                                placeholder: 'Active',
+                                placeholder: this.$t('Active'),
                                 canUpdate: hasPermission('users', 'update'),
                             }
                         }
@@ -132,7 +132,7 @@
             },
             hasPermission: hasPermission,
             deleteItem: function (user) {
-                if (confirm('Please confirm the user deletion')) {
+                if (confirm(this.$t('Please confirm the user deletion'))) {
                     deleteItem(user.id).then(() => {
                         this.refreshGrid();
                     })

@@ -1,6 +1,6 @@
 <template>
     <div  v-if="roleObject">
-     <h3>Permissions for role "{{roleObject.label}}"</h3>
+     <h3>{{$t('Permissions for role')}} "{{roleObject.label}}"</h3>
         <ul class="permissionList">
             <li v-for="(resource,key) in allPermissions">
                 {{key}}

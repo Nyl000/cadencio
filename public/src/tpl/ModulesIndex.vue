@@ -41,30 +41,26 @@
 				this.tableDefinition = {
 					idField: 'name',
 					saveurl: '/modules/{id}',
-					title: 'Modules',
+					title: this.$t('Modules'),
 					columns: [
 						{
-							property: 'name', label: 'Name', sortable: true, renderer: {
+							property: 'name', label: this.$t('Name'), sortable: true, renderer: {
 							type: Cell,
-							placeholder: 'Name',
 						}
 						},
 						{
-							property: 'version', label: 'Version', sortable: true, renderer: {
+							property: 'version', label: this.$t('Version'), sortable: true, renderer: {
 							type: Cell,
-							placeholder: 'Version',
 						}
 						},
 						{
-							property: 'db_version', label: 'Database Version', sortable: false, renderer: {
+							property: 'db_version', label: this.$t('Database Version'), sortable: false, renderer: {
 							type: Cell,
-							placeholder: 'Database Version',
 						}
 						},
 						{
-							property: 'active', label: 'Active', sortable: true, renderer: {
+							property: 'active', label: this.$t('Active'), sortable: true, renderer: {
 							type: EditableCheckbox,
-							placeholder: 'Active',
 							canUpdate: hasPermission('modules', 'update'),
                             callback : function() {
 								modulesModel.refreshActivesModules(() => {

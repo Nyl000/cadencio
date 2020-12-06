@@ -4,40 +4,40 @@
             <div class="medium6">
                 <div class="roundedbox">
                     <div class="topbar">
-                        <h2>Email Settings</h2>
+                        <h2>{{$t('Email Settings')}}</h2>
                     </div>
                     <div class="inner">
                         <h3>SMTP</h3>
                         <div class="formInput">
-                            <label>Host</label>
+                            <label>{{$t('Server')}}</label>
                             <input type="text" v-model="mail_smtp_host"/>
                         </div>
                         <div class="formInput">
-                            <label>Port</label>
+                            <label>{{$t('Port')}}</label>
                             <input type="text" v-model="mail_smtp_port"/>
                         </div>
                         <div class="formInput">
                             <input type="password" v-model="password" v-show="false"/>
-                            <label>Username</label>
+                            <label>{{$t('Username')}}</label>
                             <input type="text" v-model="mail_smtp_user"/>
                         </div>
                         <div class="formInput">
-                            <label>Password</label>
+                            <label>{{$t('Password')}}</label>
                             <input type="password" v-model="mail_smtp_password" autocomplete="new-password"/>
                         </div>
                         <div class="formInput">
-                            <label>From email</label>
+                            <label>{{$t('From Email')}}</label>
                             <input type="text" v-model="mail_smtp_frommail"/>
                         </div>
                         <div class="formInput">
-                            <label>From name</label>
+                            <label>{{$t('From Name')}}</label>
                             <input type="text" v-model="mail_smtp_fromname"/>
                         </div>
                         <button class="button success" v-on:click="saveEmail">
-                            Save
+                            {{$t('Save')}}
                         </button>
                         <button class="button" v-on:click="sendTestEmail">
-                            Send a test email
+                            {{$t('Send me a test email')}}
                         </button>
                     </div>
                 </div>

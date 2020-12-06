@@ -1,15 +1,15 @@
 <template>
     <div>
         <div class="formInput">
-            <label>Name</label>
+            <label>{{$t('Name')}}</label>
             <input type="text" v-model="name"/>
         </div>
         <div class="formInput">
-            <label>Label</label>
+            <label>{{$t('Label')}}</label>
             <input type="text" v-model="label"  />
         </div>
         <button v-bind:disabled="title === ''" class="button success" v-on:click="add">
-            Add
+            {{$t('Add')}}
         </button>
     </div>
 </template>
