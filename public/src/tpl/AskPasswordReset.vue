@@ -7,14 +7,15 @@
                 </div>
                 <div v-if="!sent">
                     <p class="helptext">
-                        Please enter your email. If a user match with it, you will receive a link in your mailbox to reset your password.
+                        {{ $t('Please enter your email. If a user match with it, you will receive a link in your mailbox to reset your password.') }}
+
                     </p>
                     <input type="text" v-model="username" placeholder="your@email.com"/>
-                    <button type="submit" class="send">Send</button>
+                    <button type="submit" class="send">{{$t('Send')}}</button>
                 </div>
                 <info-message type="success" v-bind:message="successMessage" ref="info"/>
                 <router-link to="/login">
-                    Back to Login
+                    {{$t('Back to Login')}}
                 </router-link>
             </div>
         </form>
@@ -43,7 +44,7 @@
 				}).then(
 					() => {
 						this.sent = true;
-						this.successMessage = "If the email match with an account, you will receive a reset password email soon ! ";
+						this.successMessage = this.$t('If the email match with an account, you will receive a reset password email soon !');
 						this.$refs.info.show();
 					},
 				)
