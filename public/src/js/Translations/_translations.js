@@ -12,7 +12,7 @@ Vue.use(VueI18n);
 
 
 export default new VueI18n({
-    locale : typeof user.options.lang !== 'undefined' ? user.options.lang : 'en',
+    locale : typeof user.options.lang !== 'undefined' ? user.options.lang : Config.defaultLang || 'en',
     fallbackLocale: 'en',
     messages : {
         fr : fr,

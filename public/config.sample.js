@@ -3,5 +3,6 @@ Config = {
 	baseUrl : '%base_url%',
 	appName : '%app_name%',
 	langs: ['en', 'fr'],
+	defaultLang : 'en',
 
 };
