@@ -58,7 +58,7 @@
 
 	export default {
 
-		data: () => {
+		data: function () {
 
 			let menuHooks = getHooks('register_menu');
 			let menuSectionsHooks = getHooks('register_menu_section');
@@ -67,11 +67,11 @@
 			let menuItems = {
 				'general': {
 					name: 'cadencio_general',
-					title: 'General',
+					title:  this.$t('General'),
 					canDisplay: hasPermission('users', 'read') || hasPermission('roles', 'read'),
 					entries: [
-						{icon : AccountSupervisorCircleIcon, title: 'Users', to: '/users', canDisplay: hasPermission('users', 'read')},
-						{icon : CrownIcon, title: 'Roles', to: '/roles', canDisplay: hasPermission('roles', 'read')}
+						{icon : AccountSupervisorCircleIcon, title:  this.$t('Users'), to: '/users', canDisplay: hasPermission('users', 'read')},
+						{icon : CrownIcon, title: this.$t('Roles'), to: '/roles', canDisplay: hasPermission('roles', 'read')}
 					]
 				}
 
@@ -87,13 +87,13 @@
 			//put settings at the end of menu
 			menuItems.cadencio_settings = {
 				name: 'cadencio_settings',
-				title: 'Settings',
+				title:  this.$t('Settings'),
 				canDisplay: hasPermission('settings', '*'),
 				entries: [
-					{icon: ToyBrickIcon, title: 'Modules', to: '/modules', canDisplay: hasPermission('modules', '*')},
+					{icon: ToyBrickIcon, title:  this.$t('Modules'), to: '/modules', canDisplay: hasPermission('modules', '*')},
 					{
 						icon: CogOutlineIcon,
-						title: 'App Settings',
+						title:  this.$t('App Settings'),
 						to: '/settings',
 						canDisplay: hasPermission('settings', '*')
 					}
