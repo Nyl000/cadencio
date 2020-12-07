@@ -123,7 +123,7 @@ class UserModel extends AbstractModel
 
     public function delete($id)
     {
-        if (!$this->isAdministrator(Application::$instance->getCurrentUserId() && $this->isAdministrator($id))) {
+        if (!$this->isAdministrator(Application::$instance->getCurrentUserId()) && $this->isAdministrator($id)) {
             throw new ApiForbiddenException('You cannot delete an administrator');
         }
         return parent::delete($id);
