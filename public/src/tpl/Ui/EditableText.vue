@@ -2,7 +2,7 @@
     <transition name="fade">
         <div class="editable">
             <div v-show="editMode">
-                <input  class="mainInput" :size="val.length || placeholder.length" type="text" ref="input" v-model="val" v-on:blur="leaveEditmode"/>
+                <input   @keypress="handleType($event)" class="mainInput" :size="val.length || placeholder.length" type="text" ref="input" v-model="val" v-on:blur="leaveEditmode"/>
             </div>
             <div v-show="!editMode" v-on:click="enterEditmode">
                 <div v-if="link">
@@ -39,6 +39,11 @@
             }
         },
         methods: {
+            handleType: function($event) {
+                if($event.code == 'Enter') {
+                    this.leaveEditmode();
+                }
+            },
             enterEditmode: function () {
                 if (this.canupdate) {
                     this.editMode = true;
