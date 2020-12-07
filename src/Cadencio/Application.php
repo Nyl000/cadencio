@@ -117,9 +117,22 @@ class Application
 
     public function run()
     {
-        $query = $this->route();
-        $this->registerModules();
-        echo $this->handleRouteQuery($query);
+        try {
+            $query = $this->route();
+            $this->registerModules();
+            echo $this->handleRouteQuery($query);
+        }
+        catch (\Exception $e) {
+            if ($e instanceof \Cadencio\Exceptions\ApiException) {
+                header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
+                echo json_encode(['api_error' => $e->getMessage()]);
+            }
+            else {
+                throw $e;
+            }
+
+        }
+
 
     }
 
