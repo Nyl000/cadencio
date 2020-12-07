@@ -5,6 +5,7 @@ namespace Cadencio\Models;
 use Cadencio\Application;
 use Cadencio\Exceptions\ApiForbiddenException;
 use Cadencio\Exceptions\ApiNotFoundException;
+use Cadencio\Exceptions\ApiUnprocessableException;
 
 class UserModel extends AbstractModel
 {
@@ -76,6 +77,10 @@ class UserModel extends AbstractModel
             unset($datas['id']);
             $datas['date_register'] = date('Y-m-d H:i:s');
             $datas['hash'] = hash('SHA256', uniqid());
+            $testUserExists = $this->getOne($datas['email'],'email');
+            if ($testUserExists) {
+                throw new ApiUnprocessableException('A user with the same email already exists.');
+            }
         } else {
             if (isset($datas['id_role'])) {
                 $roleModel = new RoleModel();
