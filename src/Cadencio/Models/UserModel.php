@@ -42,6 +42,13 @@ class UserModel extends AbstractModel
         return ['id', 'email'];
     }
 
+    public function getFilters()
+    {
+        return [
+            'id_role' => 'id_role'
+        ];
+    }
+
     public function login($email, $password)
     {
         $userId = $this->getAdapter()->fetchOne('SELECT id FROM ' . $this->modelName . ' WHERE active = 1 AND email = ? AND password = ?', [$email, hash('sha256', $password)]);        return $userId;
