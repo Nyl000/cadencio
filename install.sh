@@ -50,13 +50,21 @@ php composer.phar install;
 cd ../
 
 
-cd public;
+echo "
+Running Db Installer.
+";
 
-cp -p config.sample.js config.js
+cd batch;
+php dbinstall.php;
+cd ../
+
 
 echo "
 FrontEnd Configuration:
 ";
+
+cd public;
+cp -p config.sample.js config.js
 
 echo  "What is the FrontEnd base URL ? (Please avoid trailing /)"
 read fronturl;
@@ -91,7 +99,7 @@ echo  "
 
 All Done !
 
-You can change logo and favicon by replacing
+You can change logo and favicon by replacing or by using a hook in your plugins.
  - public/resources/images/favicon.png
  - public/resources/images/logo.png
  ";
