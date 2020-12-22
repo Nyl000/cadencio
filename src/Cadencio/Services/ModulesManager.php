@@ -72,19 +72,24 @@ class ModulesManager
     public function getActivesModules()
     {
 
-        $elligiblesModules = $this->scanElligiblesModules();
-        $modulesInDb = $this->getAdapter()->fetchAll('SELECT * FROM modules', []);
-        $existingModules = [];
-        $activeModules = [];
-        foreach ($modulesInDb as $module) {
-            if (in_array($module['name'], $elligiblesModules)) {
-                $existingModules[] = $module['name'];
-                if ($module['active']) {
-                    $activeModules[] = $module['name'];
+        if (!defined('SKIP_MODULES') || SKIP_MODULES != 1) {
+            $elligiblesModules = $this->scanElligiblesModules();
+            $modulesInDb = $this->getAdapter()->fetchAll('SELECT * FROM modules', []);
+            $existingModules = [];
+            $activeModules = [];
+            foreach ($modulesInDb as $module) {
+                if (in_array($module['name'], $elligiblesModules)) {
+                    $existingModules[] = $module['name'];
+                    if ($module['active']) {
+                        $activeModules[] = $module['name'];
+                    }
+                } else {
+                    $this->getAdapter()->query('UPDATE  modules SET active = 0 WHERE name = ?', [$module['name']]);
                 }
-            } else {
-                $this->getAdapter()->query('UPDATE  modules SET active = 0 WHERE name = ?', [$module['name']]);
             }
+        }
+        else {
+            $activeModules = [];
         }
         return $activeModules;
     }
