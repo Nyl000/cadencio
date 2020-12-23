@@ -58,6 +58,16 @@ cd batch;
 php dbinstall.php;
 cd ../
 
+echo "
+Running Admin Creation".
+cd batch;
+echo  What is the administrator email ?
+read adminemail;
+echo  What is the administrator password ?
+read -s adminpassword;
+php createuser.php --email=$adminemail --password=$adminpassword --idrole=1
+cd ../
+
 
 echo "
 FrontEnd Configuration:
