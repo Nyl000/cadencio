@@ -3,7 +3,6 @@
 const webpack = require('webpack')
 const { VueLoaderPlugin } = require('vue-loader')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const resolve = require('path').resolve;
@@ -38,15 +37,11 @@ module.exports = {
         hot: true,
         watchOptions: {
             aggregateTimeout: 200,
-            poll: 1000
+            poll: 1000,
+            ignored: /node_modules/
+
         },
         historyApiFallback: true
-    },
-    optimization: {
-        minimize: true,
-        minimizer: [new UglifyJsPlugin({
-            include: /\.js$/
-        })]
     },
     module: {
         rules: [
@@ -99,10 +94,6 @@ module.exports = {
         },
         extensions: ['*', '.js', '.vue', '.json'],
         modules : moduleResolve
-    },
-    node: {
-        dns: 'mock',
-        net: 'mock'
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
