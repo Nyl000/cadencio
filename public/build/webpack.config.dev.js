@@ -20,8 +20,8 @@ moduleResolve = moduleResolve.concat([ path.resolve('./node_modules'), path.reso
 
 var resourcesDirs = moduleConf.getResourcesDirs();
 resourcesDirs.push({from:'src/resources',to:'resources'});
-resourcesDirs.push({from: 'config.sample.js', to: 'config.sample.js'});
-resourcesDirs.push({from: '.htaccess.sample', to: '.htaccess'});
+resourcesDirs.push({from: 'config.js', to: 'config.js'});
+resourcesDirs.push({from: '.htaccess'});
 
 
 module.exports = {
