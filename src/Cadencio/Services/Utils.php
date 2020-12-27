@@ -12,15 +12,16 @@ use Twig\Loader\FilesystemLoader;
 class Utils {
 
 
-    public static function logRecorder($type,$message) {
+    public static function logRecorder($type,$message,$idUser = false) {
         $date = date('Y-m-d H:i:s');
-        $idUser = Application::$instance->getCurrentUserId();
+        $idUser = $idUser ?: Application::$instance->getCurrentUserId();
         $model = new LogModel();
         $model->createOrUpdate([
             'date_log' => $date,
             'id_user' => $idUser,
             'type' => $type,
             'comment' => $message,
+            'signature' => md5($date.$idUser.$type.$message)
         ]);
     }
 

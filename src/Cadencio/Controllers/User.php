@@ -34,6 +34,8 @@ class User extends RestController {
                 <p>If you didn't ask a password reset, please ignore this message.</p>
             
             ");
+            Utils::logRecorder('INFO','Password Renew Asked',$user['id']);
+
         }
     }
 
@@ -50,6 +52,8 @@ class User extends RestController {
             $password = hash('SHA256',$body->password);
             $hash = hash('SHA256',uniqid());
             $this->getModel()->patch($user['id'], ['password' => $password, 'hash' => $hash]);
+            Utils::logRecorder('INFO','Password Renewed',$user['id']);
+
             return true;
         }
         else {
@@ -99,12 +103,15 @@ class User extends RestController {
                     'pwd' => hash('SHA256',$nonce. hash('SHA256',$body->password).JWT_PRIV_KEY),
                     'user_id' => $login
                 );
+                Application::$instance->setCurrentUserId($login);
+                Utils::logRecorder('INFO','User Logged In');
                 return ['status' => 'ok','token' => JWT::encode($payload, JWT_PRIV_KEY, 'HS256')];
 
             }
             return ['status' => 'ok'];
         }
         else {
+            Utils::logRecorder('NOTICE','Wrong login attempt for: <'.trim($body->email).'>');
             return ['status' => 'nok'];
         }
     }
