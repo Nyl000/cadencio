@@ -6,6 +6,7 @@ SET NAMES utf8;
 DROP TABLE IF EXISTS roles_resources;
 DROP TABLE IF EXISTS users_options;
 DROP TABLE IF EXISTS notifications;
+DROP TABLE IF EXISTS logs;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS roles;
 DROP TABLE IF EXISTS modules;
@@ -47,6 +48,16 @@ CREATE TABLE users (
     FOREIGN KEY(id_role) REFERENCES roles(id) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE=InnoDB;
 
+CREATE TABLE logs(
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    date_log DATETIME NOT NULL,
+    id_user INTEGER UNSIGNED DEFAULT NULL,
+    type ENUM('INFO','NOTICE','WARN','ERROR') NOT NULL DEFAULT 'INFO',
+    comment TEXT DEFAULT '',
+    FOREIGN KEY(id_user) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    INDEX(type),
+    PRIMARY KEY(id)
+) ENGINE=InnoDB;
 
 --  For local tests
 -- INSERT INTO users(id,email,password,date_register,id_role) VALUES (0,'loic.boucha@gmail.com', SHA2('loic01',256),NOW(),1);
