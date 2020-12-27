@@ -54,7 +54,7 @@
 	import CogOutlineIcon from 'vue-material-design-icons/CogOutline.vue'
 	import AccountSupervisorCircleIcon from 'vue-material-design-icons/AccountSupervisorCircle.vue'
 	import CrownIcon from 'vue-material-design-icons/Crown.vue'
-
+    import MessageTextClockIcon from 'vue-material-design-icons/MessageTextClock.vue'
 
 	export default {
 
@@ -71,7 +71,8 @@
 					canDisplay: hasPermission('users', 'read') || hasPermission('roles', 'read'),
 					entries: [
 						{icon : AccountSupervisorCircleIcon, title:  this.$t('Users'), to: '/users', canDisplay: hasPermission('users', 'read')},
-						{icon : CrownIcon, title: this.$t('Roles'), to: '/roles', canDisplay: hasPermission('roles', 'read')}
+						{icon : CrownIcon, title: this.$t('Roles'), to: '/roles', canDisplay: hasPermission('roles', 'read')},
+                        {icon : MessageTextClockIcon, title: this.$t('Logs'), to: '/logs', canDisplay : hasPermission('logs','read')}
 					]
 				}
 

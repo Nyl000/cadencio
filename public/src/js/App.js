@@ -8,6 +8,7 @@ import App from 'tpl/App.vue'
 import Login from 'tpl/Login.vue'
 import Home from 'tpl/Home.vue'
 import UsersIndex from 'tpl/UsersIndex.vue';
+import LogsIndex from 'tpl/LogsIndex.vue';
 import RolesIndex from 'tpl/RolesIndex.vue';
 import ProfileIndex from 'tpl/ProfileIndex.vue';
 import ModulesIndex from 'tpl/ModulesIndex.vue';
@@ -30,6 +31,7 @@ class Main {
 			var routes = [
 				{path: '/login', component: Login},
 				{path: '/users/:page?', component: UsersIndex},
+				{path: '/logs/:page?', component: LogsIndex},
 				{path: '/userprofile', component: ProfileIndex},
 				{path: '/roles/:page?', component: RolesIndex},
 				{path: '/modules/:page?', component: ModulesIndex},
