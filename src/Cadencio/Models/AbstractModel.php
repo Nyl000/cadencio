@@ -253,7 +253,7 @@ abstract class AbstractModel
 
     public function findBy($properties)
     {
-        $query = 'SELECT '. implode(',',$this->getPublicFields()) .' FROM ' . $this->modelName . ' WHERE 1=1 ';
+        $query = 'SELECT '. implode(',',$this->getPublicFields()) .' FROM ' . $this->from . ' WHERE 1=1 ';
         $params = [];
         foreach ($properties as $key => $val) {
             if (!in_array($key, $this->getTableProperties())) {
