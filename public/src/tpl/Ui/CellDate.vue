@@ -18,8 +18,9 @@
     export default {
         props: ['value', 'list', 'saveurl', 'id', 'field', 'canupdate','placeholder','link'],
         data: function () {
+
             return {
-                val: this.value == null ? '' : moment.tz(this.value,'UTC').clone().tz(getUserOption('timezone'|| 'UTC')).format('DD/MM/YYYY'),
+                val: this.value == null ? '' : moment.tz(this.value,'UTC').clone().tz(getUserOption('timezone') || 'UTC').format('DD/MM/YYYY'),
             }
         },
     }
