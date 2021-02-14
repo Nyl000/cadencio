@@ -45,8 +45,6 @@
             searchItems: async function () {
                 this.isLoading = true;
                 let additionalsFilters = this.additionalsFilters || {};
-                console.log(this.$props);
-                console.log(this.additionalsFilters);
                 let options = {...additionalsFilters, search: this.search, nbItems: 99999,};
                 if (this.id_excluded) {
                     options.exclude = [this.id_excluded];
