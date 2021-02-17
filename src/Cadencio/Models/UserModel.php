@@ -78,7 +78,7 @@ class UserModel extends AbstractModel
             $datas['date_register'] = date('Y-m-d H:i:s');
             $datas['hash'] = hash('SHA256', uniqid());
             $testUserExists = $this->getOne($datas['email'],'email');
-            if ($testUserExists) {
+            if (isset($testUserExists['id']) && !empty($testUserExists['id'])) {
                 throw new ApiUnprocessableException('A user with the same email already exists.');
             }
         } else {
