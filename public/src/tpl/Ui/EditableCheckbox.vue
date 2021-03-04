@@ -2,7 +2,7 @@
     <transition name="fade">
         <div class="editable">
             <div>
-                <ToggleInput v-model="val" @change="leaveEditmode"/>
+                <ToggleInput :canupdate="canupdate" v-model="val" @change="leaveEditmode"/>
             </div>
         </div>
     </transition>

@@ -7,15 +7,16 @@
 
 <script>
 	export default {
-		props: ['value'],
+		props: ['value','canupdate'],
         methods : {
             toggle : function() {
-            	let val = this.value == true;
-            	this.$emit('input',  !val);
-				this.$emit('change', !val);
-                this.$emit('click', !val);
+                if(typeof this.canupdate !== 'undefined' && this.canupdate) {
+                    let val = this.value == true;
+                    this.$emit('input', !val);
+                    this.$emit('change', !val);
+                    this.$emit('click', !val);
+                }
             }
         }
-
 	}
 </script>
