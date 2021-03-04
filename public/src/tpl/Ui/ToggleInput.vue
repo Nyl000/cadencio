@@ -10,7 +10,7 @@
 		props: ['value','canupdate'],
         methods : {
             toggle : function() {
-                if(typeof this.canupdate !== 'undefined' && this.canupdate) {
+                if(typeof this.canupdate === 'undefined' || this.canupdate) {
                     let val = this.value == true;
                     this.$emit('input', !val);
                     this.$emit('change', !val);
