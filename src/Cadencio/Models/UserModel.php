@@ -91,12 +91,18 @@ class UserModel extends AbstractModel
         }
         $id = parent::createOrUpdate($datas);
         if (!isset($datas['id'])) {
+            $settingsModel = new SettingModel();
             //create default user options
             $modelOptions = new UserOptionModel();
             $modelOptions->createOrUpdate([
                 'id_user' => $id,
                 'key' => 'timezone',
-                'value' => 'Europe/Brussels',
+                'value' => $settingsModel->get('default_timezone'),
+            ]);
+            $modelOptions->createOrUpdate([
+                'id_user' => $id,
+                'key' => 'lang',
+                'value' => $settingsModel->get('default_language'),
             ]);
         }
         return $id;
@@ -117,6 +123,14 @@ class UserModel extends AbstractModel
             if (!$this->isAdministrator(Application::$instance->getCurrentUserId()) && $roleModel->isAdministrator($datas['id_role'])) {
                 throw new ApiForbiddenException('You cannot grant a user as administrator');
             }
+        }
+        if (isset($datas['lang'])) {
+            $modelOptions = new UserOptionModel();
+            $modelOptions->createOrUpdate([
+                'id_user' => $id,
+                'key' => 'lang',
+                'value' =>$datas['lang']
+            ]);
         }
         parent::patch($id, $datas, $uniqueFieldname);
     }

@@ -19,6 +19,9 @@ CREATE TABLE settings(
     PRIMARY KEY(name)
 ) ENGINE=InnoDB;
 
+INSERT INTO settings(name,val) VALUES('default_timezone' , 'Europe/Brussels');
+INSERT INTO settings(name,val) VALUES('default_language' , 'fr');
+
 CREATE TABLE roles(
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     name VARCHAR(128) NOT NULL,
