@@ -7,7 +7,7 @@
         <div class="groupitems">
             <div class="tags">
                 <span class="item" :key="tag" v-for="tag in tags">{{tag}} <close-icon class="delete" @click="remove(tag)"/> </span>
-                <em class="empty" v-if="tags.length == 0">No tags</em>
+                <em class="empty" v-if="tags.length == 0">{{noTagsLabel || 'No Tags'}}</em>
             </div>
             <div class="formInput">
                 <input type="text" :placeholder="placeholder" ref="inputText" v-model="tagString" @input="input" />
@@ -33,7 +33,8 @@
 			'onChangeCallback',
             'tags',
             'autoCompleteMethod',
-            'placeholder'
+            'placeholder',
+            'noTagsLabel',
 		],
 		data: () => {
 			return {
