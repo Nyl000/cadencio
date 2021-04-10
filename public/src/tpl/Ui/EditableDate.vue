@@ -3,7 +3,7 @@
         <div class="editable">
 
             <div>
-                <Datetime :zone="getUserOption('timezone')" :placeholder="this.placeholder" type="date" v-model="val" :disabled="!canupdate"></Datetime>&nbsp;<close-icon v-on:click="remove" v-if="this.val!== '' && this.val !== null" />
+                <Datetime :zone="getUserOption('timezone')" :placeholder="this.placeholder" type="date" v-model="val" :disabled="!canupdate"></Datetime>&nbsp;<close-icon v-on:click="remove" v-if="canupdate && this.val!== '' && this.val !== null" />
                 <check-bold-icon v-if="success" class="icon success" />
             </div>
         </div>
