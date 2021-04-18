@@ -2,6 +2,8 @@
 
 namespace Cadencio\Models;
 
+use Cadencio\Application;
+
 class UserOptionModel extends AbstractModel
 {
 
@@ -20,4 +22,20 @@ class UserOptionModel extends AbstractModel
     public function getByUser($id_user) {
         return $this->getAdapter()->fetchPairs('SELECT `key`,`value` FROM '.$this->modelName.' WHERE id_user = ?', [$id_user]);
     }
+
+    public function setOption($name,$value,$id_user = false) {
+        if (!$id_user) {
+            $id_user = Application::$instance->getCurrentUserId();
+        }
+        $userModel = new UserModel();
+        if( !$userModel->idExists($id_user)) {
+            throw new \Exception('Unknown user with ID:'.$id_user);
+        }
+        $this->createOrUpdate([
+            'id_user' => $id_user,
+            'key' => $name,
+            'value' => $value,
+        ]);
+    }
+
 }

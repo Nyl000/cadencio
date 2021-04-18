@@ -103,27 +103,43 @@
     import ActionTable from 'tpl/Ui/ActionTable.vue';
     import draggable from 'vuedraggable'
     import Loader from 'tpl/Ui/Loader.vue';
-    import {objectToUrl} from 'js/Services/Utils';
     import ExportIcon from 'vue-material-design-icons/Export.vue';
-    import {hasPermission, getTempToken} from 'js/Models/User';
-
+    import {hasPermission, getTempToken,getUserOption,resyncUserDatas} from 'js/Models/User';
 
     export default {
-        props: ['model', 'definition', 'page', 'listOptions', 'name', 'loadOnStart', 'resource','selectable'],
-
-        mounted: function () {
+        props: ['model', 'definition', 'page', 'listOptions', 'name', 'loadOnStart', 'resource','selectable','entityName'],
+        mounted :  function() {
             this.modelObj = this.model;
-            if (this.loadStart) {
-                this.refresh();
-            }
-            console.log(this.selectable);
+            if (this.entity_name) {
+                 resyncUserDatas().then(() => {
+                     this.order = getUserOption(this.entity_name +'_order');
+                     this.orderDirection =  getUserOption(this.entity_name +'_orderDirection');
+                     if (this.loadStart) {
+                         this.$nextTick(() => {
 
+                             this.refresh();
+                         });
+                     }
+                 });
+
+            }
+            else {
+                this.order = localStorage.getItem('table_' + this.$props.name + '_order');
+                this.orderDirection = localStorage.getItem('table_' + this.$props.name + '_orderDirection');
+                if (this.loadStart) {
+                    this.$nextTick(() => {
+
+                        this.refresh();
+                    });
+                }
+            }
         },
+
 
         data: function () {
             return {
-                order: localStorage.getItem('table_' + this.$props.name + '_order') || '',
-                orderDirection: localStorage.getItem('table_' + this.$props.name + '_orderDirection') || '',
+                order : '',
+                orderDirection : '',
                 list: [],
                 selected: {},
                 paginator: {},
@@ -132,6 +148,7 @@
                 chooserDisplayed: false,
                 load: false,
                 loadStart: typeof this.$props.loadOnStart !== 'undefined' ? this.$props.loadOnStart : true,
+                entity_name : this.$props.entityName,
             }
         },
 
@@ -142,9 +159,6 @@
             window.removeEventListener('scroll', this.onScroll);
         },
         methods: {
-            mounted: function () {
-                this.setColumnsDisplayed();
-            },
             onScroll: function () {
                 this.$refs.tablehead.style.position = 'relative';
                 this.$refs.tablehead.style.transform = 'translateY(0px) translateZ(10px)';
@@ -330,8 +344,15 @@
             },
             definition: function () {
                 this.setColumnsDisplayed();
-                this.order = localStorage.getItem('table_' + this.$props.name + '_order') || '';
-                this.orderDirection = localStorage.getItem('table_' + this.$props.name + '_orderDirection') || '';
+                if (this.entity_name) {
+                    this.order = getUserOption(this.entity_name +'_order');
+                    this.orderDirection =  getUserOption(this.entity_name +'_orderDirection');
+                }
+                else {
+                    this.order = localStorage.getItem('table_' + this.$props.name + '_order');
+                    this.orderDirection = localStorage.getItem('table_' + this.$props.name + '_orderDirection');
+                }
+
             }
         }
     }

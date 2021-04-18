@@ -343,6 +343,8 @@ abstract class AbstractModel
     public function prepareQuery($options, $countOnly = false)
     {
 
+        $optionModel = new UserOptionModel();
+
         if ($countOnly) {
             $select = 'SELECT '.$this->modelName.'.'.$this->identifier;
         } else {
@@ -358,6 +360,8 @@ abstract class AbstractModel
             $s = $this->prepareSearchQuery($options['search']);
             $where .= $s['query'];
             $parameters = array_merge($parameters, $s['params']);
+            $optionModel->setOption($this->getModelName().'_search',$options['search']);
+
         }
 
         //Order
@@ -368,6 +372,12 @@ abstract class AbstractModel
             }
             $order .=  $this->getOrderFields()[$options['order']];
             $order .= isset($options['orderDirection']) && $options['orderDirection'] == 'DESC' ? ' DESC' : ' ASC';
+
+            $optionModel->setOption($this->getModelName().'_order',$options['order']);
+            if (isset($options['orderDirection'])) {
+                $optionModel->setOption($this->getModelName() . '_orderDirection', $options['orderDirection']);
+            }
+
         }
         else {
             $order .= $this->getDefaultOrder();
@@ -376,6 +386,7 @@ abstract class AbstractModel
         $paging = '';
         //Paging
         if (!$countOnly && $this->paging) {
+
             $nbItems = isset($options['nbItems']) ? $options['nbItems'] : DEFAULT_PAGINATION;
             $activePage = isset($options['page']) ? $options['page'] : 1;
 
@@ -394,11 +405,18 @@ abstract class AbstractModel
                     }
                     $subwhere .= ')';
                     $where .= $subwhere;
+                    $optionModel->setOption($this->getModelName().'_filter_'.$key,json_encode($options[$key]));
+
                 }
                 else {
                     $where.= ' AND '.$val.' = ?';
                     $parameters[] = $options[$key];
+                    $optionModel->setOption($this->getModelName().'_filter_'.$key,$options[$key]);
+
                 }
+            }
+            else {
+                $optionModel->setOption($this->getModelName().'_filter_'.$key,'');
             }
         }
 
@@ -406,6 +424,9 @@ abstract class AbstractModel
             $where.= ' AND ' .$whereOption['condition'];
             $parameters = array_merge($parameters,$whereOption['parameters']);
         }
+
+
+
 
         return [
             'select' => $select,
@@ -458,6 +479,8 @@ abstract class AbstractModel
     public function buildPaginatedQuery($options,$resourceName = false,$methodName = false) {
 
         $resourceName = $resourceName ?: $this->modelName;
+
+
 
         if ($methodName) {
             if (!method_exists($this,$methodName)) { throw new \RuntimeException('Method '.$methodName.' does not exists');}
