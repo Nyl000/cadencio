@@ -8,7 +8,11 @@ const objectToUrl = (object) => {
     for (let key in object) {
         let val = object[key];
 
-        if (Array.isArray(val)) {
+        if (!Array.isArray(val) &&  typeof val === 'object') {
+            outputArray.push(key+'='+JSON.stringify(val).replaceAll('#','%23'))
+        }
+
+        else if (Array.isArray(val)) {
             for(let i=0; i<val.length; i++) {
                 outputArray.push(key+'[]='+val[i]);
             }
