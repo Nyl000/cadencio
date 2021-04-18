@@ -24,6 +24,14 @@ const getUserOption = (key) => {
     return user.options[key] || false;
 };
 
+const resyncUserDatas = async () => {
+    let token = localStorage.getItem('token');
+    let datas = await testToken(token);
+    localStorage.setItem('user', JSON.stringify(datas.user));
+
+};
+
+
 const getLoggedUser = () => {
     return JSON.parse(localStorage.getItem('user'));
 };
@@ -88,5 +96,6 @@ export {
     getUserOption,
     getLoggedUser,
     getMyNotifications,
-    getTempToken
+    getTempToken,
+    resyncUserDatas
 }
