@@ -23,6 +23,10 @@ class UserOptionModel extends AbstractModel
         return $this->getAdapter()->fetchPairs('SELECT `key`,`value` FROM '.$this->modelName.' WHERE id_user = ?', [$id_user]);
     }
 
+    public function getByUserAndName($id_user,$name) {
+        return $this->getAdapter()->fetchOne('SELECT `value` FROM '.$this->modelName.' WHERE id_user = ? AND `key` = ? ', [$id_user,$name]);
+    }
+
     public function setOption($name,$value,$id_user = false) {
         if (!$id_user) {
             $id_user = Application::$instance->getCurrentUserId();

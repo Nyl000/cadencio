@@ -9,23 +9,26 @@ use Cadencio\Models\UserOptionModel;
 use Cadencio\Services\Utils;
 use Firebase\JWT\JWT;
 
-class User extends RestController {
+class User extends RestController
+{
 
-    public function init() {
+    public function init()
+    {
         $this->setModel(new UserModel());
     }
 
-    public function postReset() {
+    public function postReset()
+    {
         $body = $this->getRequest()->getJsonBody();
-        if (!isset($body->email) ) {
+        if (!isset($body->email)) {
             throw new ApiUnprocessableException('Missing email');
         }
-        $user = $this->getModel()->getOneWithoutAdminCheck($body->email,'email');
-        if($user) {
-            $hash = hash('SHA256',uniqid());
+        $user = $this->getModel()->getOneWithoutAdminCheck($body->email, 'email');
+        if ($user) {
+            $hash = hash('SHA256', uniqid());
             $this->getModel()->patch($user['id'], ['hash' => $hash]);
             $baseUrl = BASE_URL;
-            Utils::sendMail($body->email,'Reset password confirmation',"
+            Utils::sendMail($body->email, 'Reset password confirmation', "
             
                 <p>Hello</p>
                 <p>Someone (Probably you) asked to reset your password. Please follow <a href=\"{$baseUrl}confirmreset/$hash\">this link</a> to reset your password. 
@@ -34,36 +37,36 @@ class User extends RestController {
                 <p>If you didn't ask a password reset, please ignore this message.</p>
             
             ");
-            Utils::logRecorder('INFO','Password Renew Asked',$user['id']);
+            Utils::logRecorder('INFO', 'Password Renew Asked', $user['id']);
 
         }
     }
 
-    public function postResetpassword() {
+    public function postResetpassword()
+    {
         $body = $this->getRequest()->getJsonBody();
-        if (!isset($body->hash) ) {
+        if (!isset($body->hash)) {
             throw new ApiUnprocessableException('Missing hash');
         }
-        if (!isset($body->password) ) {
+        if (!isset($body->password)) {
             throw new ApiUnprocessableException('Missing password');
         }
-        $user = $this->getModel()->getOneWithoutAdminCheck($body->hash,'hash');
-        if(isset($user['id'])) {
-            $password = hash('SHA256',$body->password);
-            $hash = hash('SHA256',uniqid());
+        $user = $this->getModel()->getOneWithoutAdminCheck($body->hash, 'hash');
+        if (isset($user['id'])) {
+            $password = hash('SHA256', $body->password);
+            $hash = hash('SHA256', uniqid());
             $this->getModel()->patch($user['id'], ['password' => $password, 'hash' => $hash]);
-            Utils::logRecorder('INFO','Password Renewed',$user['id']);
+            Utils::logRecorder('INFO', 'Password Renewed', $user['id']);
 
             return true;
-        }
-        else {
+        } else {
             throw new ApiNotFoundException();
         }
-
     }
 
-    public function getTemptoken() {
-        return $this->auth->secure(function ()  {
+    public function getTemptoken()
+    {
+        return $this->auth->secure(function () {
             $hashedPwd = $this->getModel()->getHashedPassword(Application::$instance->getCurrentUserId());
             $nonce = md5(uniqid());
             $payload = array(
@@ -72,27 +75,28 @@ class User extends RestController {
                 "iat" => time(),
                 "exp" => time() + 10,
                 'pwd_nonce' => $nonce,
-                'pwd' => hash('SHA256',$nonce.$hashedPwd.JWT_PRIV_KEY),
+                'pwd' => hash('SHA256', $nonce . $hashedPwd . JWT_PRIV_KEY),
                 'user_id' => Application::$instance->getCurrentUserId()
             );
             return ['token' => JWT::encode($payload, JWT_PRIV_KEY, 'HS256')];
         });
     }
 
-    public function postLogin() {
+    public function postLogin()
+    {
 
         $body = $this->getRequest()->getJsonBody();
 
-        if (!isset($body->email) ) {
+        if (!isset($body->email)) {
             throw new ApiUnprocessableException('Missing email');
         }
 
-        if (!isset($body->password) ) {
+        if (!isset($body->password)) {
             throw new ApiUnprocessableException('Missing password');
         }
-        $login = $this->getModel()->login(trim($body->email),$body->password);
-        if($login) {
-            if  (isset($body->use_jwt) && $body->use_jwt) {
+        $login = $this->getModel()->login(trim($body->email), $body->password);
+        if ($login) {
+            if (isset($body->use_jwt) && $body->use_jwt) {
                 $nonce = md5(uniqid());
                 $payload = array(
                     "iss" => "http://example.org",
@@ -100,62 +104,70 @@ class User extends RestController {
                     "iat" => time(),
                     "exp" => time() + 60 * 60 * 24,
                     'pwd_nonce' => $nonce,
-                    'pwd' => hash('SHA256',$nonce. hash('SHA256',$body->password).JWT_PRIV_KEY),
+                    'pwd' => hash('SHA256', $nonce . hash('SHA256', $body->password) . JWT_PRIV_KEY),
                     'user_id' => $login
                 );
                 Application::$instance->setCurrentUserId($login);
-                Utils::logRecorder('INFO','User Logged In');
-                return ['status' => 'ok','token' => JWT::encode($payload, JWT_PRIV_KEY, 'HS256')];
+                Utils::logRecorder('INFO', 'User Logged In');
+                return ['status' => 'ok', 'token' => JWT::encode($payload, JWT_PRIV_KEY, 'HS256')];
 
             }
             return ['status' => 'ok'];
-        }
-        else {
-            Utils::logRecorder('NOTICE','Wrong login attempt for: <'.trim($body->email).'>');
+        } else {
+            Utils::logRecorder('NOTICE', 'Wrong login attempt for: <' . trim($body->email) . '>');
             return ['status' => 'nok'];
         }
     }
 
-    public function getChecktoken() {
-        return $this->auth->secure(function ()  {
+    public function getChecktoken()
+    {
+        return $this->auth->secure(function () {
             $user = $this->getModel()->getOne(Application::$instance->getCurrentUserId());
 
-            return ['status' => 'ok','user' => $user];
+            return ['status' => 'ok', 'user' => $user];
         });
     }
 
-    public function getMynotifications() {
-        return $this->auth->secure(function ()  {
+    public function getMynotifications()
+    {
+        return $this->auth->secure(function () {
 
             $model = new NotificationModel();
 
-            return ['status' => 'ok','notifications' => $model->getMyUnseen()];
+            return ['status' => 'ok', 'notifications' => $model->getMyUnseen()];
         });
     }
 
-    public function getSelf_options() {
-        return $this->auth->secure(function ()  {
+    public function getSelf_options()
+    {
+        return $this->auth->secure(function () {
 
             $this->abortIfNotAllowed($this->getModel()->getResourceName(), 'update_self');
 
             $model = new UserOptionModel();
-            return $model->getByUser(Application::$instance->getCurrentUserId());
+            if (isset($_GET['name']) && !empty($_GET['name'])) {
+                return $model->getByUser(Application::$instance->getCurrentUserId());
+            }
+            else {
+                return ['value' => $model->getByUserAndName(Application::$instance->getCurrentUserId(), $_GET['name']) ];
+            }
         });
     }
 
     public function postProcessEntity($candidate)
     {
         if (isset($candidate->password) && !empty($candidate->password)) {
-            $candidate->password = hash('SHA256',$candidate->password);
-        }
-        else {
+            $candidate->password = hash('SHA256', $candidate->password);
+        } else {
             unset($candidate->password);
         }
         return $candidate;
     }
 
-    public function postSelfoptions() {
-        return $this->auth->secure(function ()  {
+
+    public function postSelfoptions()
+    {
+        return $this->auth->secure(function () {
 
             $this->abortIfNotAllowed($this->getModel()->getResourceName(), 'update_self');
 
