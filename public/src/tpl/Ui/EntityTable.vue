@@ -104,37 +104,10 @@
     import draggable from 'vuedraggable'
     import Loader from 'tpl/Ui/Loader.vue';
     import ExportIcon from 'vue-material-design-icons/Export.vue';
-    import {hasPermission, getTempToken,getUserOption,resyncUserDatas} from 'js/Models/User';
+    import {hasPermission, getTempToken,getUserOptionAsync,resyncUserDatas} from 'js/Models/User';
 
     export default {
         props: ['model', 'definition', 'page', 'listOptions', 'name', 'loadOnStart', 'resource','selectable','entityName'],
-        mounted :  function() {
-            this.modelObj = this.model;
-            if (this.entity_name) {
-                 resyncUserDatas().then(() => {
-                     this.order = getUserOption(this.entity_name +'_order');
-                     this.orderDirection =  getUserOption(this.entity_name +'_orderDirection');
-                     if (this.loadStart) {
-                         this.$nextTick(() => {
-
-                             this.refresh();
-                         });
-                     }
-                 });
-
-            }
-            else {
-                this.order = localStorage.getItem('table_' + this.$props.name + '_order');
-                this.orderDirection = localStorage.getItem('table_' + this.$props.name + '_orderDirection');
-                if (this.loadStart) {
-                    this.$nextTick(() => {
-
-                        this.refresh();
-                    });
-                }
-            }
-        },
-
 
         data: function () {
             return {
@@ -152,6 +125,20 @@
             }
         },
 
+        mounted : function() {
+            this.modelObj = this.model;
+            this.resyncUserOptions().then(() => {
+                if (this.loadStart) {
+                    this.$nextTick(() => {
+
+                        this.refresh();
+                    });
+                }
+            })
+        },
+
+
+
         created() {
             window.addEventListener('scroll', this.onScroll);
         },
@@ -159,6 +146,20 @@
             window.removeEventListener('scroll', this.onScroll);
         },
         methods: {
+            resyncUserOptions : async function() {
+                if (this.entity_name) {
+
+                    this.order = await getUserOptionAsync(this.entity_name + '_order');
+                    this.orderDirection = await  getUserOptionAsync(this.entity_name +'_orderDirection');
+                    console.log(this.order);
+
+                }
+                else {
+                    this.order = localStorage.getItem('table_' + this.$props.name + '_order');
+                    this.orderDirection = localStorage.getItem('table_' + this.$props.name + '_orderDirection');
+                }
+
+            },
             onScroll: function () {
                 this.$refs.tablehead.style.position = 'relative';
                 this.$refs.tablehead.style.transform = 'translateY(0px) translateZ(10px)';
@@ -344,15 +345,7 @@
             },
             definition: function () {
                 this.setColumnsDisplayed();
-                if (this.entity_name) {
-                    this.order = getUserOption(this.entity_name +'_order');
-                    this.orderDirection =  getUserOption(this.entity_name +'_orderDirection');
-                }
-                else {
-                    this.order = localStorage.getItem('table_' + this.$props.name + '_order');
-                    this.orderDirection = localStorage.getItem('table_' + this.$props.name + '_orderDirection');
-                }
-
+                this.resyncUserOptions();
             }
         }
     }

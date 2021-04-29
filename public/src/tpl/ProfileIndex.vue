@@ -41,7 +41,7 @@
 
 <script>
 
-    import {hasPermission,updateUserOption,getUserOption} from 'js/Models/User';
+    import {hasPermission,updateUserOption,getUserOptionAsync} from 'js/Models/User';
 
     import EditableText from 'tpl/Ui/EditableText.vue';
     import EditableList from 'tpl/Ui/EditableList.vue';
@@ -58,15 +58,19 @@
                 orderDirection: 'ASC',
                 page: 1,
                 timezones : selectTimezone(),
-                selectedTimezone : getUserOption('timezone') || 'UTC',
+                selectedTimezone : 'UTC',
                 langs: Config.langs || ['fr', 'en'],
-                selectedLang: getUserOption('lang') || 'en',
+                selectedLang:  'en',
 
             }
         },
-        mounted: function () {
+        mounted: async function () {
 
-            this.refresh();
+            this.selectedTimezone = await getUserOptionAsync('timezone');
+            this.selectedLang = await getUserOptionAsync('lang');
+            this.$nextTick(() => {
+                this.refresh();
+            });
 
         },
         methods: {

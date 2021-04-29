@@ -146,10 +146,10 @@ class User extends RestController
 
             $model = new UserOptionModel();
             if (isset($_GET['name']) && !empty($_GET['name'])) {
-                return $model->getByUser(Application::$instance->getCurrentUserId());
+                return ['value' => $model->getByUserAndName(Application::$instance->getCurrentUserId(), $_GET['name']) ];
             }
             else {
-                return ['value' => $model->getByUserAndName(Application::$instance->getCurrentUserId(), $_GET['name']) ];
+                return $model->getByUser(Application::$instance->getCurrentUserId());
             }
         });
     }
