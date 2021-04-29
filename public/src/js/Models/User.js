@@ -1,6 +1,10 @@
 import Rest from 'js/Services/Rest';
 import {objectToUrl} from 'js/Services/Utils';
 
+const userOptionsCached = {
+
+};
+
 const testToken = () => {
 
     let token = localStorage.getItem('token');
@@ -16,6 +20,11 @@ const hasPermission = (resource, action) => {
     return user.role.permissions.indexOf('*.*') >= 0 || user.role.permissions.indexOf(resource + '.*') >= 0 || user.role.permissions.indexOf(resource + '.' + action) >= 0;
 };
 
+/**
+ * @deprecated Use getUserOptionasync
+ * @param key
+ * @returns {*|boolean|boolean}
+ */
 const getUserOption = (key) => {
     let user = JSON.parse(localStorage.getItem('user'));
     if (!user) {
@@ -23,6 +32,28 @@ const getUserOption = (key) => {
     }
     return user.options[key] || false;
 };
+
+const getUserOptionAsync = async (key) => {
+    try {
+
+        if (typeof userOptionsCached[key] !== 'undefined' && userOptionsCached[key].ts > new Date().getTime() - 1000 * 30) {
+            return userOptionsCached[key].value
+        }
+        else {
+
+            let response = await Rest.authRequest('/user/self_options?name=' + key, 'GET');
+            userOptionsCached[key] = {
+                ts : new Date().getTime(),
+                value : response.value
+            };
+            return response.value;
+        }
+    }
+    catch(error) {
+        return null;
+    }
+};
+
 
 const resyncUserDatas = async () => {
     let token = localStorage.getItem('token');
@@ -97,5 +128,6 @@ export {
     getLoggedUser,
     getMyNotifications,
     getTempToken,
-    resyncUserDatas
+    resyncUserDatas,
+    getUserOptionAsync
 }
