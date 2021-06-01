@@ -43,7 +43,7 @@ class SettingModel extends AbstractModel
     }
 
     public function get($name) {
-        return $this->getAdapter()->fetchOne('SELECT  val FROM '.$this->modelName.' WHERE `name` = ?)  ',[$name]);
+        return $this->getAdapter()->fetchOne('SELECT  val FROM '.$this->modelName.' WHERE `name` = ? ',[$name]);
     }
 
     public function getSettings(...$names) {
