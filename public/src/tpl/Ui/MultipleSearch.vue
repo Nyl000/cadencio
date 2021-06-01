@@ -19,7 +19,7 @@
 	import MagnifyIcon from 'vue-material-design-icons/Magnify.vue';
 
 	export default {
-		props: ['onSelected','selectedItems','id_excluded', 'model','placeholder','identifier','label','hide_search','additionnal_filters'],
+		props: ['onSelected','selectedItems','id_excluded', 'model','placeholder','identifier','label','hide_search','additionnal_filters','nb_items'],
 
 		data: function()  {
 			return {
@@ -34,7 +34,8 @@
 
 		methods: {
 			searchItems: function () {
-                let options = { search : this.search,nbItems: 99999};
+			    let nbItems = this.nb_items || 99999;
+                let options = { search : this.search,nbItems: nbItems};
                 if (this.id_excluded) {
                     options.exclude  = this.id_excluded;
                 }

@@ -28,6 +28,7 @@
                     :label="label"
                     :hide_search="hide_search"
                     :additionnal_filters="additionnal_filters"
+                    :nb_items="nb_items"
             />
         </Modale>
     </div>
@@ -55,7 +56,8 @@
             'modify_button_label',
             'empty_label',
             'hide_search',
-            'additionnal_filters'
+            'additionnal_filters',
+            'nb_items'
 
         ],
 
