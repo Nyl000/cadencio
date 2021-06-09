@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "base-64": "^0.1.0",
+    "chart.js": "^3.3.0",
     "fetch": "^1.1.0",
     "luxon": "^1.17.2",
     "moment": "^2.24.0",
@@ -19,6 +20,7 @@
     "vue": "^2.5.21",
     "vue-datetime": "^1.0.0-beta.10",
     "vue-dragscroll": "^1.10.0",
+    "vue-i18n": "^8.15.7",
     "vue-material-design-icons": "4.11.0",
     "vue-moment": "^4.0.0",
     "vue-router": "^3.0.2",
@@ -26,8 +28,7 @@
     "vue-swatches": "^1.0.4",
     "vuedraggable": "^2.23.2",
     "weekstart": "^1.0.0",
-    "whatwg-fetch": "^3.0.0",
-    "vue-i18n": "^8.15.7"
+    "whatwg-fetch": "^3.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.42",
