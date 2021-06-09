@@ -9,14 +9,17 @@
         <ul class="search_results">
             <li :class="' '+getActive(item[identifier]) " v-for="item in items" :key="item[identifier]" v-on:click="select(item[identifier],item)">
                 {{item[label]}}
+                <span class="closeitem" v-if="isSelected(item[identifier])" ><close-icon title="remove" /></span>
             </li>
         </ul>
+        <div class="button submit" @click="onValidate">{{$t('Select')}}</div>
     </div>
 </template>
 
 <script>
 
 	import MagnifyIcon from 'vue-material-design-icons/Magnify.vue';
+    import CloseIcon from 'vue-material-design-icons/Close.vue';
 
 	export default {
 		props: ['onSelected','selectedItems','id_excluded', 'model','placeholder','identifier','label','hide_search','additionnal_filters','nb_items'],
@@ -28,6 +31,7 @@
 				selected : this.$props.selectedItems ? this.$props.selectedItems : {},
 			}
 		},
+
 		mounted: function () {
 			this.searchItems();
 		},
@@ -64,9 +68,11 @@
 					this.selected[id] = label;
 				}
 				this.$forceUpdate();
-				this.$props.onSelected(this.selected);
-			}
+			},
+            onValidate : function() {
+                this.$props.onSelected(this.selected);
+            }
 		},
-        components : { MagnifyIcon }
+        components : { MagnifyIcon, CloseIcon }
 	}
 </script>

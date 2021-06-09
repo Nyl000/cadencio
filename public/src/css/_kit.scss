@@ -645,6 +645,8 @@ hr {
 }
 
 .searchbox {
+  max-width:500px;
+  padding-bottom:3em;
   input[type="search"] {
     display: inline-block;
     width: 300px;
@@ -666,7 +668,8 @@ hr {
       background: #efefef;
       margin-bottom: .5em;
       border-radius: .3em;
-      display: block;
+      display: inline-block;
+      margin-right:.5em;
       padding: .5em;
       &.active {
         background: green;
@@ -682,7 +685,24 @@ hr {
         opacity: .7;
         cursor: pointer;
       }
+
+      .closeitem,
+      .delete {
+        cursor:pointer;
+        &:hover {
+          opacity:.7;
+        }
+      }
     }
+  }
+  .button.submit {
+    position:absolute;
+    bottom:.5em;
+    right:.5em;
+    background: $color1;
+    color: white;
+    text-transform: uppercase;
+    padding: .2em 2em;
   }
 }
 

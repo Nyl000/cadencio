@@ -71,7 +71,8 @@
 			},
 			onChange: function (items) {
 				this.$forceUpdate();
-				if(typeof this.onChangeCallback === 'function') {
+                this.$refs.searchModale.hide();
+                if(typeof this.onChangeCallback === 'function') {
 					this.onChangeCallback(items)
                 }
 			},
