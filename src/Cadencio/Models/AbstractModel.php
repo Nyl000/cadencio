@@ -345,11 +345,9 @@ abstract class AbstractModel
 
         $optionModel = new UserOptionModel();
 
-        if ($countOnly) {
-            $select = 'SELECT '.$this->modelName.'.'.$this->identifier;
-        } else {
-            $select = 'SELECT  ' . implode(',',$this->getPublicFields());
-        }
+
+        $select = 'SELECT  ' . implode(',',$this->getPublicFields());
+
 
         $from = ' FROM ' . $this->from;
 
@@ -447,6 +445,8 @@ abstract class AbstractModel
         if($countOnly) {
             $query = 'SELECT COUNT(*) FROM ('.$query.') as countable';
         }
+            header('Query: ' . $query);
+
         return [
             'query' => $query,
             'params' => $queryParts['params']
