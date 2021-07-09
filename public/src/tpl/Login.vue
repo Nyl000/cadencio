@@ -18,17 +18,14 @@
 </template>
 
 <script>
-
-    import Rest from 'js/Services/Rest';
     import InfoMessage from 'tpl/Ui/InfoMessage.vue';
-    import base64 from 'base-64';
-    import {testToken} from 'js/Models/User';
     import SmallLoader from 'tpl/Ui/SmallLoader';
     import {getHooks} from 'js/Services/HookHandler';
 
     const modulesModel = require('js/Models/Module');
 
     export default {
+
         data: () => {
             return {
                 username: '',
@@ -49,37 +46,26 @@
 
                 return logopath;
             },
-            attemptLogin: function () {
+            attemptLogin: async function () {
                 this.loading = true;
-                Rest.request('/user/login', 'POST', {
-                    email: this.$data.username,
-                    password: this.$data.password,
-                    use_jwt : true,
-                }).then(
-                    (data) => {
-                        if (data.status === 'ok') {
-                            let token = base64.encode(this.$data.username + ':' + this.$data.password);
-                            localStorage.setItem('token', data.token);
-                            testToken(token).then((datas) => {
-                                localStorage.setItem('user', JSON.stringify(datas.user));
-								modulesModel.refreshActivesModules(() => {
-									window.location = '/';
-								})
-                            });
-                        }
-                        else {
-                            this.errorMessage = this.$t("Wrong login/password");
-                            this.$refs.info.show();
-                            this.loading = false;
 
-                        }
-                    },
-                    (error) => {
-                        this.errorMessage = error.message;
-                        this.$refs.info.show();
-                        this.loading = false;
-                    }
-                )
+                try {
+                    await this.$store.dispatch('login/loginAsync', {
+                        username: this.username,
+                        password: this.password,
+                    });
+
+                    await this.$store.dispatch('login/refreshUserInfos');
+
+                    modulesModel.refreshActivesModules(() => {
+                        window.location = '/';
+                    })
+                }
+                catch(errorMessage) {
+                    this.errorMessage = this.$t(errorMessage);
+                    this.$refs.info.show();
+                    this.loading = false;
+                }
             }
         },
         components: {

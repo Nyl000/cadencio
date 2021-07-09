@@ -11,9 +11,9 @@ import Vuex from 'vuex'
 
 import {Main} from 'js/App';
 
-Vue.use(Vuex)
 Vue.use(VueRouter);
 Vue.use(VueSimpleMarkdown);
+Vue.use(Vuex);
 
 new Main();
 

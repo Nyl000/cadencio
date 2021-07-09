@@ -18,8 +18,11 @@ import PasswordReset from 'tpl/PasswordReset.vue';
 
 import {getHooks} from 'js/Services/HookHandler';
 import {refreshActivesModules} from 'js/Models/Module';
+import Vuex from "vuex";
+import store from 'js/Stores/StoreIndex';
 
 var instance = false;
+
 
 class Main {
 
@@ -85,6 +88,7 @@ class Main {
 			new Vue({
 				router,
 				i18n,
+				store,
 				render: h => h(App)
 			}).$mount('#app');
 
