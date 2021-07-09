@@ -10,5 +10,5 @@ public/config.js
 public/package-lock.json
 public/src/resources/images/logo.png
 public/src/resources/images/favicon.png
-modules
+/modules
 src/uploads
