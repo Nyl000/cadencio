@@ -62,7 +62,10 @@ const resyncUserDatas = async () => {
 
 };
 
-
+/**
+ * @deprecated User vuex getter login.loggedUser
+ * @returns {any}
+ */
 const getLoggedUser = () => {
     return JSON.parse(localStorage.getItem('user'));
 };

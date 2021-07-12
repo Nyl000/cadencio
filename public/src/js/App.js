@@ -18,7 +18,6 @@ import PasswordReset from 'tpl/PasswordReset.vue';
 
 import {getHooks} from 'js/Services/HookHandler';
 import {refreshActivesModules} from 'js/Models/Module';
-import Vuex from "vuex";
 import store from 'js/Stores/StoreIndex';
 
 var instance = false;

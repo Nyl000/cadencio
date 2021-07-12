@@ -30,9 +30,8 @@ const utcToLocaleTime = (dateUtc) => {
     let date  = moment.tz(dateUtc,'UTC');
     let localeDate  = date.clone().tz(getUserOption('timezone'));
     localeDate = moment(localeDate.format('YYYY-MM-DD HH:mm:ss'));
-
-
     return  localeDate.toDate();
+
 };
 
 const dateToLocaleTime = (dateLocale) => {

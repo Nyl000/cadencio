@@ -20,7 +20,6 @@ const getters = {
     token: (state) => state.token,
     loggedUser : (state) => state.loggedUser
 
-
 };
 
 const mutations = {
@@ -58,21 +57,20 @@ const actions = {
         })
     },
 
-    refreshUserInfos({commit,state}) {
+    refreshUserInfosAsync({commit,state}) {
         return new Promise(async (resolve,reject) => {
             try {
                 let datas = await testToken(state.token);
+                localStorage.setItem('user', JSON.stringify(datas.user));
+
+                commit('setLoggedUser',datas.user);
                 resolve(datas);
             }
             catch(error) {
                 reject(error);
             }
         });
-        testToken(state.token).then((datas) => {
-            localStorage.setItem('user', JSON.stringify(datas.user));
-            commit('setLoggedUser',datas.user);
-            resolve();
-        });
+
     }
 
 };

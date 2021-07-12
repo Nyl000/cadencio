@@ -47,15 +47,15 @@
                 return logopath;
             },
             attemptLogin: async function () {
-                this.loading = true;
-
                 try {
+                    this.loading = true;
+
                     await this.$store.dispatch('login/loginAsync', {
                         username: this.username,
                         password: this.password,
                     });
 
-                    await this.$store.dispatch('login/refreshUserInfos');
+                    await this.$store.dispatch('login/refreshUserInfosAsync');
 
                     modulesModel.refreshActivesModules(() => {
                         window.location = '/';
