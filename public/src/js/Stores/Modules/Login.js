@@ -5,6 +5,7 @@ import {testToken} from 'js/Models/User';
 const state = {
     token: '',
     loggedUser : {},
+    userOptionsCached : {},
 };
 
 if (localStorage.getItem('token')) {
@@ -18,7 +19,7 @@ if (localStorage.getItem('user')) {
 const getters = {
 
     token: (state) => state.token,
-    loggedUser : (state) => state.loggedUser
+    loggedUser : (state) => state.loggedUser,
 
 };
 
@@ -28,6 +29,13 @@ const mutations = {
     },
     setLoggedUser(state,userObject) {
         state.loggedUser = userObject;
+    },
+    updateUserOptionCached(state,payload) {
+        let {key,val} = payload;
+        state.userOptionsCached[key] = {
+            ts: new Date().getTime(),
+            value: val
+        }
     }
 };
 
@@ -70,7 +78,23 @@ const actions = {
                 reject(error);
             }
         });
-
+    },
+    getUserOptionAsync ({commit,state}, option) {
+        return new Promise(async (resolve,reject) => {
+            if (typeof state.userOptionsCached[option] !== 'undefined' && state.userOptionsCached[option].ts > new Date().getTime() - 1000 * 30) {
+                resolve(userOptionsCached[option].value)
+            }
+            else {
+                try {
+                    let response = await Rest.authRequest('/user/self_options?name=' + option, 'GET');
+                    commit('updateUserOptionCached',{key :option, val :response.value});
+                    resolve(response.value);
+                }
+                catch(error) {
+                    resolve(null);
+                }
+            }
+        });
     }
 
 };
