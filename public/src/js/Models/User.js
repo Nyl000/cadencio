@@ -16,7 +16,6 @@ const hasPermission = (resource, action) => {
     if (!user) {
         return false;
     }
-
     return user.role.permissions.indexOf('*.*') >= 0 || user.role.permissions.indexOf(resource + '.*') >= 0 || user.role.permissions.indexOf(resource + '.' + action) >= 0;
 };
 

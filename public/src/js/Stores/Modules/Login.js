@@ -82,7 +82,7 @@ const actions = {
     getUserOptionAsync ({commit,state}, option) {
         return new Promise(async (resolve,reject) => {
             if (typeof state.userOptionsCached[option] !== 'undefined' && state.userOptionsCached[option].ts > new Date().getTime() - 1000 * 30) {
-                resolve(userOptionsCached[option].value)
+                resolve(state.userOptionsCached[option].value)
             }
             else {
                 try {
