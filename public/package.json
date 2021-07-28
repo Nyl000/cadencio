@@ -21,6 +21,7 @@
     "vue-datetime": "^1.0.0-beta.10",
     "vue-dragscroll": "^1.10.0",
     "vue-i18n": "^8.25.0",
+    "vue-material": "^1.0.0-beta-15",
     "vue-material-design-icons": "4.11.0",
     "vue-moment": "^4.0.0",
     "vue-router": "^3.5.2",
