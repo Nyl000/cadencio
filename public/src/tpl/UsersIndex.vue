@@ -2,13 +2,13 @@
     <div class="users_index">
         <div class="tablecontainer">
             <div class="actionbar">
-                <button class="button button-add" v-on:click="addUserModal">
+                <md-button class="md-raised md-primary" v-on:click="addUserModal">
                     <plus-icon/>
                     {{$t('Add')}}
-                </button>
-                <button class="button button-secondary " v-on:click="refreshGrid()">
+                </md-button>
+                <md-button class=" " v-on:click="refreshGrid()">
                     <sync-icon/>
-                </button>
+                </md-button>
 
             </div>
             <div class="tablewrapper">

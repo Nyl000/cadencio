@@ -88,7 +88,6 @@
   max-width: 100%;
   overflow: scroll;
   border-radius: 0px 0px 5px 5px;
-  font-size:.8em;
   width:100%;
   transform-style: preserve-3d;
 
@@ -251,7 +250,6 @@
       font-weight: bold;
       text-transform: uppercase;
       margin-bottom: .5em;
-      font-size: .8em;
       @media all and (max-width: 600px) {
         display: block;
       }
@@ -261,30 +259,6 @@
       &>span {
         display:inline-block;
         margin-right:.3em;
-      }
-      .material-design-icon {
-        cursor:pointer;
-        padding:1em;
-        border-radius:50px;
-        background: #e3e3e3;
-        transition: background .3s;
-
-        &:hover {
-          background: $color2;
-          color:white;
-        }
-        position:relative;
-        .material-design-icon__svg {
-          transition: .3s;
-          height: 15px;
-          width: 15px;
-          fill: currentColor;
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translateY(-50%) translateX(-50%);
-          bottom:auto;
-        }
       }
     }
 

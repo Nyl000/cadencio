@@ -1,8 +1,8 @@
 <template>
     <transition name="fade">
-        <span v-on:click="click" :title="title" >
+        <md-button class="md-icon-button md-raised" v-on:click="click" :title="title" >
             <component :is="component" v-bind="$props" :title="title" />
-        </span>
+        </md-button>
     </transition>
 </template>
 

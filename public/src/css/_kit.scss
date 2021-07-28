@@ -246,7 +246,6 @@ button {
   text-transform: uppercase;
   font-weight: bold;
   border-radius: .2em;
-  font-size: .8em;
 }
 
 .boxcontainer {
@@ -282,7 +281,6 @@ button {
       border-radius:.3em;
       display: inline-block;
       background-color: $color2;
-      font-size: .8em;
       color: white;
     }
   }
@@ -710,14 +708,12 @@ hr {
   margin-top:1em;
   margin-bottom:.5em;
   .title {
-    font-size:.8em;
     font-weight:bold;
     text-transform:uppercase;
     color:#575757;
   }
   .hint {
     font-style: italic;
-    font-size:.8em;
     padding-top:1em;
     color:grey;
   }
@@ -893,6 +889,5 @@ hr {
   background: transparentize($color2,.2);
   text-transform: uppercase;
   margin-top:.5em;
-  font-size:.8em;
   color:white;
 }
