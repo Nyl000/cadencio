@@ -900,3 +900,10 @@ hr {
   background-color: #f6f6f6;
 
 }
+
+.md-app-drawer {
+  width:auto;
+  .md-list-item.md-inset .md-list-item-content {
+    padding-left:1em;
+  }
+}

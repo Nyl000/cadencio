@@ -1,7 +1,7 @@
 <template>
     <div class="page-container">
         <md-app style="min-height: 100vh;">
-            <md-app-toolbar class=" app-bar"  md-elevation="2" v-if="isLogged">
+            <md-app-toolbar class=" app-bar"  md-elevation="3" v-if="isLogged">
                 <md-button v-if="!menuVisible" class="md-icon-button" @click="menuVisible = !menuVisible">
                     <md-icon> <menu-icon/></md-icon>
                 </md-button>
@@ -22,7 +22,7 @@
             </md-app-toolbar>
 
             <md-app-drawer class="main-menu-drawer" :md-active.sync="menuVisible" md-persistent="full" v-if="isLogged">
-                <md-toolbar class="md-transparent menu-bar" md-elevation="2">
+                <md-toolbar class="md-transparent menu-bar" md-elevation="3">
                       <span class="md-title">
                   Menu
                 </span>
@@ -35,7 +35,6 @@
 
                 <md-list class="list-menu-app" :md-expand-single="false">
                     <md-list-item md-expand :md-expanded="true" v-for="(section,name) in menuItems" v-if="section.canDisplay" :key="section.name">
-                        <md-icon class="md-icon-button md-dense"><component :is="section.icon"/></md-icon>
                         <span class="md-list-item-text"> {{section.title}} </span>
                         <md-list slot="md-expand">
                             <md-list-item class="md-inset" v-for="(item,index) in section.entries" v-if="item.canDisplay" :to="item.to" :key="index">

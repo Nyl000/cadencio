@@ -1,5 +1,5 @@
 .logo {
-  height:1.5em;
+  height: 1.5em;
 }
 
 .header-end {
@@ -9,6 +9,7 @@
     }
 
   }
+
   .logout {
     .material-design-icon {
       svg {
@@ -16,24 +17,33 @@
       }
 
     }
-    margin-left:.5em;
-    cursor:pointer;
+
+    margin-left: .5em;
+    cursor: pointer;
+
     &:hover {
-      opacity:.7;
+      opacity: .7;
     }
   }
 }
 
 .list-menu-app {
-  padding:0;
+  padding: 0;
 }
 
 .menu-bar {
-  border-right:1px solid #d5d5d5;
-  background-color: #f9f9f9 !important;
+  background-color: transparent !important;
+  border-bottom: none !important;
 
+  .md-list.md-theme-default .md-list-item-expand.md-active {
+    border-top: none !important;
+  }
 }
 
 .md-toolbar.md-theme-default.app-bar {
-  background-color: #f9f9f9;
+  background-color: white;
+  border-left: 1px solid #d5d5d5;
+
+
+
 }
