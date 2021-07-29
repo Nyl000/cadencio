@@ -1,7 +1,7 @@
 <template>
     <div class="notif_wrap">
         <span class="icon_notifications" v-on:click="toggle">
-            <bell-icon />
+            <md-icon><bell-icon /></md-icon>
             <span class="number" v-if="notifications.length > 0">{{notifications.length}}</span>
         </span>
         <transition name="fade">

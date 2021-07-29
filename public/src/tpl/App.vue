@@ -1,47 +1,61 @@
 <template>
-    <div class="mainWrapper">
-        <div v-if="isLogged" class="topBar">
-            <div class="left">
-                <div class="logowrap">
-                    <div class="menuIcon" v-on:click="toggleMenu">
-                        <menu-icon/>
-                    </div>
+    <div class="page-container">
+        <md-app style="min-height: 100vh;">
+            <md-app-toolbar class=" app-bar"  md-elevation="2">
+                <md-button v-if="!menuVisible" class="md-icon-button" @click="menuVisible = !menuVisible">
+                    <md-icon> <menu-icon/></md-icon>
+                </md-button>
+                <span class="md-title">
                     <router-link to="/">
-                        <img class="logo" :src="getLogo()" alt="logo"/>
+                        <img class="md-image logo" :src="getLogo()" alt="logo"/>
                     </router-link>
-                </div>
-            </div>
-            <div class="right">
-                <NotificationBox/>
-                <router-link v-if="hasPermission('users','update_self')" to="/userprofile">
-                    <account-icon/>
-                </router-link>
-                <div class="logout" v-on:click="logout">
-                    <power-icon/>
-                </div>
-            </div>
-            <div style="clear:both"></div>
-        </div>
-        <div class="appcontainer">
-            <div v-if="isLogged" :class="'mainmenu ' + (menuOpen ? ' active' : '')">
-                <div class="section" v-for="(section,name) in menuItems" v-if="section.canDisplay" :key="section.name">
-                    <div class="title">
-                        <span v-if="section.icon"><component :is="section.icon"/></span> {{section.title}}
-                    </div>
-                    <div v-for="(item,index) in section.entries">
-                        <router-link v-if="item.canDisplay" :to="item.to"
-                                     :key="index">
-                            <span v-if="item.icon"><component :is="item.icon"/></span> {{item.title}}
+                </span>
+                <div class="md-toolbar-section-end header-end">
+                        <NotificationBox/>
+                        <router-link v-if="hasPermission('users','update_self')" to="/userprofile">
+                            <md-icon><account-icon/></md-icon>
                         </router-link>
-                    </div>
+                        <div class="logout" v-on:click="logout">
+                            <md-icon><power-icon/></md-icon>
+                        </div>
                 </div>
-            </div>
-            <div class="appview">
+            </md-app-toolbar>
+
+            <md-app-drawer class="main-menu-drawer" :md-active.sync="menuVisible" md-persistent="full" >
+                <md-toolbar class="md-transparent menu-bar" md-elevation="2">
+                      <span class="md-title">
+                  Menu
+                </span>
+                    <div class="md-toolbar-section-end">
+                        <md-button class="md-icon-button md-dense" @click="toggleMenu">
+                            <md-icon><close-icon/></md-icon>
+                        </md-button>
+                    </div>
+                </md-toolbar>
+
+                <md-list class="list-menu-app" :md-expand-single="false">
+                    <md-list-item md-expand :md-expanded="true" v-for="(section,name) in menuItems" v-if="section.canDisplay" :key="section.name">
+                        <md-icon class="md-icon-button md-dense"><component :is="section.icon"/></md-icon>
+                        <span class="md-list-item-text"> {{section.title}} </span>
+                        <md-list slot="md-expand">
+                            <md-list-item class="md-inset" v-for="(item,index) in section.entries" v-if="item.canDisplay" :to="item.to" :key="index">
+                                    <md-icon class="md-icon-button md-dense"><component :is="item.icon"/></md-icon>
+                                    <span class="md-list-item-text">{{item.title}}</span>
+                            </md-list-item>
+                        </md-list>
+                    </md-list-item>
+
+                </md-list>
+            </md-app-drawer>
+
+            <md-app-content>
                 <router-view></router-view>
-            </div>
-        </div>
+
+            </md-app-content>
+        </md-app>
     </div>
 </template>
+
 
 <script>
 	import {hasPermission} from 'js/Models/User';
@@ -53,8 +67,9 @@
 	import ToyBrickIcon from 'vue-material-design-icons/ToyBrick.vue'
 	import CogOutlineIcon from 'vue-material-design-icons/CogOutline.vue'
 	import AccountSupervisorCircleIcon from 'vue-material-design-icons/AccountSupervisorCircle.vue'
-	import CrownIcon from 'vue-material-design-icons/Crown.vue'
+	import CloseIcon from 'vue-material-design-icons/Close.vue'
     import MessageTextClockIcon from 'vue-material-design-icons/MessageTextClock.vue'
+    import CrownIcon from 'vue-material-design-icons/Crown.vue'
 
 	export default {
 
@@ -115,7 +130,7 @@
 			return {
 				isLogged: localStorage.getItem('token') ? true : false,
 				menuItems: menuItems,
-				menuOpen: showMenu
+                menuVisible: showMenu
 			}
 		},
 
@@ -128,7 +143,7 @@
 			},
 			toggleMenu: function () {
 
-				this.menuOpen = !this.menuOpen;
+				this.menuVisible = !this.menuVisible;
 				localStorage.setItem('global_showmenu', this.menuOpen ? 1 : 0);
 
 			},
@@ -145,6 +160,6 @@
             },
 
 		},
-		components: {NotificationBox, AccountIcon, PowerIcon, MenuIcon}
+		components: {NotificationBox, AccountIcon, PowerIcon, MenuIcon,CloseIcon}
 	}
 </script>

@@ -1,100 +1,39 @@
-.topBar {
-  padding: .5em;
-  background:white;
-  border-bottom: solid 1px #e2e2e2;
-  display:flex;
-  align-items:center;
-  position:relative;
+.logo {
+  height:1.5em;
+}
 
-  a {
-    color: #444444;
-  }
-  .right {
-    flex:1;
-    text-align:right;
-    padding-right:1em;
-    font-size:1em;
-  }
-  .left {
-    flex:1;
-  }
-  .logowrap {
-    display:flex;
-    align-items:center;
-    font-size:1.5em;
-  }
-  .logo {
-    height:1em;
-    padding-left:1em;
-    margin-right:.5em;
-    width:auto;
-    position:relative;
-  }
+.header-end {
+  .material-design-icon {
+    svg {
+      fill: grey !important;
+    }
 
+  }
   .logout {
-    display: inline-block;
-    color: #b71220;
+    .material-design-icon {
+      svg {
+        fill: #b71220 !important;
+      }
+
+    }
     margin-left:.5em;
     cursor:pointer;
     &:hover {
       opacity:.7;
     }
   }
-  .menuIcon {
-    &:hover {
-      opacity:.5;
-      cursor:pointer;
-    }
-  }
 }
 
-
-.appcontainer {
-  display:flex;
-  flex:1;
-  .mainmenu {
-    position:relative;
-    padding-left:2em;
-    padding-top:1em;
-    width:180px;
-    margin-left:-180px;
-    -webkit-transition: margin-left .5s;
-    transition: margin-left .5s;
-    background: #f8f8f8;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-
-    &.active {
-      margin-left:0;
-    }
-    .section .title {
-      text-transform:uppercase;
-      padding:.3em;
-      font-size:.9em;
-      font-weight:bold;
-      padding-left:0;
-      padding-top:2em;
-      color : $color1;
-    }
-    a {
-      display:inline-block;
-      padding:.5em .8em;
-      color: #686868;
-      .icon {
-        width:30px;
-        overflow:hidden;
-      }
-      &.router-link-active {
-        background:white;
-        border-radius:5em;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.13);
-
-      }
-    }
-  }
-  .appview {
-    flex:1;
-    overflow-x:hidden;
-    overflow-y:scroll;
-  }
+.list-menu-app {
+  padding:0;
 }
 
+.menu-bar {
+  border-right:1px solid #d5d5d5;
+  background-color: #f9f9f9 !important;
+
+}
+
+.md-toolbar.md-theme-default.app-bar {
+  background-color: #f9f9f9;
+}
