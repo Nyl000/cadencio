@@ -1,7 +1,7 @@
 <template>
     <div class="page-container">
         <md-app style="min-height: 100vh;">
-            <md-app-toolbar class=" app-bar"  md-elevation="2">
+            <md-app-toolbar class=" app-bar"  md-elevation="2" v-if="isLogged">
                 <md-button v-if="!menuVisible" class="md-icon-button" @click="menuVisible = !menuVisible">
                     <md-icon> <menu-icon/></md-icon>
                 </md-button>
@@ -21,7 +21,7 @@
                 </div>
             </md-app-toolbar>
 
-            <md-app-drawer class="main-menu-drawer" :md-active.sync="menuVisible" md-persistent="full" >
+            <md-app-drawer class="main-menu-drawer" :md-active.sync="menuVisible" md-persistent="full" v-if="isLogged">
                 <md-toolbar class="md-transparent menu-bar" md-elevation="2">
                       <span class="md-title">
                   Menu
