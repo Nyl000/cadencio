@@ -48,7 +48,8 @@
                 </md-list>
             </md-app-drawer>
 
-            <md-app-content>
+            <md-app-content class="md-layout md-size-100 md-alignment-top-center appzone">
+
                 <router-view></router-view>
 
             </md-app-content>

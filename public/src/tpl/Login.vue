@@ -1,18 +1,41 @@
 <template>
-    <div class="login">
+    <div class="loginscreen md-layout md-size-100 md-alignment-center-center" style="min-height:100vh">
         <form v-on:submit.prevent="attemptLogin">
-            <div class="loginbox">
-                <div class="logowrap">
-                    <img class="logo" :src="getLogo()" alt="Cadencio"/>
-                </div>
-                <input type="text" v-model="username" placeholder="your@email.com"/>
-                <input type="password" v-model="password" placeholder="password"/>
-                <button v-on:click="attemptLogin" class="send"><small-loader v-if="loading" /> {{$t('Login')}}</button>
-                <info-message type="error" v-bind:message="errorMessage" ref="info"/>
-                <router-link to="/passwordreset">
-                    {{$t('I forgot my password')}}
-                </router-link>
-            </div>
+            <md-card>
+                <md-card-header>
+                    <div class="logozone">
+                        <img class=" logo" :src="getLogo()" alt="Cadencio"/>
+                    </div>
+                </md-card-header>
+                <md-card-content>
+                    <div class="md-layout md-gutter">
+                        <div class="md-layout-item md-small-size-100">
+                            <md-field>
+                                <label for="username">{{$t('Username')}}</label>
+                                <md-input name="username" id="username" autocomplete="username" v-model="username" />
+                            </md-field>
+                            <md-field>
+                                <label for="password">{{$t('Password')}}</label>
+                                <md-input type="password" name="password" id="password" autocomplete="password" v-model="password" />
+                            </md-field>
+                        </div>
+                    </div>
+                    <md-card-actions>
+                        <md-button  v-on:click="attemptLogin" class="md-primary" :disabled="loading">
+                            <small-loader v-if="loading"/>
+                            {{$t('Login')}}
+                        </md-button>
+                        <router-link to="/passwordreset">
+                            <md-button  class="md-secondary">
+                            {{$t('I forgot my password')}}
+                            </md-button>
+                        </router-link>
+                    </md-card-actions>
+                    <md-snackbar :md-position="center" :md-duration="10000" :md-active.sync="showError" md-persistent>
+                        <span>{{errorMessage}}</span>
+                    </md-snackbar>
+                </md-card-content>
+            </md-card>
         </form>
     </div>
 </template>
@@ -32,10 +55,11 @@
                 password: '',
                 errorMessage: '',
                 loading: false,
+                showError:false,
             }
         },
         methods: {
-            getLogo : function() {
+            getLogo: function () {
 
                 let logopath = '/resources/images/logo.png';
                 let logoHooks = getHooks('override_login_logo');
@@ -60,10 +84,9 @@
                     modulesModel.refreshActivesModules(() => {
                         window.location = '/';
                     })
-                }
-                catch(errorMessage) {
+                } catch (errorMessage) {
                     this.errorMessage = this.$t(errorMessage);
-                    this.$refs.info.show();
+                    this.showError = true;
                     this.loading = false;
                 }
             }
