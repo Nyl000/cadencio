@@ -2,9 +2,9 @@
     <div class="users_index">
         <div class="tablecontainer">
             <div class="actionbar">
-                <button class="button button-secondary" v-on:click="refreshGrid()">
+                <md-button class="md-button md-secondary" @:click="refreshGrid()">
                     <sync-icon/>
-                </button>
+                </md-button>
             </div>
             <entity-table ref="table" name="tablemodules" :model="logsModel" :definition="tableDefinition"
                           :page="this.$route.params.page || 1"/>

@@ -2,7 +2,7 @@
     <div class="users_index">
         <div class="tablecontainer">
             <div class="actionbar">
-                <button class="button button-secondary" v-on:click="refreshGrid()">
+                <md-button class="md-button md-secondary" @:click="refreshGrid()">
                     <sync-icon/>
                 </button>
             </div>
