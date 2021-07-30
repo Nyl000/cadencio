@@ -1,24 +1,25 @@
 <template>
     <div class="users_index">
         <div class="tablecontainer">
-            <div class="actionbar">
                 <md-button class="md-raised md-primary" v-on:click="addUserModal">
                     <plus-icon/>
                     {{$t('Add')}}
                 </md-button>
-                <md-button class=" " v-on:click="refreshGrid()">
+                <md-button class="md-secondary" v-on:click="refreshGrid()">
                     <sync-icon/>
                 </md-button>
 
-            </div>
             <div class="tablewrapper">
                 <entity-table name="tableusers" ref="table" :model="userModel" :definition="tableDefinition"
                               :page="this.$route.params.page || 1"/>
 
             </div>
-            <Modale ref="addUserModale">
-                <UserAdd v-bind:onAdded="onUserAdded"/>
-            </Modale>
+            <md-dialog :md-active.sync="showDialogAdd">
+                <md-dialog-title>{{$t('Add user')}}</md-dialog-title>
+                <md-dialog-content>
+                    <UserAdd v-bind:onAdded="onUserAdded"/>
+                </md-dialog-content>
+            </md-dialog>
         </div>
     </div>
 </template>
@@ -50,7 +51,8 @@
                 roles: {},
                 userModel: userModel,
                 tableDefinition: {},
-                page: 1
+                page: 1,
+                showDialogAdd: false
             }
         },
         mounted: function () {
@@ -148,10 +150,10 @@
                 });
             },
             addUserModal: function () {
-                this.$refs.addUserModale.show();
+                this.showDialogAdd = true;
             },
             onUserAdded: function () {
-                this.$refs.addUserModale.hide();
+                this.showDialogAdd = false;
                 this.refreshGrid();
             }
 

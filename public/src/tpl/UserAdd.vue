@@ -1,34 +1,35 @@
 <template>
     <div>
-        <div class="formInput">
-            <input type="password" v-model="password" v-show="false"/>
-
-            <label>{{$t('Email')}}</label>
-            <input type="email" v-model="email"/>
-        </div>
-        <div class="formInput">
-            <label>{{$t('Password')}}</label>
-            <input type="password" v-model="password" autocomplete="new-password" />
-        </div>
-        <div class="formInput">
-            <label>{{$t('Role')}}</label>
-            <select v-model="id_role">
-                <option v-for="(item,key) in roles" v-bind:value="key">
+        <md-field>
+            <label for="email">{{$t('Email')}}</label>
+            <md-input name="email" id="email" autocomplete="email" v-model="email"/>
+        </md-field>
+        <md-field>
+            <label for="password">{{$t('Password')}}</label>
+            <md-input type="password" name="password" id="password" autocomplete="password" v-model="password"/>
+        </md-field>
+        <md-field>
+            <label for="id_role">{{$t('Role')}}</label>
+            <md-select v-model="id_role" name="id_role" id="id_role">
+                <md-option v-for="(item,key) in roles" :value="key">
                     {{item}}
-                </option>
-            </select>
-        </div>
-        <button v-bind:disabled="title === ''" class="button success" v-on:click="add">
-            {{$t('Add')}}
-        </button>
-        <toast ref="toast"/>
+                </md-option>
+
+            </md-select>
+        </md-field>
+        <md-dialog-actions>
+            <md-button :disabled="email === '' || id_role === '' || password === ''" class="md-primary md-raised" @click="add">
+                {{$t('Add')}}
+            </md-button>
+        </md-dialog-actions>
+
     </div>
 </template>
 
 <script>
 
     import {add} from 'js/Models/User';
-    import {selectList as selectListRole}  from 'js/Models/Role';
+    import {selectList as selectListRole} from 'js/Models/Role';
     import Toast from 'tpl/Ui/Toast';
 
     export default {
@@ -37,30 +38,29 @@
         data: () => {
             return {
                 email: '',
-                password:'',
+                password: '',
                 roles: [],
-                id_role : '',
+                id_role: '',
             }
 
 
         },
-        mounted : function() {
+        mounted: function () {
             selectListRole().then((roles) => {
                 this.roles = roles;
             });
         },
         methods: {
-            add : async function() {
+            add: async function () {
                 try {
 
                     await add({
                         email: this.$data.email,
-                        password : this.$data.password,
-                        id_role : this.$data.id_role,
+                        password: this.$data.password,
+                        id_role: this.$data.id_role,
                     });
                     this.$props.onAdded();
-                }
-                catch (error) {
+                } catch (error) {
                     this.$refs.toast.show(this.$t(error.api_error), 'error', 5);
 
                 }
