@@ -2,24 +2,26 @@
     <div class="users_index">
         <div class="tablecontainer">
             <div class="actionbar">
-                <button class="button button-add" v-on:click="addRoleModal">
+                <md-button class="md-raised md-primary" @click="addRoleModal">
                     <plus-icon/>
                     {{$t('Add')}}
-                </button>
-                <button class="button button-secondary" v-on:click="refreshGrid()">
-                    <sync-icon/>
-                </button>
+                </md-button>
+                <md-button class="md-secondary" @click="refreshGrid()">
+                    <sync-icon/> {{$t('Refresh')}}
+                </md-button>
             </div>
             <entity-table ref="table" name="tablerole" :model="rolesModel" :definition="tableDefinition"
                           :page="this.$route.params.page || 1"/>
 
         </div>
-        <Modale ref="addRoleModal">
+        <md-dialog :md-active.sync="showDialogAdd">
+            <md-dialog-title>{{$t('Add role')}}</md-dialog-title>
             <RoleAdd v-bind:onAdded="onRoleAdded"/>
-        </Modale>
-        <Modale ref="managePermissionsModal">
+        </md-dialog>
+        <md-dialog :md-active.sync="showDialogPermissions">
+            <md-dialog-title>{{$t('Permissions for')}} {{selectedRoleName}}</md-dialog-title>
             <RoleManagePermissions :role="selectedRoleId"/>
-        </Modale>
+        </md-dialog>
     </div>
 </template>
 
@@ -44,7 +46,10 @@
 				page: 1,
 				rolesModel: rolesModel,
 				selectedRoleId: null,
+                selectedRoleName : null,
 				tableDefinition: {},
+                showDialogAdd : false,
+                showDialogPermissions : false,
 			}
 		},
 		mounted: function () {
@@ -99,15 +104,16 @@
 				this.$refs.table.refresh();
 			},
 			addRoleModal: function () {
-				this.$refs.addRoleModal.show();
+				this.showDialogAdd = true;
 			},
 			onRoleAdded: function () {
-				this.$refs.addRoleModal.hide();
-				this.refreshGrid();
+                this.showDialogAdd = false;
+                this.refreshGrid();
 			},
 			managePermissionsModal: function (role) {
 				this.selectedRoleId = role.id;
-				this.$refs['managePermissionsModal'].show();
+				this.selectedRoleName = role.label;
+				this.showDialogPermissions = true;
 			},
 
 		},

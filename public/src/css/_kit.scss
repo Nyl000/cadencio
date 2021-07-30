@@ -892,6 +892,13 @@ hr {
   color:white;
 }
 
+.manage-permission-dialog {
+  .role-option .md-list-item-content {
+    display: block;
+    padding-left:12px;
+  }
+}
+
 .md-switch {
   margin: 0;
 }
@@ -910,4 +917,8 @@ hr {
 
 .md-card.md-theme-default {
   border-radius:10px;
+}
+
+.md-dialog-container {
+  overflow:auto;
 }

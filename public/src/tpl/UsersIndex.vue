@@ -16,9 +16,7 @@
             </div>
             <md-dialog :md-active.sync="showDialogAdd">
                 <md-dialog-title>{{$t('Add user')}}</md-dialog-title>
-                <md-dialog-content>
-                    <UserAdd v-bind:onAdded="onUserAdded"/>
-                </md-dialog-content>
+                <UserAdd v-bind:onAdded="onUserAdded"/>
             </md-dialog>
         </div>
     </div>

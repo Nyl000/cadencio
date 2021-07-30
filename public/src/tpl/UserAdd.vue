@@ -1,24 +1,26 @@
 <template>
     <div>
-        <md-field>
-            <label for="email">{{$t('Email')}}</label>
-            <md-input name="email" id="email" autocomplete="email" v-model="email"/>
-        </md-field>
-        <md-field>
-            <label for="password">{{$t('Password')}}</label>
-            <md-input type="password" name="password" id="password" autocomplete="password" v-model="password"/>
-        </md-field>
-        <md-field>
-            <label for="id_role">{{$t('Role')}}</label>
-            <md-select v-model="id_role" name="id_role" id="id_role">
-                <md-option v-for="(item,key) in roles" :value="key">
-                    {{item}}
-                </md-option>
-
-            </md-select>
-        </md-field>
+        <md-dialog-content>
+            <md-field>
+                <label for="email">{{$t('Email')}}</label>
+                <md-input name="email" id="email" autocomplete="email" v-model="email"/>
+            </md-field>
+            <md-field>
+                <label for="password">{{$t('Password')}}</label>
+                <md-input type="password" name="password" id="password" autocomplete="password" v-model="password"/>
+            </md-field>
+            <md-field>
+                <label for="id_role">{{$t('Role')}}</label>
+                <md-select v-model="id_role" name="id_role" id="id_role">
+                    <md-option v-for="(item,key) in roles" :value="key">
+                        {{item}}
+                    </md-option>
+                </md-select>
+            </md-field>
+        </md-dialog-content>
         <md-dialog-actions>
-            <md-button :disabled="email === '' || id_role === '' || password === ''" class="md-primary md-raised" @click="add">
+            <md-button :disabled="email === '' || id_role === '' || password === ''" class="md-primary md-raised"
+                       @click="add">
                 {{$t('Add')}}
             </md-button>
         </md-dialog-actions>
