@@ -4,7 +4,7 @@
             <div class="actionbar">
                 <md-button class="md-button md-secondary" @:click="refreshGrid()">
                     <sync-icon/>
-                </button>
+                </md-button>
             </div>
             <entity-table ref="table" name="tablemodules" :model="modulesModel" :definition="tableDefinition"
                           :page="this.$route.params.page || 1"/>
