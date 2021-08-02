@@ -41,7 +41,7 @@
 
 <script>
 
-    import {hasPermission,updateUserOption,getUserOptionAsync} from 'js/Models/User';
+    import {hasPermission,updateUserOption} from 'js/Models/User';
 
     import EditableText from 'tpl/Ui/EditableText.vue';
     import EditableList from 'tpl/Ui/EditableList.vue';
@@ -66,8 +66,9 @@
         },
         mounted: async function () {
 
-            this.selectedTimezone = await getUserOptionAsync('timezone');
-            this.selectedLang = await getUserOptionAsync('lang');
+            this.selectedTimezone = await this.$store.dispatch('login/getUserOptionAsync','timezone');
+            this.selectedLang = await this.$store.dispatch('login/getUserOptionAsync','lang');
+
             this.$nextTick(() => {
                 this.refresh();
             });

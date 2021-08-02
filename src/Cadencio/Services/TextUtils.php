@@ -53,4 +53,25 @@ class TextUtils {
 
 		return FALSE;
 	}
+
+    /**
+     * Create a web friendly URL slug from a string.
+     *
+     * Although supported, transliteration is discouraged because
+     *     1) most web browsers support UTF-8 characters in URLs
+     *     2) transliteration causes a loss of information
+     *
+     * @author Sean Murphy <sean@iamseanmurphy.com>
+     * @copyright Copyright 2012 Sean Murphy. All rights reserved.
+     * @license http://creativecommons.org/publicdomain/zero/1.0/
+     *
+     * @param string $str
+     * @param array $options
+     * @return string
+     */
+    function slugify($string) {
+
+        return strtolower(trim(preg_replace('~[^0-9a-z]+~i', '-', html_entity_decode(preg_replace('~&([a-z]{1,2})(?:acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);~i', '$1', htmlentities($string, ENT_QUOTES, 'UTF-8')), ENT_QUOTES, 'UTF-8')), '-'));
+
+    }
 }
