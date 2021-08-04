@@ -1,0 +1,16 @@
+.cadencio_imagefield {
+  padding-top:1em;
+  .image-preview {
+    width:150px;
+    height:150px;
+    object-fit: cover;
+
+  }
+}
+.cadencio_imagefield_dialog {
+    .imagepreview {
+      width:200px;
+      height:200px;
+      object-fit: cover;
+    }
+}
