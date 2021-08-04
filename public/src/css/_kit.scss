@@ -928,7 +928,17 @@ hr {
 }
 
 .fullpage {
-
   flex:1;
+}
 
+.md-dialog-fullscreen {
+  min-width:50vw;
+}
+
+.md-app .md-tabs-content.md-content.md-theme-default {
+  background-color: white;
+}
+
+.md-menu-content {
+  z-index: 11;
 }
