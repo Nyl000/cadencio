@@ -2,7 +2,7 @@
     <div class="page-container">
         <md-app style="min-height: 100vh;">
             <md-app-toolbar class=" app-bar"  md-elevation="3" v-if="isLogged">
-                <md-button v-if="!menuVisible" class="md-icon-button" @click="menuVisible = !menuVisible">
+                <md-button v-if="!menuVisible" class="md-icon-button" @click="toggleMenu">
                     <md-icon> <menu-icon/></md-icon>
                 </md-button>
                 <span class="md-title">
@@ -127,6 +127,8 @@
 				showMenu = false;
 			}
 
+			console.log(showMenu);
+
 			return {
 				isLogged: localStorage.getItem('token') ? true : false,
 				menuItems: menuItems,
@@ -144,7 +146,7 @@
 			toggleMenu: function () {
 
 				this.menuVisible = !this.menuVisible;
-				localStorage.setItem('global_showmenu', this.menuOpen ? 1 : 0);
+				localStorage.setItem('global_showmenu', this.menuVisible ? 1 : 0);
 
 			},
             getLogo : function() {
@@ -160,6 +162,8 @@
             },
 
 		},
+
+
 		components: {NotificationBox, AccountIcon, PowerIcon, MenuIcon,CloseIcon}
 	}
 </script>
