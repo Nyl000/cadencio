@@ -3,7 +3,7 @@
   .image-preview {
     width:150px;
     height:150px;
-    object-fit: cover;
+    object-fit: contain;
 
   }
 }
@@ -11,6 +11,6 @@
     .imagepreview {
       width:200px;
       height:200px;
-      object-fit: cover;
+      object-fit: contain;
     }
 }
