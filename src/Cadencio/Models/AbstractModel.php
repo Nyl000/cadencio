@@ -436,8 +436,10 @@ abstract class AbstractModel
         ];
     }
 
+
     public function getAllQuery($options, $countOnly = false)
     {
+
 
         $queryParts = $this->prepareQuery($options, $countOnly);
 
@@ -478,9 +480,9 @@ abstract class AbstractModel
 
     public function buildPaginatedQuery($options,$resourceName = false,$methodName = false) {
 
+        $this->doBeforePaginatedQueryCall($options);
+
         $resourceName = $resourceName ?: $this->modelName;
-
-
 
         if ($methodName) {
             if (!method_exists($this,$methodName)) { throw new \RuntimeException('Method '.$methodName.' does not exists');}
@@ -493,6 +495,10 @@ abstract class AbstractModel
             $resourceName => $this->getAdapter()->fetchAll($request['query'],$request['params']),
             'paginator' => $this->getPaginator($options,$methodName)
         ];
+    }
+
+    protected function doBeforePaginatedQueryCall($options) {
+
     }
 
 
