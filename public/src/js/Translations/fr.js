@@ -44,7 +44,11 @@ export default {
     'Phone Number': 'N° Téléphone',
     'Please confirm the user deletion' : 'Veuillez confirmer la suppression de l\'utilisateur',
     'A user with the same email already exists.':'Un utilisateur utilisant cet e-mail existe déjà',
-    'Select' : 'Sélectionner'
+    'Select' : 'Sélectionner',
+    'Upload your picture' : 'Envoyer une image',
+    'Send picture' : 'Envoyer une image',
+    'Update picture' : 'Mettre à jour',
+    'Select this picture' : 'Choisir cette image',
 
 
 
