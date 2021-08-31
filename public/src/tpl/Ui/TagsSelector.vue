@@ -9,7 +9,6 @@
                 @md-selected="selectTag"
                 @md-closed="clearSelection"
                 @md-changed="handleSelection"
-
         >
             <label>Rechercher</label>
         </md-autocomplete>
@@ -90,8 +89,8 @@
                         }
                         this.clearSelection();
                     }
-                }else{
-                    this.$ref.autocomplete.blur();
+                }else if(searched.length === 0 ){
+                    this.$refs.autocomplete.$el.querySelector('input').blur();
                 }
 
             },
@@ -100,7 +99,8 @@
                 this.$emit('input', newTags);
                 this.$emit('change', newTags);
                 this.loadSuggestions();
-            }
+            },
+
 
         },
         components: {}
