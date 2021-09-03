@@ -7,7 +7,6 @@
                 v-model="selection"
                 :md-options="suggestions"
                 @md-selected="selectTag"
-                @md-closed="clearSelection"
                 @md-changed="handleSelection"
         >
             <label>Rechercher</label>
@@ -31,7 +30,11 @@
             title : {
                 type : String,
                 required : false
-            }
+            },
+            readOnly : {
+                type : Boolean,
+                required : false
+            },
         },
         data: () => {
             return {
@@ -64,6 +67,7 @@
                 if(!this.value.includes( tag)){
                     let newTags = [...this.value,tag];
                     this.update(newTags);
+                    this.clearSelection();
                 }
             },
 
@@ -79,18 +83,21 @@
             },
 
             handleSelection : function(searched){
-                if(searched.length > 2){
-                    const lastChar = searched.trim().substring(searched.length -1,searched.length);
 
-                    if(lastChar === ','){
-                        let tag = searched.substring(0,searched.length -1);
-                        if(!this.value.includes( tag)){
-                            this.selectTag(tag);
+                if(!this.$props.readOnly){
+                    if(searched.length > 2){
+                        const lastChar = searched.trim().substring(searched.length -1,searched.length);
+
+                        if(lastChar === ','){
+                            let tag = searched.substring(0,searched.length -1);
+                            if(!this.value.includes( tag)){
+                                this.selectTag(tag);
+                            }
+                            this.clearSelection();
                         }
-                        this.clearSelection();
+                    }else if(searched.length === 0 ){
+                        this.$refs.autocomplete.$el.querySelector('input').blur();
                     }
-                }else if(searched.length === 0 ){
-                    this.$refs.autocomplete.$el.querySelector('input').blur();
                 }
 
             },
