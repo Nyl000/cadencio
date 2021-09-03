@@ -943,3 +943,11 @@ hr {
 .md-menu-content {
   z-index: 11;
 }
+
+.cell-image {
+  img {
+    width:150px;
+    height:80px;
+    object-fit: cover;
+  }
+}
