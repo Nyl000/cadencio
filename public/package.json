@@ -25,6 +25,7 @@
     "vue-material-design-icons": "4.11.0",
     "vue-moment": "^4.0.0",
     "vue-router": "^3.5.2",
+    "vue-select": "^3.13.0",
     "vue-simple-markdown": "^1.1.5",
     "vue-swatches": "^1.0.4",
     "vuedraggable": "^2.23.2",
