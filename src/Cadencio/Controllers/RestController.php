@@ -50,10 +50,14 @@ class RestController extends AbstractController
 
     public function abortIfNotAllowed($resource, $action)
     {
-        $permission = new Permissions();
-        if (!$permission->userHasPermission(Application::$instance->getCurrentUserId(), $resource, $action)) {
+        if (!$this->userHasPermission($resource,$action)) {
             throw new ApiForbiddenException();
         }
+    }
+
+    public function userHasPermission($resource,$action) {
+        $permission = new Permissions();
+        return $permission->userHasPermission(Application::$instance->getCurrentUserId(), $resource, $action);
     }
 
     public function render($datas)
@@ -184,6 +188,11 @@ class RestController extends AbstractController
     {
 
         return $this->auth->secure(function () use ($query) {
+
+            if (isset($query['subaction']) && method_exists($this,'post'.ucfirst($query['subaction']))) {
+                $funct = 'post'.ucfirst($query['subaction']);
+                return $this->$funct($query);
+            }
 
             if ($query['action'] == 'index') {
 
