@@ -5,6 +5,16 @@ use Cadencio\Models\UserModel;
 use Firebase\JWT\JWT as JWTLib;
 class JwtInUrl implements ProviderInterface {
 
+
+    private $model;
+
+    public function __construct() {
+        $this->model = new UserModel();
+    }
+    public function getModel() {
+        return $this->model;
+    }
+
     public function test() {
 
         $token = $this->getBearerToken();
@@ -17,14 +27,14 @@ class JwtInUrl implements ProviderInterface {
                 error_log($e->getMessage());
                 return false;
             }
-            $userModel = new UserModel();
+            $userModel = $this->getModel();
             if ($userModel->idExists($decoded->user_id) &&  $userModel->isActive($decoded->user_id)) {
 
                 $pwdHashed = $userModel->getHashedPassword($decoded->user_id);
                 $trueHash = hash('SHA256',$decoded->pwd_nonce.$pwdHashed.JWT_PRIV_KEY);
 
                 if($trueHash === $decoded->pwd) {
-                    return $decoded->user_id;
+                    return ['id' => $decoded->user_id, 'model' =>$this->getModel()];
                 }
             }
 

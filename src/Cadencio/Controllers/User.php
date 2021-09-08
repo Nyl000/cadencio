@@ -6,8 +6,12 @@ use Cadencio\Exceptions\ApiUnprocessableException;
 use Cadencio\Models\NotificationModel;
 use Cadencio\Models\UserModel;
 use Cadencio\Models\UserOptionModel;
+use Cadencio\Services\HookHandler;
 use Cadencio\Services\Utils;
+use Cadencio\Services\Security\ProviderInterface;
+
 use Firebase\JWT\JWT;
+use Ratchet\App;
 
 class User extends RestController
 {
@@ -37,7 +41,8 @@ class User extends RestController
                 <p>If you didn't ask a password reset, please ignore this message.</p>
             
             ");
-            Utils::logRecorder('INFO', 'Password Renew Asked', $user['id']);
+            Application::$instance->getCurrentUserModel()->writeUserLog('INFO', 'Password Renew Asked', $user['id']);
+            
 
         }
     }
@@ -56,7 +61,7 @@ class User extends RestController
             $password = hash('SHA256', $body->password);
             $hash = hash('SHA256', uniqid());
             $this->getModel()->patch($user['id'], ['password' => $password, 'hash' => $hash]);
-            Utils::logRecorder('INFO', 'Password Renewed', $user['id']);
+            Application::$instance->getCurrentUserModel()->writeUserLog('INFO', 'Password Renewed', $user['id']);
 
             return true;
         } else {
@@ -82,9 +87,30 @@ class User extends RestController
         });
     }
 
+
+    private function generateLoginSuccessResponse($login, $body)
+    {
+        if (isset($body->use_jwt) && $body->use_jwt) {
+            $nonce = md5(uniqid());
+            $payload = array(
+                "iss" => "http://example.org",
+                "aud" => "http://example.com",
+                "iat" => time(),
+                "exp" => time() + 60 * 60 * 24,
+                'pwd_nonce' => $nonce,
+                'pwd' => hash('SHA256', $nonce . hash('SHA256', $body->password) . JWT_PRIV_KEY),
+                'user_id' => $login
+            );
+            Application::$instance->setCurrentUserId($login);
+            Application::$instance->getCurrentUserModel()->writeUserLog('INFO', 'User Logged In');
+            return ['status' => 'ok', 'token' => JWT::encode($payload, JWT_PRIV_KEY, 'HS256')];
+
+        }
+        return ['status' => 'ok'];
+    }
+
     public function postLogin()
     {
-
         $body = $this->getRequest()->getJsonBody();
 
         if (!isset($body->email)) {
@@ -94,35 +120,35 @@ class User extends RestController
         if (!isset($body->password)) {
             throw new ApiUnprocessableException('Missing password');
         }
+
         $login = $this->getModel()->login(trim($body->email), $body->password);
         if ($login) {
-            if (isset($body->use_jwt) && $body->use_jwt) {
-                $nonce = md5(uniqid());
-                $payload = array(
-                    "iss" => "http://example.org",
-                    "aud" => "http://example.com",
-                    "iat" => time(),
-                    "exp" => time() + 60 * 60 * 24,
-                    'pwd_nonce' => $nonce,
-                    'pwd' => hash('SHA256', $nonce . hash('SHA256', $body->password) . JWT_PRIV_KEY),
-                    'user_id' => $login
-                );
-                Application::$instance->setCurrentUserId($login);
-                Utils::logRecorder('INFO', 'User Logged In');
-                return ['status' => 'ok', 'token' => JWT::encode($payload, JWT_PRIV_KEY, 'HS256')];
-
-            }
-            return ['status' => 'ok'];
-        } else {
-            Utils::logRecorder('NOTICE', 'Wrong login attempt for: <' . trim($body->email) . '>');
-            return ['status' => 'nok'];
+            Application::$instance->setCurrentUserModel($this->getModel());
+            return $this->generateLoginSuccessResponse($login, $body);
         }
+
+        $securityProviderHook = HookHandler::getInstance()->getHook('register_security_provider');
+        foreach ($securityProviderHook as $hook) {
+            $provider = $hook();
+            if (!$provider instanceof ProviderInterface) {
+                throw new \Exception('security provider must implement the ProviderInterface');
+            }
+            $login = $provider->getModel()->login(trim($body->email), $body->password);
+            if ($login) {
+                Application::$instance->setCurrentUserModel($provider->getModel());
+                return $this->generateLoginSuccessResponse($login, $body);
+            }
+        }
+
+        Application::$instance->getCurrentUserModel()->writeUserLog('NOTICE', 'Wrong login attempt for: <' . trim($body->email) . '>');
+        return ['status' => 'nok'];
+
     }
 
     public function getChecktoken()
     {
         return $this->auth->secure(function () {
-            $user = $this->getModel()->getOne(Application::$instance->getCurrentUserId());
+            $user = Application::$instance->getCurrentUserModel()->getOne(Application::$instance->getCurrentUserId());
 
             return ['status' => 'ok', 'user' => $user];
         });
@@ -146,9 +172,8 @@ class User extends RestController
 
             $model = new UserOptionModel();
             if (isset($_GET['name']) && !empty($_GET['name'])) {
-                return ['value' => $model->getByUserAndName(Application::$instance->getCurrentUserId(), $_GET['name']) ];
-            }
-            else {
+                return ['value' => $model->getByUserAndName(Application::$instance->getCurrentUserId(), $_GET['name'])];
+            } else {
                 return $model->getByUser(Application::$instance->getCurrentUserId());
             }
         });

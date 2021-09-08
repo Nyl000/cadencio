@@ -3,6 +3,7 @@
 namespace Cadencio\Models;
 
 use Cadencio\Application;
+use Ratchet\App;
 
 class RoleModel extends AbstractModel
 {
@@ -12,7 +13,7 @@ class RoleModel extends AbstractModel
 
     public function init()
     {
-        $userModel = new UserModel();
+        $userModel = Application::$instance->getCurrentUserModel();
         if (!$userModel->isAdministrator(Application::$instance->getCurrentUserId())) {
             $this->where('roles.id != 1', []);
         }
@@ -20,7 +21,8 @@ class RoleModel extends AbstractModel
 
     public function getFromUser($idUser)
     {
-        $role = $this->getAdapter()->fetchRow('SELECT ' . $this->modelName . '.* FROM ' . $this->modelName . ' JOIN users ON ' . $this->modelName . '.id = users.id_role WHERE users.id = ? ', [$idUser]);
+        $userModel = Application::$instance->getCurrentUserModel();
+        $role = $this->getAdapter()->fetchRow('SELECT ' . $this->modelName . '.* FROM ' . $this->modelName . ' WHERE id = ? ', [$userModel->getRoleId($idUser)]);
         $role['permissions'] = $this->getPermissionsFromRole($role['id']);
         return $role;
     }

@@ -3,7 +3,10 @@
 namespace Cadencio;
 
 use Cadencio\Exception\ApiException;
+use Cadencio\Models\AbstractModel;
+use Cadencio\Models\UserModel;
 use Cadencio\Services\HookHandler;
+use mysql_xdevapi\Exception;
 
 class Application
 {
@@ -11,6 +14,8 @@ class Application
     public static $instance;
     protected $rewriter;
     protected $currUserId;
+    protected $currUserModel;
+
     protected $modules = [];
 
     public function __construct()
@@ -104,7 +109,8 @@ class Application
         }
 
         if (class_exists($className)) {
-            return $this->resolveClass($className, $actionName, $query, $httpMethod);
+            $res = $this->resolveClass($className, $actionName, $query, $httpMethod);
+            return $res;
         } elseif (array_key_exists($query['resource'], $modulesRestClasses)) {
             return $this->resolveClass($modulesRestClasses[$query['resource']], $actionName, $query, $httpMethod);
         } else {
@@ -120,12 +126,16 @@ class Application
         try {
             $query = $this->route();
             $this->registerModules();
-            echo $this->handleRouteQuery($query);
+            $res = $this->handleRouteQuery($query);
+
+            echo $res;
+            die();
         }
         catch (\Exception $e) {
             if ($e instanceof \Cadencio\Exceptions\ApiException) {
                 header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
                 echo json_encode(['api_error' => $e->getMessage()]);
+                die();
             }
             else {
                 throw $e;
@@ -144,6 +154,18 @@ class Application
     public function setCurrentUserId($idUser)
     {
         $this->currUserId = $idUser;
+    }
+
+
+    public function getCurrentUserModel()
+    {
+        return $this->currUserModel;
+    }
+
+    public function setCurrentUserModel($model)
+    {
+        if ( ! ($model instanceof UserModel)) throw new \Exception("$model does not inhertit from UserModel !");
+        $this->currUserModel = new $model();
     }
 }
 

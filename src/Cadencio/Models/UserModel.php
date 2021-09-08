@@ -6,15 +6,18 @@ use Cadencio\Application;
 use Cadencio\Exceptions\ApiForbiddenException;
 use Cadencio\Exceptions\ApiNotFoundException;
 use Cadencio\Exceptions\ApiUnprocessableException;
+use Cadencio\Services\Utils;
 
 class UserModel extends AbstractModel
 {
 
     protected $modelName = 'users';
     protected $resourceName = 'users';
+    protected $optionModel;
 
     public function init()
     {
+        $this->optionModel = new UserOptionModel();
         if (!$this->isAdministrator(Application::$instance->getCurrentUserId())) {
             $this->where('id_role != 1', []);
         }
@@ -31,6 +34,10 @@ class UserModel extends AbstractModel
                         WHERE users.id = ? AND resource_name = ? AND resource_right = ?', [$idUser, '*', '*']
             ) > 0;
 
+    }
+
+    public function writeUserLog($type,$message,$idUser= false) {
+        Utils::logRecorder('INFO', 'User Logged In',$idUser);
     }
 
     public function getPublicFields()
@@ -93,7 +100,7 @@ class UserModel extends AbstractModel
         if (!isset($datas['id'])) {
             $settingsModel = new SettingModel();
             //create default user options
-            $modelOptions = new UserOptionModel();
+            $modelOptions = $this->optionModel;
             $modelOptions->createOrUpdate([
                 'id_user' => $id,
                 'key' => 'timezone',
@@ -125,7 +132,7 @@ class UserModel extends AbstractModel
             }
         }
         if (isset($datas['lang'])) {
-            $modelOptions = new UserOptionModel();
+            $modelOptions = $this->optionModel;
             $modelOptions->createOrUpdate([
                 'id_user' => $id,
                 'key' => 'lang',
@@ -146,7 +153,7 @@ class UserModel extends AbstractModel
 
     public function getOneWithoutAdminCheck($id,$field,$ignoreCase = true) {
         $roleModel = new RoleModel();
-        $optionsModel = new UserOptionModel();
+        $optionsModel = $this->optionModel;
 
         $user = parent::getOne($id, $field, $ignoreCase);
 
@@ -163,11 +170,11 @@ class UserModel extends AbstractModel
     {
 
         $roleModel = new RoleModel();
-        $optionsModel = new UserOptionModel();
+        $optionsModel = $this->optionModel;
 
         $user = parent::getOne($id, $field, $ignoreCase);
 
-        $user['role'] = $roleModel->getOne($user['id_role']);
+        $user['role'] = $roleModel->getOne($this->getRoleId($user['id']));
         $user['options'] = $optionsModel->getByUser(($user['id']));
 
         if (!$this->isAdministrator(Application::$instance->getCurrentUserId()) && $this->isAdministrator($user['id'])) {
@@ -177,6 +184,10 @@ class UserModel extends AbstractModel
         unset($user['id_role']);
 
         return $user;
+    }
+
+    public function getRoleId($idUser) {
+        return $this->getAdapter()->fetchOne('SELECT id_role FROM users WHERE users.id = ? ', [$idUser]);
     }
 
 }

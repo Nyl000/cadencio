@@ -11,8 +11,9 @@ class SecurityProvider {
     public function init() {
         foreach($this->providers as &$provider) {
             $providersResults = $provider->test();
-            if($providersResults) {
-                Application::$instance->setCurrentUserId($providersResults);
+            if(is_array($providersResults)) {
+                Application::$instance->setCurrentUserId($providersResults['id']);
+                Application::$instance->setCurrentUserModel($providersResults['model']);
                 return;
             }
         }

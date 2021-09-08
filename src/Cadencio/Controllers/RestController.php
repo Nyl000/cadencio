@@ -8,13 +8,16 @@ use Cadencio\Exceptions\ApiNotFoundException;
 use Cadencio\Exceptions\ApiRuntimeException;
 use Cadencio\Exceptions\ApiUnprocessableException;
 use Cadencio\Services\auth;
+use Cadencio\Services\HookHandler;
 use Cadencio\Services\Permissions;
 use Cadencio\Services\Security\BasicAuth;
 use Cadencio\Services\Security\DigestAuth;
 use Cadencio\Services\Security\Jwt;
 use Cadencio\Services\Security\JwtInUrl;
+use Cadencio\Services\Security\ProviderInterface;
 use Cadencio\Services\Security\SecurityProvider;
 use Cadencio\Services\CsvUtils;
+use mysql_xdevapi\Exception;
 
 
 class RestController extends AbstractController
@@ -31,6 +34,15 @@ class RestController extends AbstractController
         $this->auth->addProvider(new BasicAuth());
         $this->auth->addProvider(new Jwt());
         $this->auth->addProvider(new JwtInUrl());
+
+        $securityProviderHook = HookHandler::getInstance()->getHook('register_security_provider');
+        foreach ($securityProviderHook as $hook) {
+            $provider = $hook();
+            if (!$provider instanceof ProviderInterface ) {
+                throw new \Exception('security provider must implement the ProviderInterface');
+            }
+            $this->auth->addProvider($provider);
+        }
         $this->auth->init();
         parent::__construct();
 
