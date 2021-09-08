@@ -3,10 +3,8 @@
 namespace Cadencio;
 
 use Cadencio\Exception\ApiException;
-use Cadencio\Models\AbstractModel;
 use Cadencio\Models\UserModel;
 use Cadencio\Services\HookHandler;
-use mysql_xdevapi\Exception;
 
 class Application
 {
