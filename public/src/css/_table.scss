@@ -125,14 +125,8 @@
     position:absolute;
     right:.5em;
     top:.5em;
-    background: #e7e7e7;
-    padding:.5em;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.09);
-    border-radius:5px;
-    cursor:pointer;
-    color:black;
     &:hover {
-      background:white;
+      text-decoration: none;
     }
   }
 

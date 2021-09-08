@@ -1,7 +1,7 @@
 <template>
     <div class="entitytable">
         <div class="list filters">
-            <a v-if="isExportable()" @click="exportItems" class="exportbutton">
+            <a v-if="isExportable()" @click="exportItems" class="md-button-content exportbutton">
                 EXPORT
                 <export-icon/>
             </a>
@@ -106,9 +106,10 @@
     import ExportIcon from 'vue-material-design-icons/Export.vue';
     import {hasPermission, getTempToken,getUserOptionAsync,resyncUserDatas} from 'js/Models/User';
     import { mapState } from 'vuex'
+    import {objectToUrl} from 'js/Services/Utils';
 
     export default {
-        props: ['definition', 'page', 'listOptions', 'name', 'loadOnStart', 'resource','selectable','entityName','store'],
+        props: ['definition', 'page', 'listOptions', 'name', 'loadOnStart', 'resource','selectable','entityName','store','export_url'],
 
         data: function () {
             return {
@@ -125,7 +126,6 @@
         },
         computed: {
             list () {
-                console.log(this.$store.getters);
                 return this.$store.getters[this.$props.store+'/list'];
             },
             paginator () {
@@ -191,7 +191,7 @@
                 }
             },
             isExportable: function () {
-                return hasPermission(this.resource, 'export') && typeof (this.modelObj) !== 'undefined' && typeof (this.modelObj.getExportUrl) !== 'undefined';
+                return hasPermission(this.resource, 'export') && typeof (this.$props.export_url) !== 'undefined';
             },
             exportItems: async function () {
                 let options = {
@@ -204,7 +204,7 @@
                 let dataToken = await getTempToken();
 
                 options.authtoken = dataToken.token;
-                window.open(this.modelObj.getExportUrl(options));
+                window.open(this.$props.export_url+'?'+objectToUrl(options));
 
             },
             getOrderStatus: function (currorder, curdirection, column) {

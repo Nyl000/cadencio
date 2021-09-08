@@ -1,7 +1,7 @@
 <template>
     <div class="entitytable">
         <div class="list filters">
-            <a v-if="isExportable()" @click="exportItems" class="exportbutton">
+            <a v-if="isExportable()" @click="exportItems" class="md-button-content exportbutton">
                 EXPORT
                 <export-icon/>
             </a>
