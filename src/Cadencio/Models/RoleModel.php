@@ -3,7 +3,6 @@
 namespace Cadencio\Models;
 
 use Cadencio\Application;
-use Ratchet\App;
 
 class RoleModel extends AbstractModel
 {
