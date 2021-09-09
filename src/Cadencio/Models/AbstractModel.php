@@ -324,8 +324,8 @@ abstract class AbstractModel
         if (!empty($fields) && !empty($search)) {
             $query .= ' AND ( 0=1 ';
             foreach ($fields as $field) {
-                $query .= ' OR ' . $field . ' LIKE ?';
-                $params[] = '%' . $search . '%';
+                $query .= ' OR LOWER(' . $field . ') LIKE ?';
+                $params[] = '%' . strtolower($search) . '%';
             }
             $query .= ')';
         }
