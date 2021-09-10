@@ -13,8 +13,6 @@ modulesHooks.forEach((mod) => {
     modules = {...modules, ...mod};
 });
 
-console.log(modules);
-
 
 export default new Vuex.Store({
     modules: modules,
