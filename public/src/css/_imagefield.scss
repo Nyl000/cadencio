@@ -6,6 +6,8 @@
     object-fit: contain;
 
   }
+
+
 }
 .cadencio_imagefield_dialog {
     .imagepreview {
@@ -13,4 +15,7 @@
       height:200px;
       object-fit: contain;
     }
+  .cropper_wrap {
+    height:400px;
+  }
 }
