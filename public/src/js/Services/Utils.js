@@ -34,6 +34,14 @@ const utcToLocaleTime = (dateUtc) => {
 
 };
 
+const dateToSql = (date) => {
+    return date.toISOString().replace('T',' ').replace('.000Z','');
+};
+
+const sqlToDate = (dateString) => {
+    return utcToLocaleTime(dateString);
+};
+
 const dateToLocaleTime = (dateLocale) => {
     let date  = moment(dateLocale);
     let localeDate  = date.clone().tz(getUserOption('timezone'));
@@ -62,6 +70,8 @@ export {
     utcToLocaleTime,
     dateToLocaleTime,
     getMonday,
-    isJson
+    isJson,
+    dateToSql,
+    sqlToDate,
 
 }
