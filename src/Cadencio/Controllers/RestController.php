@@ -90,6 +90,11 @@ class RestController extends AbstractController
 
         return $this->auth->secure(function () use ($query) {
 
+            if (isset($query['subaction']) && method_exists($this,'delete'.ucfirst($query['subaction']))) {
+                $funct = 'delete'.ucfirst($query['subaction']);
+                return $this->$funct($query);
+            }
+
             $this->abortIfNotAllowed($this->getModel()->getResourceName(), 'delete');
 
             if ($query['action'] == 'index') {
