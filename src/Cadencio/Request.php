@@ -27,7 +27,11 @@ class Request {
     }
 
     public function getJsonBody() {
-        return json_decode($this->body);
+        $body = json_decode($this->body);
+        if(!$body) {
+            $body = new \stdClass();
+        }
+        return $body;
     }
 
 }
