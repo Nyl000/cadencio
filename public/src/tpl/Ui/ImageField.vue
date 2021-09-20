@@ -16,13 +16,11 @@
                         :stencilProps="{
                             minAspectRatio: 1,
                             maxAspectRatio : 2,
-
                         }"
                         image-restriction="stencil"
-
                         v-if="imageTmp" :src="imageTmp"
                         @change="onCrop"
-                />
+                    />
                 </div>
             </md-dialog-content>
             <md-dialog-actions>
@@ -75,10 +73,15 @@
                 if (typeof fileList[0] !== 'undefined') {
                     var reader = new FileReader();
                     reader.onloadend = () => {
+
                         this.imageTmp = reader.result;
                         this.imageFinal = reader.result;
-                        this.showUploadDialog = true;
-
+                        if ( !/svg\+xml/.test(reader.result)) {
+                            this.showUploadDialog = true;
+                        }
+                        else {
+                            this.imageUploadDone();
+                        }
                     };
                     reader.readAsDataURL(fileList[0]);
                 }
