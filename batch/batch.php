@@ -2,6 +2,11 @@
 require_once realpath(__DIR__).'/../src/vendor/autoload.php';
 require_once realpath(__DIR__).'/../config.php';
 
+if (defined('SENTRY_DNS')) {
+    \Sentry\init(['dsn' => SENTRY_DNS ]);
+    \Sentry\captureLastError();
+}
+
 $scriptHook = \Cadencio\Services\HookHandler::getInstance()->getHook('register_batch_script');
 
 $actions = [];

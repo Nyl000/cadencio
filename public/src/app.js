@@ -13,9 +13,11 @@ import VueRouter from 'vue-router'
 import Vuex from 'vuex'
 import VueMaterial from 'vue-material'
 import vSelect from 'vue-select'
-
+import * as Sentry from "@sentry/vue";
+import { Integrations } from "@sentry/tracing";
 
 import {Main} from 'js/App';
+
 
 Vue.use(VueRouter);
 Vue.use(VueSimpleMarkdown);

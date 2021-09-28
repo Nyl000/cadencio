@@ -11,6 +11,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@sentry/tracing": "^6.13.2",
+    "@sentry/vue": "^6.13.2",
     "base-64": "^0.1.0",
     "chart.js": "^3.5.0",
     "fetch": "^1.1.0",
@@ -23,7 +25,7 @@
     "vue-dragscroll": "^1.10.0",
     "vue-i18n": "^8.25.0",
     "vue-material": "^1.0.0-beta-15",
-    "vue-material-design-icons": "4.11.0",
+    "vue-material-design-icons": "4.13.0",
     "vue-moment": "^4.0.0",
     "vue-router": "^3.5.2",
     "vue-select": "^3.13.0",

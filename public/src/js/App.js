@@ -19,6 +19,8 @@ import PasswordReset from 'tpl/PasswordReset.vue';
 import {getHooks} from 'js/Services/HookHandler';
 import {refreshActivesModules} from 'js/Models/Module';
 import store from 'js/Stores/StoreIndex';
+import * as Sentry from "@sentry/vue";
+import {Integrations} from "@sentry/tracing";
 
 var instance = false;
 
@@ -54,6 +56,24 @@ class Main {
 				base: __dirname,
 				routes: routes
 			});
+
+
+			if (typeof Config.sentry_dns !== 'undefined' && typeof Config.sentry_origins !== 'undefined') {
+				Sentry.init({
+					Vue,
+					dsn: Config.sentry_dns,
+					integrations: [
+						new Integrations.BrowserTracing({
+							routingInstrumentation: Sentry.vueRouterInstrumentation(this.router),
+							tracingOrigins: Config.sentry_origins,
+						}),
+					],
+					// Set tracesSampleRate to 1.0 to capture 100%
+					// of transactions for performance monitoring.
+					// We recommend adjusting this value in production
+					tracesSampleRate: 1.0,
+				});
+			}
 
 
 			let token = localStorage.getItem('token');

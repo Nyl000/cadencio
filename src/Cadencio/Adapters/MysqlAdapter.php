@@ -48,7 +48,7 @@ class MysqlAdapter {
             error_log('SQL Error detected ('.$e->getMessage().') query was:');
             error_log($query);
             error_log('with parameters : ' . json_encode($parameters));
-            die();
+            throw $e;
         }
     }
 
