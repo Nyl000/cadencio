@@ -15,7 +15,7 @@ abstract class AbstractModel
     private $tableProperties = false;
     private $from;
     private $group;
-    private $having;
+    private $having = [];
     private $query_parameters = [];
     private $where = [];
     protected $identifier = 'id';
@@ -33,7 +33,6 @@ abstract class AbstractModel
         }
         $this->from = $this->modelName;
         $this->setGroup('');
-        $this->setHaving('');
         $this->init();
     }
 
@@ -52,6 +51,12 @@ abstract class AbstractModel
     public function where($condition, array $parameters) {
 
         $this->where[] = ['condition' => $condition,'parameters' => $parameters];
+
+    }
+
+    public function having($condition, array $parameters) {
+
+        $this->having[] = ['condition' => $condition,'parameters' => $parameters];
 
     }
 
@@ -85,13 +90,6 @@ abstract class AbstractModel
         $this->group = $groupBy;
     }
 
-    public function getHaving() {
-        return $this->having;
-    }
-
-    public function setHaving($having) {
-        $this->having = $having;
-    }
 
     public function getResourceName() {
         return $this->resourceName;
@@ -109,7 +107,7 @@ abstract class AbstractModel
     }
 
     public function getExportFields() {
-        return [$this->modelName.'.*'];
+        return $this->getPublicFields();
     }
 
     public function getOrderFields()
@@ -286,7 +284,7 @@ abstract class AbstractModel
         }
 
         $params[] = $id;
-        return $this->getAdapter()->fetchRow('SELECT  ' . implode(',',$this->getPublicFields()) . ' FROM ' . $this->from . ' WHERE ' .$filter . ' '. $this->getGroup().' '.$this->getHaving() ,$params);
+        return $this->getAdapter()->fetchRow('SELECT  ' . implode(',',$this->getPublicFields()) . ' FROM ' . $this->from . ' WHERE ' .$filter . ' '. $this->getGroup() ,$params);
     }
 
     public function getAll($options = [])
@@ -423,6 +421,12 @@ abstract class AbstractModel
             $parameters = array_merge($parameters,$whereOption['parameters']);
         }
 
+        $having = 'HAVING 1=1 ';
+        foreach($this->having as $havingOption) {
+            $having.= ' AND ' .$havingOption['condition'];
+            $parameters = array_merge($parameters,$havingOption['parameters']);
+        }
+
 
 
 
@@ -430,6 +434,7 @@ abstract class AbstractModel
             'select' => $select,
             'from' => $from,
             'where' => $where,
+            'having' => $having,
             'order' => $order,
             'paging' => $paging,
             'params' => $parameters
@@ -443,7 +448,8 @@ abstract class AbstractModel
 
         $queryParts = $this->prepareQuery($options, $countOnly);
 
-        $query = $queryParts['select'] . $queryParts['from'] . $queryParts['where'] . ' '.  $this->getGroup(). ' ' . $this->getHaving().' '. $queryParts['order'] . $queryParts['paging'];
+        $query = $queryParts['select'] . $queryParts['from'] . $queryParts['where'] . ' '.  $this->getGroup(). ' '.$queryParts['having'].' '.$queryParts['order'] . $queryParts['paging'];
+
         if($countOnly) {
             $query = 'SELECT COUNT(*) FROM ('.$query.') as countable';
         }
@@ -473,7 +479,8 @@ abstract class AbstractModel
         return [
             'totalPages' => ceil($totalRows / $nbItems),
             'activePage' => $activePage,
-            'itemsPerPage' => $nbItems
+            'itemsPerPage' => $nbItems,
+            'totalItems' => $totalRows,
         ];
     }
 
