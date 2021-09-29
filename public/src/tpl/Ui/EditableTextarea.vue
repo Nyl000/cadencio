@@ -4,8 +4,6 @@
 
             <div>
                 {{val.split(' ').splice(0,9).join(' ')}} <a href="javascript:void(0)" v-show="!editMode" @click="showEditModale = true">[...]</a>
-                <span class="placeholder" v-if="val == null || val.length == 0">{{placeholder}} <a href="javascript:void(0)" v-show="!editMode" @click="showEditModale = true">[...]</a></span>
-
             </div>
             <check-bold-icon v-if="success" class="icon success" />
             <close-icon v-if="error" class="icon error" />
