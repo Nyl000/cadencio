@@ -49,6 +49,8 @@ export default {
     'Send picture' : 'Envoyer une image',
     'Update picture' : 'Mettre à jour',
     'Select this picture' : 'Choisir cette image',
+    'lines' : 'lignes',
+    'line' : 'ligne',
 
 
 

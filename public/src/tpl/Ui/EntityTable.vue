@@ -1,5 +1,6 @@
 <template>
     <div class="entitytable">
+
         <div class="list filters">
             <a v-if="isExportable()" @click="exportItems" class="md-button-content exportbutton">
                 EXPORT
@@ -24,6 +25,11 @@
                 </div>
             </div>
             <div class="tabletitle">{{definition.title}}</div>
+            <div class="counters" v-if="!load">
+                <md-chip v-if="paginator.totalItems > 0">{{paginator.totalItems}} {{ paginator.totalItems > 1 ? $t('lines') : $t('line') }}</md-chip>
+                <md-chip v-if="val" v-for="(val,key) in paginator.totals">{{getTotalsLabel(key)}}: {{getTotalRenderer(key,val)}} {{getTotalsUnit(key)}}</md-chip>
+
+            </div>
         </div>
 
         <div class="table-responsive">
@@ -107,7 +113,7 @@
     import {hasPermission, getTempToken,getUserOptionAsync,resyncUserDatas} from 'js/Models/User';
 
     export default {
-        props: ['model', 'definition', 'page', 'listOptions', 'name', 'loadOnStart', 'resource','selectable','entityName'],
+        props: ['model', 'definition', 'page', 'listOptions', 'name', 'loadOnStart', 'resource','selectable','entityName', 'totals_labels', 'totals_units','totals_renderers'],
 
         data: function () {
             return {
@@ -130,7 +136,6 @@
             this.resyncUserOptions().then(() => {
                 if (this.loadStart) {
                     this.$nextTick(() => {
-
                         this.refresh();
                     });
                 }
@@ -145,6 +150,8 @@
         destroyed() {
             window.removeEventListener('scroll', this.onScroll);
         },
+
+
         methods: {
             resyncUserOptions : async function() {
                 if (this.entity_name) {
@@ -159,6 +166,25 @@
                     this.orderDirection = localStorage.getItem('table_' + this.$props.name + '_orderDirection');
                 }
 
+            },
+            getTotalsLabel(label) {
+                if (typeof this.totals_labels == 'object' && typeof this.totals_labels[label] !== 'undefined' ) {
+                    return this.totals_labels[label];
+                }
+                return label;
+            },
+            getTotalsUnit(label) {
+                if (typeof this.totals_units == 'object' && typeof this.totals_units[label] !== 'undefined' ) {
+                    return this.totals_units[label];
+                }
+                return '';
+            },
+
+            getTotalRenderer(label,value) {
+                if (typeof this.totals_renderers == 'object' && typeof this.totals_renderers[label] == 'function' ) {
+                    return this.totals_renderers[label](value);
+                }
+                return value;
             },
             onScroll: function () {
                 this.$refs.tablehead.style.position = 'relative';

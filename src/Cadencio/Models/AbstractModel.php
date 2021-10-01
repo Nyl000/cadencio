@@ -21,6 +21,7 @@ abstract class AbstractModel
     protected $identifier = 'id';
     private $paging = true;
     protected $publicFields = false;
+    protected $paginator_totals = 'COUNT(*) as total_count';
 
 
     public function __construct()
@@ -442,6 +443,8 @@ abstract class AbstractModel
     }
 
 
+
+
     public function getAllQuery($options, $countOnly = false)
     {
 
@@ -451,15 +454,24 @@ abstract class AbstractModel
         $query = $queryParts['select'] . $queryParts['from'] . $queryParts['where'] . ' '.  $this->getGroup(). ' '.$queryParts['having'].' '.$queryParts['order'] . $queryParts['paging'];
 
         if($countOnly) {
-            $query = 'SELECT COUNT(*) FROM ('.$query.') as countable';
+            $query = 'SELECT '.$this->getPaginatorTotals().' FROM ('.$query.') as countable';
         }
-            header('Query: ' . $query);
 
         return [
             'query' => $query,
             'params' => $queryParts['params']
         ];
     }
+
+    public function setPaginatorTotals($totals) {
+        $this->paginator_totals = $totals;
+    }
+
+
+    public function getPaginatorTotals() {
+        return $this->paginator_totals;
+    }
+
 
     public function getPaginator($options,$methodName = false)
     {
@@ -474,13 +486,16 @@ abstract class AbstractModel
             $query = $this->getAllQuery($options, true);
         }
 
-        $totalRows = $this->getAdapter()->fetchOne($query['query'], $query['params']);
+        $total_row = $this->getAdapter()->fetchRow($query['query'], $query['params']);
 
+        $totalItems = $total_row['total_count'];
+        unset($total_row['total_count']);
         return [
-            'totalPages' => ceil($totalRows / $nbItems),
+            'totalPages' => ceil($totalItems / $nbItems),
             'activePage' => $activePage,
             'itemsPerPage' => $nbItems,
-            'totalItems' => $totalRows,
+            'totalItems' => $totalItems,
+            'totals' => $total_row,
         ];
     }
 

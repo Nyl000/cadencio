@@ -1,5 +1,8 @@
 .entitytable {
   position:relative;
+  .counters {
+    text-align: right;
+  }
 }
 .table-responsive {
   overflow:auto;
@@ -129,6 +132,8 @@
       text-decoration: none;
     }
   }
+
+
 
   .colselector {
     display: inline-block;
