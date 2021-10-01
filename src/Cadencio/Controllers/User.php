@@ -140,7 +140,8 @@ class User extends RestController
             }
         }
 
-        Application::$instance->getCurrentUserModel()->writeUserLog('NOTICE', 'Wrong login attempt for: <' . trim($body->email) . '>');
+        $modelDefault = new UserModel();
+        $modelDefault->writeUserLog('NOTICE', 'Wrong login attempt for: <' . trim($body->email) . '>');
         return ['status' => 'nok'];
 
     }
