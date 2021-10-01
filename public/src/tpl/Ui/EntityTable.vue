@@ -37,7 +37,7 @@
                 <thead ref="tablehead">
                 <draggable v-model="columnsOrdered" @end="columnsOrderChange" tag="tr">
                     <th v-for="column in columnsOrdered" class=" information" :key="column.property"
-                        v-on:click="setOrder(typeof column.order_field !== 'undefined' ? column.order_field  : column.property)"
+                        v-on:click="column.sortable ?  setOrder(typeof column.order_field !== 'undefined' ? column.order_field  : column.property) : ()=>{}"
                         v-if="isDisplayed(column.property)">
                         {{column.label}}
                         <div class="sort">
