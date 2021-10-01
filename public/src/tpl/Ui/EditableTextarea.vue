@@ -70,7 +70,11 @@
                             this.showEditModale = false;
 
                         }
+
                     );
+                }
+                else {
+                    this.showEditModale = false;
                 }
             },
             onCallback : function() {
