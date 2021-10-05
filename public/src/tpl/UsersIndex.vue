@@ -126,7 +126,9 @@
                         }
                     ],
                     actions: [
-                        { action : this.deleteItem, component : DeleteIcon, canDisplay : hasPermission('users','delete')  },
+                        {
+                            title: this.$t('Delete'), action : this.deleteItem, component : DeleteIcon, canDisplay : hasPermission('users','delete')
+                        },
                 ]
                 };
             },

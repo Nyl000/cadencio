@@ -43,7 +43,7 @@
                         </div>
                     </th>
                     <th v-if="typeof definition.actions !== 'undefined' && definition.actions.length > 0">
-                        Actions
+                        <slot name="action_label">{{$t('Actions')}}</slot>
                     </th>
                 </draggable>
                 </thead>
@@ -71,7 +71,9 @@
                     </td>
                     <td class="actions"
                         v-if="typeof definition.actions !== 'undefined' && definition.actions.length > 0">
-                        <div class="titleresponsive">Actions</div>
+                        <div class="titleresponsive">
+                            <slot name="action_label">{{$t('Actions')}}</slot>
+                        </div>
                         <ActionTable v-for="(action,index) in definition.actions"
                                      v-if="action.canDisplay && (typeof action.canDisplayInRow !== 'undefined' ? action.canDisplayInRow(item) : true)"
                                      :item="item"
