@@ -6,7 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --config build/webpack.config.dev.js",
-    "start": "webpack-dev-server --config build/webpack.config.dev.js"
+    "start": "webpack-dev-server --config build/webpack.config.dev.js",
+    "translate_core" : "npx vue-i18n-scanner report -v src -l src/js/Translations -f js -L 'fr,en'",
+    "translate_module" : "npx vue-i18n-scanner report -v ../modules/$npm_config_modulename/front -l ../modules/$npm_config_modulename/front/translations -f js -L 'fr,en'"
+
   },
   "author": "",
   "license": "ISC",
@@ -50,6 +53,7 @@
     "sass": "^1.36.0",
     "sass-loader": "^7.1.0",
     "uglifyjs-webpack-plugin": "1.0.0-rc.0",
+    "vue-i18n-scanner": "^1.0.5",
     "vue-loader": "^15.9.6",
     "vue-style-loader": "^4.1.3",
     "vue-template-compiler": "^2.6.14",
