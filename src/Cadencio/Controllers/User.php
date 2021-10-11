@@ -81,7 +81,9 @@ class User extends RestController
                 "exp" => time() + 10,
                 'pwd_nonce' => $nonce,
                 'pwd' => hash('SHA256', $nonce . $hashedPwd . JWT_PRIV_KEY),
-                'user_id' => Application::$instance->getCurrentUserId()
+                'user_id' => Application::$instance->getCurrentUserId(),
+                'user_model' => md5(get_class(Application::$instance->getCurrentUserModel()))
+
             );
             return ['token' => JWT::encode($payload, JWT_PRIV_KEY, 'HS256')];
         });
@@ -99,7 +101,8 @@ class User extends RestController
                 "exp" => time() + 60 * 60 * 24,
                 'pwd_nonce' => $nonce,
                 'pwd' => hash('SHA256', $nonce . hash('SHA256', $body->password) . JWT_PRIV_KEY),
-                'user_id' => $login
+                'user_id' => $login,
+                'user_model' => md5(get_class(Application::$instance->getCurrentUserModel()))
             );
             Application::$instance->setCurrentUserId($login);
             Application::$instance->getCurrentUserModel()->writeUserLog('INFO', 'User Logged In');
@@ -150,7 +153,6 @@ class User extends RestController
     {
         return $this->auth->secure(function () {
             $user = Application::$instance->getCurrentUserModel()->getOne(Application::$instance->getCurrentUserId());
-
             return ['status' => 'ok', 'user' => $user];
         });
     }

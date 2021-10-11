@@ -28,6 +28,7 @@ class JwtInUrl implements ProviderInterface {
                 return false;
             }
             $userModel = $this->getModel();
+            if (md5(get_class($userModel)) !== $decoded->user_model) return false;
             if ($userModel->idExists($decoded->user_id) &&  $userModel->isActive($decoded->user_id)) {
 
                 $pwdHashed = $userModel->getHashedPassword($decoded->user_id);

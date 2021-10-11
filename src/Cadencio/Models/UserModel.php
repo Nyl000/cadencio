@@ -190,4 +190,5 @@ class UserModel extends AbstractModel
         return $this->getAdapter()->fetchOne('SELECT id_role FROM users WHERE users.id = ? ', [$idUser]);
     }
 
+
 }
