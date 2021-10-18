@@ -17,7 +17,6 @@ use Cadencio\Services\Security\JwtInUrl;
 use Cadencio\Services\Security\ProviderInterface;
 use Cadencio\Services\Security\SecurityProvider;
 use Cadencio\Services\CsvUtils;
-use mysql_xdevapi\Exception;
 
 
 class RestController extends AbstractController
@@ -38,7 +37,7 @@ class RestController extends AbstractController
         $securityProviderHook = HookHandler::getInstance()->getHook('register_security_provider');
         foreach ($securityProviderHook as $hook) {
             $provider = $hook();
-            if (!$provider instanceof ProviderInterface ) {
+            if (!$provider instanceof ProviderInterface) {
                 throw new \Exception('security provider must implement the ProviderInterface');
             }
             $this->auth->addProvider($provider);
@@ -62,12 +61,13 @@ class RestController extends AbstractController
 
     public function abortIfNotAllowed($resource, $action)
     {
-        if (!$this->userHasPermission($resource,$action)) {
-            throw new ApiForbiddenException();
+        if (!$this->userHasPermission($resource, $action)) {
+            throw new ApiForbiddenException('You are not allowed to do this action');
         }
     }
 
-    public function userHasPermission($resource,$action) {
+    public function userHasPermission($resource, $action)
+    {
         $permission = new Permissions();
         return $permission->userHasPermission(Application::$instance->getCurrentUserId(), $resource, $action);
     }
@@ -90,8 +90,8 @@ class RestController extends AbstractController
 
         return $this->auth->secure(function () use ($query) {
 
-            if (isset($query['subaction']) && method_exists($this,'delete'.ucfirst($query['subaction']))) {
-                $funct = 'delete'.ucfirst($query['subaction']);
+            if (isset($query['subaction']) && method_exists($this, 'delete' . ucfirst($query['subaction']))) {
+                $funct = 'delete' . ucfirst($query['subaction']);
                 return $this->$funct($query);
             }
 
@@ -111,20 +111,25 @@ class RestController extends AbstractController
 
         return $this->auth->secure(function () use ($query) {
 
-            if (isset($query['subaction']) && method_exists($this,'get'.ucfirst($query['subaction']))) {
-                $funct = 'get'.ucfirst($query['subaction']);
+            if (isset($query['subaction']) && method_exists($this, 'get' . ucfirst($query['subaction']))) {
+                $funct = 'get' . ucfirst($query['subaction']);
                 return $this->$funct($query);
             }
 
             $this->abortIfNotAllowed($this->getModel()->getResourceName(), 'read');
 
             if ($query['action'] !== 'index') {
-                return $this->getModel()->getOne($query['action']);
+                return $this->requestOne($query['action']);
             } else {
                 return $this->getModel()->buildPaginatedQuery($_GET);
             }
 
         });
+    }
+
+    protected function requestOne($identifier)
+    {
+        return $this->getModel()->getOne($identifier);
     }
 
     protected function validateNewEntity($candidate)
@@ -176,7 +181,7 @@ class RestController extends AbstractController
 
             $this->setRenderOverrideFunction(function ($datas) {
                 header('Content-Type: text/csv');
-                header('Content-Disposition: attachment; filename="export_'.date('Y-m-d_H-i-s').'.csv"');
+                header('Content-Disposition: attachment; filename="export_' . date('Y-m-d_H-i-s') . '.csv"');
                 return $datas;
 
             });
@@ -206,52 +211,62 @@ class RestController extends AbstractController
 
         return $this->auth->secure(function () use ($query) {
 
-            if (isset($query['subaction']) && method_exists($this,'post'.ucfirst($query['subaction']))) {
-                $funct = 'post'.ucfirst($query['subaction']);
+            if (isset($query['subaction']) && method_exists($this, 'post' . ucfirst($query['subaction']))) {
+                $funct = 'post' . ucfirst($query['subaction']);
                 return $this->$funct($query);
             }
 
             if ($query['action'] == 'index') {
 
-                $this->abortIfNotAllowed($this->getModel()->getResourceName(), 'create');
-
-                $body = $this->getRequest()->getJsonBody();
-
-                $this->validateNewEntity($body);
-                $body = $this->postProcessEntity($body);
-                $entity = $this->getModel()->getOne($this->getModel()->createOrUpdate($body));
-                $this->doAfterCreate($entity);
-                return $entity;
+                return $this->requestCreate();
 
             } else {
 
-                $this->abortIfNotAllowed($this->getModel()->getResourceName(), 'update');
+                return $this->requestUpdate($query['action']);
 
-                if (!$this->getModel()->idExists($query['action'])) {
-                    throw new ApiNotFoundException();
-                } else {
-                    $body = $this->getRequest()->getJsonBody();
-                    $this->validateUpdatedEntity($body);
-                    $body = $this->postProcessEntity($body);
-                    $this->getModel()->patch($query['action'], $body);
-                    return $this->getModel()->getOne($query['action']);
-                }
             }
         });
+    }
+
+    protected function requestCreate() {
+        $this->abortIfNotAllowed($this->getModel()->getResourceName(), 'create');
+
+        $body = $this->getRequest()->getJsonBody();
+
+        $this->validateNewEntity($body);
+        $body = $this->postProcessEntity($body);
+        $entity = $this->getModel()->getOne($this->getModel()->createOrUpdate($body));
+        $this->doAfterCreate($entity);
+        return $entity;
+    }
+
+    protected function requestUpdate($identifier)
+    {
+        $this->abortIfNotAllowed($this->getModel()->getResourceName(), 'update');
+
+        if (!$this->getModel()->idExists($identifier)) {
+            throw new ApiNotFoundException();
+        } else {
+            $body = $this->getRequest()->getJsonBody();
+            $this->validateUpdatedEntity($body);
+            $body = $this->postProcessEntity($body);
+            $this->getModel()->patch($identifier, $body);
+            return $this->getModel()->getOne($identifier);
+        }
     }
 
     public function postCsvinfos($query)
     {
         $body = $this->getRequest()->getJsonBody();
         $file = base64_decode($body->file);
-        $file = CsvUtils::decode($file,'auto');
+        $file = CsvUtils::decode($file, 'auto');
         $separator = isset($body->separator) ? $body->separator : ';';
         $enclosure = isset($body->enclosure) ? $body->enclosure : '"';
         $md5 = md5($file);
         $rows = [];
         file_put_contents('/tmp/cadencio_import_' . $md5, $file);
         if (($handle = fopen('/tmp/cadencio_import_' . $md5, "r")) !== FALSE) {
-            while (($data = fgetcsv($handle, 100000, $separator,$enclosure)) !== FALSE) {
+            while (($data = fgetcsv($handle, 100000, $separator, $enclosure)) !== FALSE) {
                 $rows[] = $data;
             }
         }
@@ -262,8 +277,9 @@ class RestController extends AbstractController
         return $rows;
     }
 
-    public function getEmpty() {
-        return $this->auth->secure(function() {
+    public function getEmpty()
+    {
+        return $this->auth->secure(function () {
             return $this->getModel()->getEmpty();
         });
     }
