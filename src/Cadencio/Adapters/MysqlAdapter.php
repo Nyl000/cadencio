@@ -81,13 +81,23 @@ class MysqlAdapter {
     }
 
     public function fetchOne($query,$params) {
-        $stm=self::$instance->pdo->prepare($query);
-        $stm->execute($params);
-        $r = $stm->fetch();
-        if ($r) {
-            $arraykeys = array_keys($r);
-            return $r[$arraykeys[0]];
+        try {
+            $stm=self::$instance->pdo->prepare($query);
+            $stm->execute($params);
+            $r = $stm->fetch();
+            if ($r) {
+                $arraykeys = array_keys($r);
+                return $r[$arraykeys[0]];
+            }
         }
+        catch(\Exception $e) {
+            error_log('SQL Error detected ('.$e->getMessage().') query was:');
+            error_log($query);
+            error_log('with parameters : ' . json_encode($parameters));
+            throw $e;
+        }
+
+
         return null;
     }
 
