@@ -18,23 +18,9 @@ class UserModel extends AbstractModel
     public function init()
     {
         $this->optionModel = new UserOptionModel();
-        if (!$this->isAdministrator(Application::$instance->getCurrentUserId())) {
-            $this->where('id_role != 1', []);
-        }
-    }
-
-    public function isAdministrator($idUser)
-    {
-
-        return
-            $this->getAdapter()->fetchOne(
-                'SELECT COUNT(*) 
-                        FROM roles_resources 
-                        JOIN users ON users.id_role = roles_resources.id_role
-                        WHERE users.id = ? AND resource_name = ? AND resource_right = ?', [$idUser, '*', '*']
-            ) > 0;
 
     }
+
 
     public function writeUserLog($type,$message,$idUser= false) {
         Utils::logRecorder('INFO', 'User Logged In',$idUser);
@@ -88,14 +74,8 @@ class UserModel extends AbstractModel
             if (isset($testUserExists['id']) && !empty($testUserExists['id'])) {
                 throw new ApiUnprocessableException('A user with the same email already exists.');
             }
-        } else {
-            if (isset($datas['id_role'])) {
-                $roleModel = new RoleModel();
-                if (!$this->isAdministrator(Application::$instance->getCurrentUserId()) && $roleModel->isAdministrator($datas['id_role'])) {
-                    throw new ApiForbiddenException('You cannot grant a user as administrator');
-                }
-            }
         }
+
         $id = parent::createOrUpdate($datas);
         if (!isset($datas['id'])) {
             $settingsModel = new SettingModel();
@@ -127,9 +107,7 @@ class UserModel extends AbstractModel
 
         if (isset($datas['id_role'])) {
             $roleModel = new RoleModel();
-            if (!$this->isAdministrator(Application::$instance->getCurrentUserId()) && $roleModel->isAdministrator($datas['id_role'])) {
-                throw new ApiForbiddenException('You cannot grant a user as administrator');
-            }
+
         }
         if (isset($datas['lang'])) {
             $modelOptions = $this->optionModel;
@@ -144,9 +122,7 @@ class UserModel extends AbstractModel
 
     public function delete($id)
     {
-        if (!$this->isAdministrator(Application::$instance->getCurrentUserId()) && $this->isAdministrator($id)) {
-            throw new ApiForbiddenException('You cannot delete an administrator');
-        }
+
         return parent::delete($id);
     }
 
@@ -177,9 +153,7 @@ class UserModel extends AbstractModel
         $user['role'] = $roleModel->getOne($this->getRoleId($user['id']));
         $user['options'] = $optionsModel->getByUser(($user['id']));
 
-        if (!$this->isAdministrator(Application::$instance->getCurrentUserId()) && $this->isAdministrator($user['id'])) {
-            throw new ApiNotFoundException();
-        }
+
 
         unset($user['id_role']);
 

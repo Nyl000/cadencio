@@ -3,6 +3,7 @@
 namespace Cadencio\Models;
 
 use Cadencio\Application;
+use Cadencio\Services\HookHandler;
 
 class RoleModel extends AbstractModel
 {
@@ -10,13 +11,6 @@ class RoleModel extends AbstractModel
     protected $modelName = 'roles';
     protected $resourceName = 'roles';
 
-    public function init()
-    {
-        $userModel = Application::$instance->getCurrentUserModel();
-        if (!$userModel->isAdministrator(Application::$instance->getCurrentUserId())) {
-            $this->where('roles.id != 1', []);
-        }
-    }
 
     public function getFromUser($idUser)
     {
@@ -26,13 +20,21 @@ class RoleModel extends AbstractModel
         return $role;
     }
 
-    public function isAdministrator($idRole) {
-        $permissions = $this->getPermissionsFromRole($idRole);
-        return in_array('*.*', $permissions);
-    }
+
 
     public function getPermissionsFromRole($idRole)
     {
+        $hookHandler = HookHandler::getInstance();
+        $permissionsOverrides = $hookHandler->getHook('rolepermissions_override');
+        foreach ($permissionsOverrides as $overrideFnct) {
+            if (is_callable($overrideFnct)) {
+                $overrideAttempt = $overrideFnct($idRole);
+                if (is_array($overrideAttempt)) {
+                    return $overrideAttempt;
+                }
+            }
+        }
+
         $permissions = $this->getAdapter()->fetchAll('SELECT * FROM roles_resources WHERE id_role = ?', [$idRole]);
         $output = [];
         foreach ($permissions as $permission) {

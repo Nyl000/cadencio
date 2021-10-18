@@ -25,9 +25,6 @@ class Roles extends RestController
                 $this->abortIfNotAllowed('roles','update');
 
                 $userModel = new UserModel();
-                if ($this->getModel()->isAdministrator($query['action']) &&  !$userModel->isAdministrator(Application::$instance->getCurrentUserId())) {
-                    throw new ApiForbiddenException('You cannot update an admin role !');
-                }
 
                 if (!$this->getModel()->idExists($query['action'])) {
                     throw new ApiNotFoundException();
@@ -40,9 +37,7 @@ class Roles extends RestController
                 if (!isset($body->right)) {
                     throw new ApiUnprocessableException('Missing right in body');
                 }
-                if($body->resource == '*' && $body->right == '*' && !$userModel->isAdministrator(Application::$instance->getCurrentUserId())) {
-                    throw new ApiUnprocessableException('You cannot create an admin role');
-                }
+
                 $this->getModel()->addPermission($query['action'],$body->resource,$body->right);
             });
         } else {
@@ -61,9 +56,7 @@ class Roles extends RestController
                 }
                 $permission = explode('.',$query['subid']);
                 $userModel = new UserModel();
-                if ($this->getModel()->isAdministrator($query['action']) &&  !$userModel->isAdministrator(Application::$instance->getCurrentUserId())) {
-                    throw new ApiForbiddenException('You cannot update an admin role !');
-                }
+
 
                 $this->getModel()->removePermission($query['action'],$permission[0],$permission[1]);
             });
@@ -71,10 +64,6 @@ class Roles extends RestController
         else {
             return $this->auth->secure(function() use ($query) {
 
-                $userModel = new UserModel();
-                if ($this->getModel()->isAdministrator($query['action']) &&  !$userModel->isAdministrator(Application::$instance->getCurrentUserId())) {
-                    throw new ApiForbiddenException('You cannot delete an admin role !');
-                }
                 return parent::deleteIndex($query);
 
             });
