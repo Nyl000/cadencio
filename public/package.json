@@ -7,8 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --config build/webpack.config.dev.js",
     "start": "webpack-dev-server --config build/webpack.config.dev.js",
-    "translate_core" : "npx vue-i18n-scanner report -v src -l src/js/Translations -f js -L 'fr,en'",
-    "translate_module" : "npx vue-i18n-scanner report -v ../modules/$npm_config_modulename/front -l ../modules/$npm_config_modulename/front/translations -f js -L 'fr,en'"
+    "translate_core" : "npx vue-i18n-scanner report -v src -l src/js/Translations -f js -L 'fr,en,nl'",
+    "translate_module" : "npx vue-i18n-scanner report -v ../modules/$npm_config_modulename/front -l ../modules/$npm_config_modulename/front/translations -f js -L $npm_config_langs"
 
   },
   "author": "",
