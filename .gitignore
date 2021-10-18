@@ -14,3 +14,4 @@ public/src/resources/images/favicon.png
 src/uploads
 uploads/
 resources/
+phpunit/.phpunit.result.cache
