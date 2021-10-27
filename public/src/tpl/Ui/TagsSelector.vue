@@ -16,7 +16,7 @@
                 <slot name="tag-selector-autocomplete-item" :item="item">{{item}}</slot>
             </template>
         </md-autocomplete>
-        <md-chip  v-for="tag in this.$props.value" md-deletable @md-delete="removeTag(tag)">{{tag}}</md-chip>
+        <md-chip :key="tag"  v-for="tag in this.$props.value" md-deletable @md-delete="removeTag(tag)">{{tag}}</md-chip>
     </div>
 </template>
 

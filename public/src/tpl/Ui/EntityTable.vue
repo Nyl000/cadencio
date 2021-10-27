@@ -27,7 +27,7 @@
             <div class="tabletitle">{{definition.title}}</div>
             <div class="counters" v-if="!load">
                 <md-chip v-if="paginator.totalItems > 0">{{paginator.totalItems}} {{ paginator.totalItems > 1 ? $t('lines') : $t('line') }}</md-chip>
-                <md-chip v-if="val" v-for="(val,key) in paginator.totals">{{getTotalsLabel(key)}}: {{getTotalRenderer(key,val)}} {{getTotalsUnit(key)}}</md-chip>
+                <md-chip :key="key" v-if="val" v-for="(val,key) in paginator.totals">{{getTotalsLabel(key)}}: {{getTotalRenderer(key,val)}} {{getTotalsUnit(key)}}</md-chip>
 
             </div>
         </div>

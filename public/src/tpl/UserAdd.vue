@@ -12,7 +12,7 @@
             <md-field>
                 <label for="id_role">{{$t('Role')}}</label>
                 <md-select v-model="id_role" name="id_role" id="id_role">
-                    <md-option v-for="(item,key) in roles" :value="key">
+                    <md-option v-for="(item,key) in roles" :value="key" :key="key">
                         {{item}}
                     </md-option>
                 </md-select>

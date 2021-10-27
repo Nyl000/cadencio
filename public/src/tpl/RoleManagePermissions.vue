@@ -3,10 +3,10 @@
         <md-dialog-content>
             <md-content class="md-scrollbar">
                 <md-list :md-expand-single="false">
-                    <md-list-item md-expand :md-expanded="true" v-for="(resource,key) in allPermissions">
+                    <md-list-item md-expand :md-expanded="true" :key="key" v-for="(resource,key) in allPermissions">
                         <span class="md-list-item-text">{{key}}</span>
                         <md-list slot="md-expand">
-                            <md-list-item v-for="(right ,index) in resource" class="md-inset role-option">
+                            <md-list-item v-for="(right ,index) in resource" :key="index" class="md-inset role-option">
                                 <md-checkbox v-model="userPermissions[key][index]"
                                              @change="togglePermission(key,right)"/>
                                 {{right}}
