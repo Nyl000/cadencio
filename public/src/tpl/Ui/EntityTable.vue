@@ -158,7 +158,6 @@
 
                     this.order = await getUserOptionAsync(this.entity_name + '_order');
                     this.orderDirection = await  getUserOptionAsync(this.entity_name +'_orderDirection');
-                    console.log(this.order);
 
                 }
                 else {
@@ -244,7 +243,6 @@
                 }
                 this.order = field;
                 this.orderDirection = orderDir;
-
                 if (typeof this.$props.name !== 'undefined') {
                     localStorage.setItem('table_' + this.$props.name + '_order', field);
                     localStorage.setItem('table_' + this.$props.name + '_orderDirection', orderDir);
