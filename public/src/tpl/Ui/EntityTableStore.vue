@@ -31,7 +31,7 @@
             <table :class="'list ' + (isSelectable() ? 'selectable' : '')">
                 <thead ref="tablehead">
                 <draggable v-model="columnsOrdered" @end="columnsOrderChange" tag="tr">
-                    <th v-for="column in columnsOrdered" class=" information" :key="column.property"
+                    <th v-for="column in columnsOrdered" :class="'information ' +(typeof column.head_class !== 'undefined' ? column.head_class : '')  " :key="column.property"
                         v-on:click="setOrder(typeof column.order_field !== 'undefined' ? column.order_field  : column.property)"
                         v-if="isDisplayed(column.property)">
                         {{column.label}}
@@ -146,9 +146,6 @@
                 }
             })
         },
-
-
-
         created() {
             window.addEventListener('scroll', this.onScroll);
         },
@@ -161,7 +158,6 @@
 
                     this.order = await getUserOptionAsync(this.entity_name + '_order');
                     this.orderDirection = await  getUserOptionAsync(this.entity_name +'_orderDirection');
-                    console.log(this.order);
 
                 }
                 else {
