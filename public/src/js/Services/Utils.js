@@ -26,21 +26,27 @@ const objectToUrl = (object) => {
     return outputArray.join('&');
 };
 
-const utcToLocaleTime = (dateUtc) => {
+const utcToLocaleTime = (dateUtc, includeTime ) => {
+    includeTime = typeof includeTime == 'undefined' ? true : includeTime;
+
     let date  = moment.tz(dateUtc,'UTC');
     let localeDate  = date.clone().tz(getUserOption('timezone'));
-    localeDate = moment(localeDate.format('YYYY-MM-DD HH:mm:ss'));
+    localeDate = moment(localeDate.format(includeTime ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD' ));
     return  localeDate.toDate();
 
 };
 
 const dateToSql = (date) => {
+    date =  new Date(Date.UTC(date.getFullYear(),date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(),date.getSeconds()));
     return date.toISOString().replace('T',' ').replace('.000Z','');
 };
 
-const sqlToDate = (dateString) => {
-    return utcToLocaleTime(dateString);
+
+const sqlToDate = (dateString,includeTime) => {
+    return utcToLocaleTime(dateString,includeTime);
 };
+
+
 
 const dateToLocaleTime = (dateLocale) => {
     let date  = moment(dateLocale);
