@@ -54,14 +54,34 @@ class MysqlAdapter {
 
     public function fetchRow($query,$params) {
         $stm=self::$instance->pdo->prepare($query);
-        $stm->execute($params);
-        return $stm->fetch();
+
+        try {
+            $stm->execute($params);
+            return $stm->fetch();
+
+        }
+        catch(\Exception $e) {
+            error_log('SQL Error detected ('.$e->getMessage().') query was:');
+            error_log($query);
+            error_log('with parameters : ' . json_encode($params));
+            throw $e;
+        }
+
     }
 
     public function fetchAll($query,$params) {
         $stm=self::$instance->pdo->prepare($query);
-        $stm->execute($params);
-        return $stm->fetchAll();
+        try {
+             $stm->execute($params);
+            return $stm->fetchAll();
+
+        }
+        catch(\Exception $e) {
+            error_log('SQL Error detected ('.$e->getMessage().') query was:');
+            error_log($query);
+            error_log('with parameters : ' . json_encode($params));
+            throw $e;
+        }
     }
 
     public function fetchColumn($query,$params) {
