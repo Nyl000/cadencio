@@ -24,6 +24,7 @@ class RestController extends AbstractController
 
     protected $auth;
     protected $renderOverrideFunction;
+    protected $readPermission = 'read';
 
     public function __construct()
     {
@@ -116,7 +117,7 @@ class RestController extends AbstractController
                 return $this->$funct($query);
             }
 
-            $this->abortIfNotAllowed($this->getModel()->getResourceName(), 'read');
+            $this->abortIfNotAllowed($this->getModel()->getResourceName(), $this->readPermission);
 
             if ($query['action'] !== 'index') {
                 return $this->requestOne($query['action']);
