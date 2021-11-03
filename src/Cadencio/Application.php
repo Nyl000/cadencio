@@ -91,7 +91,7 @@ class Application
         $httpMethod = $_SERVER['REQUEST_METHOD'];
 
         if($httpMethod == 'OPTIONS') {
-            header('Access-Control-Allow-Headers: Authorization');
+            header('Access-Control-Allow-Headers: *');
             header('Access-Control-Allow-Methods: GET,POST,PUT,PATCH,DELETE,OPTIONS');
             die();
         }
