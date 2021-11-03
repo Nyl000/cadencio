@@ -47,6 +47,7 @@ class Utils {
         if ( $files ) {
             foreach ($files as $key => $file) {
                 $mail->AddAttachment($file, basename($file));
+                
             }
         }
 
