@@ -25,7 +25,7 @@ class Utils {
         ]);
     }
 
-    public static function sendMail($to,$subject,$body) {
+    public static function sendMail($to,$subject,$body,$files=null) {
         $mail = new PHPMailer(true);
         $settingsModel = new SettingModel();
         $settings = $settingsModel->getSettings('mail_smtp_user','mail_smtp_port','mail_smtp_password','mail_smtp_host','mail_smtp_fromname','mail_smtp_frommail');
@@ -43,6 +43,14 @@ class Utils {
         $mail->Subject = $subject;
         $mail->Body = $body;
         $mail->AltBody = strip_tags($body);
+
+        if ( $files ) {
+            foreach ($files as $key => $file) {
+                $mail->AddAttachment($file, basename($file));
+                
+            }
+        }
+
         $mail->send();
     }
 
