@@ -25,7 +25,7 @@ class Utils {
         ]);
     }
 
-    public static function sendMail($to,$subject,$body,$files=null) {
+    public static function sendMail($to,$subject,$body,$files=null, $from=null, $fromName=null) {
         $mail = new PHPMailer(true);
         $settingsModel = new SettingModel();
         $settings = $settingsModel->getSettings('mail_smtp_user','mail_smtp_port','mail_smtp_password','mail_smtp_host','mail_smtp_fromname','mail_smtp_frommail');
@@ -37,7 +37,7 @@ class Utils {
         $mail->Username = $settings['mail_smtp_user'];
         $mail->Password = $settings['mail_smtp_password'];
         $mail->CharSet = 'UTF-8';
-        $mail->setFrom($settings['mail_smtp_frommail'],$settings['mail_smtp_fromname']);
+        $mail->setFrom($from ? $from : $settings['mail_smtp_frommail'], $fromName ? $fromName: $settings['mail_smtp_fromname']);
         $mail->addAddress($to);
         $mail->isHTML(true);
         $mail->Subject = $subject;
