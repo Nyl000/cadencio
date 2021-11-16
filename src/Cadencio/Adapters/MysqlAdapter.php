@@ -102,6 +102,8 @@ class MysqlAdapter {
 
     public function fetchOne($query,$params) {
         try {
+
+
             $stm=self::$instance->pdo->prepare($query);
             $stm->execute($params);
             $r = $stm->fetch();
