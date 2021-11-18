@@ -55,7 +55,7 @@ class RestController extends AbstractController
         }
     }
 
-    protected function getRenderOverrideFunction()
+    protected function getRenderOverrideFunction() :? \Closure
     {
         return $this->renderOverrideFunction;
     }
@@ -67,13 +67,13 @@ class RestController extends AbstractController
         }
     }
 
-    public function userHasPermission($resource, $action)
+    public function userHasPermission($resource, $action) : bool
     {
         $permission = new Permissions();
         return $permission->userHasPermission(Application::$instance->getCurrentUserId(), $resource, $action);
     }
 
-    public function render($datas)
+    public function render($datas) : string
     {
         if (is_callable($this->getRenderOverrideFunction())) {
             return $this->getRenderOverrideFunction()($datas);
