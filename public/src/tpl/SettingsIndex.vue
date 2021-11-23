@@ -9,6 +9,10 @@
                 <md-card-content>
                     <h3>{{$t('SMTP')}}</h3>
                     <md-field>
+                        <label for="mail_smtp_host">{{$t('Host')}}</label>
+                        <md-input name="mail_smtp_host" id="mail_smtp_host" autocomplete="mail_smtp_host" v-model="mail_smtp_host"/>
+                    </md-field>
+                    <md-field>
                         <label for="mail_smtp_port">{{$t('Port')}}</label>
                         <md-input name="mail_smtp_port" id="mail_smtp_port" autocomplete="mail_smtp_port" v-model="mail_smtp_port"/>
                     </md-field>
