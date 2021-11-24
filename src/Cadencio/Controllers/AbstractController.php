@@ -25,7 +25,7 @@ abstract class AbstractController {
 
 
 
-    protected function getRequest() {
+    protected function getRequest() : Request {
         return self::$request;
     }
 
@@ -37,27 +37,27 @@ abstract class AbstractController {
      * @return AbstractModel
      * @throws \Exception
      */
-    protected function getModel() {
+    protected function getModel() : AbstractModel {
         if (!isset($this->model)) {
             throw new \Exception('No model defined');
         }
         return $this->model;
     }
 
-    protected function getResource() {
+    protected function getResource() : string {
         if (!isset($this->resource)) {
             throw new \Exception('No resource defined');
         }
         return $this->resource;
     }
 
-    protected function setModel(AbstractModel $m) {
+    protected function setModel(AbstractModel $m) : AbstractController {
         $this->model = $m;
         return $this;
     }
 
 
-    protected function setResource($r) {
+    protected function setResource($r) : AbstractController {
         $this->resource = $r;
         return $this;
     }

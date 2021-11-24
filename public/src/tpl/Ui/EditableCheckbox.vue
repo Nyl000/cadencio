@@ -23,7 +23,7 @@
 				this.editMode = false;
 				this.error = false;
 				let datas = {id: this.id};
-				datas[this.field] = this.val;
+				datas[this.field] = this.val | 0;
 				Rest.authRequest(this.saveurl, 'POST', datas).then(
 					() => {
 						this.success = true;

@@ -13,7 +13,7 @@ class Modules extends RestController
         $this->setModel(new ModuleModel());
     }
 
-    public function getIndex($query)
+    public function getIndex($query) : array
     {
 
         return $this->auth->secure(function () use ($query) {
@@ -27,7 +27,7 @@ class Modules extends RestController
         });
     }
 
-    public function postIndex($query)
+    public function postIndex($query) : array
     {
         //Creation is now allowed for modules !
         if ($query['action'] == 'index') {
