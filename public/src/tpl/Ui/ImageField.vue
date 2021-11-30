@@ -14,8 +14,8 @@
                 <div class="cropper_wrap">
                     <cropper
                         :stencilProps="{
-                            minAspectRatio: 1,
-                            maxAspectRatio : 2,
+                            minAspectRatio: this.resize_min_ratio,
+                            maxAspectRatio : this.resize_max_ratio,
                         }"
                         image-restriction="stencil"
                         v-if="imageTmp" :src="imageTmp"
@@ -40,7 +40,10 @@
 
     export default {
         props: {
-            'value': {required: true, 'default': ''}
+            'value': {required: true, 'default': ''},
+            'resize_min_ratio': {required: false, 'default': 1},
+            'resize_max_ratio': {required: false, 'default': 2},
+
         },
         data: () => {
             return {
