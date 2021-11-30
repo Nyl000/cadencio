@@ -20,7 +20,7 @@ abstract class AbstractModel
     private $where = [];
     protected $identifier = 'id';
     private $paging = true;
-    protected $publicFields = false;
+    protected $publicFields = [];
     protected $paginator_totals = 'COUNT(*) as total_count';
 
 
