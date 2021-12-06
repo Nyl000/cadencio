@@ -258,7 +258,7 @@ abstract class AbstractModel
             if (!in_array($key, $this->getTableProperties())) {
                 throw new \Exception('unknown filter error');
             }
-            $query .= ' AND ' . $key . ' = ?';
+            $query .= ' AND `'.$this->modelName.'`.`' . $key . '` = ?';
             $params[] = $val;
         }
 
