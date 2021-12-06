@@ -261,6 +261,7 @@ abstract class AbstractModel
             $query .= ' AND `'.$this->modelName.'`.`' . $key . '` = ?';
             $params[] = $val;
         }
+        $query.= $this->getGroup();
 
         return $this->getAdapter()->fetchAll($query, $params) ?: [];
     }
