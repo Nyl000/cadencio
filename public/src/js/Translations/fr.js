@@ -68,5 +68,8 @@ export default {
   "lang": "Langue",
   "line": "ligne",
   "lines": "lignes",
-  "my@email.com": "mon@email.com"
+  "my@email.com": "mon@email.com",
+  "Send file": "Envoyer un fichier",
+  "Replace file": "Remplacer le fichier"
+
 }; 
