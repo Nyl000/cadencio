@@ -3,7 +3,7 @@
         <div>
             <img @click="openDialog" class="image-preview" v-if="value" :src="value" />
         </div>
-        <md-button class="md-primary" @click="openDialog">{{ value ? $t('Update picture') : $t('Send picture') }}
+        <md-button :disabled="disabled" class="md-primary" @click="openDialog">{{ value ? $t('Update picture') : $t('Send picture') }}
         </md-button>
         <div v-show="false">
             <input type="file" @change="imageSelectedChange" ref="fileInput" accept="image/*"/>
@@ -24,7 +24,7 @@
                 </div>
             </md-dialog-content>
             <md-dialog-actions>
-                <md-button class="md-primary" :disabled="!this.imageTmp" @click="imageUploadDone()">{{$t('Select this picture')}}
+                <md-button class="md-primary" :disabled="!imageTmp || disabled" @click="imageUploadDone()">{{$t('Select this picture')}}
                 </md-button>
             </md-dialog-actions>
         </md-dialog>
@@ -43,7 +43,7 @@
             'value': {required: true, 'default': ''},
             'resize_min_ratio': {required: false, 'default': 1},
             'resize_max_ratio': {required: false, 'default': 2},
-
+            'disabled' : {required : false, default : false}
         },
         data: () => {
             return {
@@ -58,6 +58,8 @@
         methods: {
 
             openDialog : function() {
+                if (this.disabled) return;
+
                 this.$refs.fileInput.click();
 
             },
