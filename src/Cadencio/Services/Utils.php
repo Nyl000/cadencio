@@ -5,6 +5,7 @@ namespace Cadencio\Services;
 use Cadencio\Application;
 use Cadencio\Models\LogModel;
 use Cadencio\Models\SettingModel;
+use Cadencio\Models\UserModel;
 use PHPMailer\PHPMailer\PHPMailer;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
@@ -13,16 +14,16 @@ class Utils {
 
 
     public static function logRecorder($type,$message,$idUser = false) {
-        $date = date('Y-m-d H:i:s');
-        $idUser = $idUser ?: Application::$instance->getCurrentUserId();
-        $model = new LogModel();
-        $model->createOrUpdate([
-            'date_log' => $date,
-            'id_user' => $idUser,
-            'type' => $type,
-            'comment' => $message,
-            'signature' => md5($date.$idUser.$type.$message)
-        ]);
+        if (Application::$instance->getCurrentUserModel()) {
+            $model = Application::$instance->getCurrentUserModel();
+        }
+        else {
+            $model = new UserModel();
+
+        }
+
+        $model->writeUserLog($type,$message,$idUser);
+
     }
 
     public static function sendMail($to,$subject,$body,$files=null, $from=null, $fromName=null) {

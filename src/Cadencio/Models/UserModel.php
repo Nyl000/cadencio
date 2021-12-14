@@ -3,10 +3,7 @@
 namespace Cadencio\Models;
 
 use Cadencio\Application;
-use Cadencio\Exceptions\ApiForbiddenException;
-use Cadencio\Exceptions\ApiNotFoundException;
 use Cadencio\Exceptions\ApiUnprocessableException;
-use Cadencio\Services\Utils;
 
 class UserModel extends AbstractModel
 {
@@ -22,9 +19,24 @@ class UserModel extends AbstractModel
     }
 
 
-    public function writeUserLog($type,$message,$idUser= false) {
-        Utils::logRecorder('INFO', 'User Logged In',$idUser);
+    public function writeUserLog($type,$message,$idUser= false)
+    {
+        $idUser = $idUser ?: Application::$instance->getCurrentUserId();
+        $logModel = new LogModel();
+        $date = date('Y-m-d H:i:s');
+        try {
+            $logModel->createOrUpdate([
+                'date' => $date,
+                'message' => $message,
+                'type' => $type,
+                'id_user' => $idUser
+            ]);
+        }
+        catch (\Exception $e) {
+
+        }
     }
+
 
     public function getPublicFields()
     {
