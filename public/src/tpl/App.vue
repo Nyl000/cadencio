@@ -77,12 +77,14 @@
 
 			let menuHooks = getHooks('register_menu');
 			let menuSectionsHooks = getHooks('register_menu_section');
+            let generalNameHook = getHooks('register_menu_general_section_name_override');
 
+            let nameGeneralSection = generalNameHook.length > 0 ? generalNameHook[generalNameHook.length-1]() : null;
 
 			let menuItems = {
 				'general': {
 					name: 'cadencio_general',
-					title:  this.$t('General'),
+					title:  nameGeneralSection ? nameGeneralSection : this.$t('General'),
 					canDisplay: hasPermission('users', 'read') || hasPermission('roles', 'read'),
 					entries: [
 						{icon : AccountSupervisorCircleIcon, title:  this.$t('Users'), to: '/users', canDisplay: hasPermission('users', 'read')},
