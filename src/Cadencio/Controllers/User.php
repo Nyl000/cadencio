@@ -26,13 +26,14 @@ class User extends RestController
         return BASE_URL.'/confimreset/'.$hash;
     }
 
+
     public function postReset()
     {
         $body = $this->getRequest()->getJsonBody();
         if (!isset($body->email)) {
             throw new ApiUnprocessableException('Missing email');
         }
-        $user = $this->getModel()->getOneWithoutAdminCheck($body->email, 'email');
+        $user = $this->getModel()->getOne($body->email, 'email');
         if ($user) {
             $hash = hash('SHA256', uniqid());
             $this->getModel()->patch($user['id'], ['hash' => $hash]);
