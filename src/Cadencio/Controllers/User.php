@@ -23,7 +23,7 @@ class User extends RestController
     }
 
     protected function getLinkReset($hash) {
-        return BASE_URL.'confimreset/'.$hash;
+        return BASE_URL.'/confimreset/'.$hash;
     }
 
     public function postReset()
@@ -39,9 +39,9 @@ class User extends RestController
             Utils::sendMail($body->email, 'Reset password confirmation', "
             
                 <p>Hello</p>
-                <p>Someone (Probably you) asked to reset your password. Please follow <a href=\"".getLinkReset($hash)."\">this link</a> to reset your password. 
+                <p>Someone (Probably you) asked to reset your password. Please follow <a href=\"".$this->getLinkReset($hash)."\">this link</a> to reset your password. 
                 If you cannot click on the link, copy paste the link below: </p>
-                <p>{$baseUrl}/confirmreset/$hash</p>
+                <p>".$this->getLinkReset($hash)."</p>
                 <p>If you didn't ask a password reset, please ignore this message.</p>
             
             ");
