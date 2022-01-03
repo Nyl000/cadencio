@@ -22,7 +22,6 @@ langsHooks.forEach((langItem) => {
 
 messages.fr = typeof messages.fr !== 'undefined' ? {...messages.fr, ...fr} : fr;
 messages.en = typeof messages.en !== 'undefined' ? {...messages.en, ...en} : en;
-console.log(messages);
 
 export default new VueI18n({
     locale : typeof user.options.lang !== 'undefined' ? user.options.lang : Config.defaultLang || 'en',
