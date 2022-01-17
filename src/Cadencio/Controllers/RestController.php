@@ -63,7 +63,7 @@ class RestController extends AbstractController
     public function abortIfNotAllowed($resource, $action)
     {
         if (!$this->userHasPermission($resource, $action)) {
-            throw new ApiForbiddenException('You are not allowed to do this action');
+            throw new ApiForbiddenException('You are not allowed to do this action: '.$resource.'.'.$action);
         }
     }
 
