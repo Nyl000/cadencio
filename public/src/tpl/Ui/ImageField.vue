@@ -43,7 +43,8 @@
             'value': {required: true, 'default': ''},
             'resize_min_ratio': {required: false, 'default': 1},
             'resize_max_ratio': {required: false, 'default': 2},
-            'disabled' : {required : false, default : false}
+            'disabled' : {required : false, default : false},
+            'disable_crop' : {required : false, default: false}
         },
         data: () => {
             return {
@@ -81,7 +82,11 @@
 
                         this.imageTmp = reader.result;
                         this.imageFinal = reader.result;
-                        if ( !/svg\+xml/.test(reader.result)) {
+
+                        if (this.disable_crop) {
+                            this.imageUploadDone();
+                        }
+                        else if ( !/svg\+xml/.test(reader.result)) {
                             this.showUploadDialog = true;
                         }
                         else {
