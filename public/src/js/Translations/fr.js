@@ -128,7 +128,7 @@ export default {
   "Letter_October" : "O" ,
   "Letter_November" : "N",
   "Letter_December" : "D",
-  "dateFormat": 'dd/MM/yyyy',
+  "dateFormat": 'yyyy-MM-dd',
   "firstDayOfAWeek": "1",
   "Cancel" : "Annuler",
   "Ok" : "Ok",
