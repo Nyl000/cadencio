@@ -16,6 +16,7 @@ define('DEFAULT_PAGINATION', 20);
 
 define('JWT_PRIV_KEY','%JWT_KEY%');
 
+define('APPNAME', '%APPNAME%');
 
 function core_autoloader($class)
 {
