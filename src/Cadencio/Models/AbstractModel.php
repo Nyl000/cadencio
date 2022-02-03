@@ -3,6 +3,7 @@
 namespace Cadencio\Models;
 
 use Cadencio\Adapters\MysqlAdapter;
+use Cadencio\Application;
 use Cadencio\Services\HookHandler;
 
 abstract class AbstractModel
@@ -343,8 +344,7 @@ abstract class AbstractModel
     public function prepareQuery($options, $countOnly = false)
     {
 
-        $optionModel = new UserOptionModel();
-
+        $optionModel = Application::$instance->getCurrentUserModel()->getOptionModel();
 
         $select = 'SELECT  ' . implode(',',$this->getPublicFields());
 

@@ -9,6 +9,13 @@ class UserOptionModel extends AbstractModel
 
     protected $modelName = 'users_options';
     protected $resourceName = 'users';
+    protected $userModelName;
+
+    public function __construct()
+    {
+        $this->userModelName = 'Cadencio\Models\UserModel';
+        parent::__construct();
+    }
 
     public function getPublicFields()
     {
@@ -31,7 +38,7 @@ class UserOptionModel extends AbstractModel
         if (!$id_user) {
             $id_user = Application::$instance->getCurrentUserId();
         }
-        $userModel = new UserModel();
+        $userModel =  new $this->userModelName();
         if( !$userModel->idExists($id_user)) {
             throw new \Exception('Unknown user with ID:'.$id_user);
         }

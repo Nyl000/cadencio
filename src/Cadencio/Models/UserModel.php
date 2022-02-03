@@ -18,6 +18,9 @@ class UserModel extends AbstractModel
 
     }
 
+    public function getOptionModel() {
+        return $this->optionModel;
+    }
 
     public function writeUserLog($type,$message,$idUser= false)
     {
