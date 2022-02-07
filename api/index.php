@@ -1,6 +1,6 @@
 <?php
-require_once '../src/vendor/autoload.php';
-require_once '../config.php';
+require_once __DIR__.'../src/vendor/autoload.php';
+require_once __DIR__.'../config.php';
 
 $app = new Cadencio\Application();
 $app->run();
